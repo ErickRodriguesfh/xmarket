@@ -16,10 +16,7 @@ public class UsuarioServico {
     private UsuarioRepositorio usuarioRepository;
 
 
-    //	Usuario usuario = new Usuario(registrationDTO.getUsername(), bCryptPasswordEncoder.encode
-    //			(registrationDTO.getPassword())
-    //	, registrationDTO.getEmail(), registrationDTO.getCpf(), Arrays.asList(new Role("ROLE_USER")));
-    //
+
 
 
 

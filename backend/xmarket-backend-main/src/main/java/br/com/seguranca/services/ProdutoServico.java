@@ -3,6 +3,8 @@ package br.com.seguranca.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.seguranca.dto.ProdutoDTO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +19,33 @@ public class ProdutoServico {
 
 
 
-	public Produto inserirProduto(Produto produto) {
+	public Produto inserirProduto(ProdutoDTO produtoDTO) {
+
+		Produto produto = new Produto();
+
+		BeanUtils.copyProperties(produtoDTO, produto);
+
 		return produtoRepository.save(produto);
+
+
 	}
 	
 	
-	public List<Produto> listarProdutos (){
+	public List<ProdutoDTO> listarProdutos (){
 		List <Produto> produtos = new ArrayList<>();
+
+		List<ProdutoDTO> produtoDTOS = new ArrayList<>();
+
 		produtos = produtoRepository.findAll();
-		return produtos;
+
+		for(Produto p : produtos){
+
+			produtoDTOS.add(p.toProdutoDTO());
+
+
+		}
+
+		return produtoDTOS;
 	}
 
 	public Produto findById(Long id){

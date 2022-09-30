@@ -2,7 +2,10 @@ package br.com.seguranca.controller;
 
 import java.util.List;
 
+import br.com.seguranca.dto.ProdutoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.seguranca.model.Produto;
@@ -18,13 +21,16 @@ public class ProdutoControlador {
 
 	
 	@GetMapping
-	public List<Produto> buscarTodos(){
+	public List<ProdutoDTO> buscarTodos(){
+
 		return produtoService.listarProdutos();
 	}
 	
 	@PostMapping
-	public Produto inserirProduto (@RequestBody Produto produto) {
-		return produtoService.inserirProduto(produto);
+	public ResponseEntity<ProdutoDTO> inserirProduto (@RequestBody ProdutoDTO produtoDTO) {
+
+		produtoService.inserirProduto(produtoDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(produtoDTO);
 		
 	}
 

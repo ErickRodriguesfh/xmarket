@@ -1,13 +1,23 @@
 package br.com.seguranca.model;
 
+import br.com.seguranca.dto.ProdutoDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Getter
+@Setter
+@AllArgsConstructor
 @Entity
 @Table(name = "tabela_produtos")
+@NoArgsConstructor
 public class Produto {
 
 	@Id
@@ -16,49 +26,22 @@ public class Produto {
 	private String nome;
 	private Double preco;
 	private String marca;
-	
-	
-	public Produto(Long id, String nome, Double preco, String marca) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.preco = preco;
-		this.marca = marca;
-	}
-	
-	public Produto() {}
+	private String imagemUrl;
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
+
+	public ProdutoDTO toProdutoDTO (){
+
+		return new ProdutoDTO(
+
+				this.nome,
+				this.preco,
+				this.marca,
+				this.imagemUrl
+		);
+
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Double getPreco() {
-		return preco;
-	}
-
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
-
-	public String getMarca() {
-		return marca;
-	}
-
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
 	
 	
 	

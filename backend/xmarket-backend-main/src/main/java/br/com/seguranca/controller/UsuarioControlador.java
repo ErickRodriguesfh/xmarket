@@ -7,10 +7,11 @@ import br.com.seguranca.services.UsuarioServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
 
 @RestController
 public class UsuarioControlador {
@@ -30,6 +31,9 @@ public class UsuarioControlador {
    @PostMapping("/login")
     public ResponseEntity<Usuario>  login (@RequestBody Login login){
 
+
+
+
         Usuario cliente = usuarioService.validandoUsuario(login);
 
        System.out.println(login.getUsuario() + login.getSenha());
@@ -41,6 +45,8 @@ public class UsuarioControlador {
            return ResponseEntity.status(200).build();
 
        }
+
+
 
        System.out.println("Não validado");
 
