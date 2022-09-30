@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.seguranca.model.Produto;
-import br.com.seguranca.repositories.ProdutoRepository;
+import br.com.seguranca.repositories.ProdutoRepositorio;
 
 @Service
-public class ProdutoService {
+public class ProdutoServico {
 
 	@Autowired
-	private ProdutoRepository produtoRepository;
+	private ProdutoRepositorio produtoRepository;
 
 
 
