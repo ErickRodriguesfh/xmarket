@@ -51,8 +51,6 @@ const newCadastro =  async () =>{
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
             'Content-Type': 'application/json',
-            "username": "adimin",
-            "password": "adimin",
         },
 
         referrerPolicy: 'no-referrer', // no-referrer, *client
