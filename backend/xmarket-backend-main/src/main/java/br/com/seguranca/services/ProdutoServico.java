@@ -41,8 +41,6 @@ public class ProdutoServico {
 		for(Produto p : produtos){
 
 			produtoDTOS.add(p.toProdutoDTO());
-
-
 		}
 
 		return produtoDTOS;

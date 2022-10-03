@@ -18,11 +18,4 @@ public class ProdutoDTO {
     private String imagemUrl;
 
 
-
-
-
-
-
-
-
 }

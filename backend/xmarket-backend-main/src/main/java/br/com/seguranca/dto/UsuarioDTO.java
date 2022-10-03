@@ -11,9 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UsuarioDTO {
 
-
-
-
     private String usuario;
 
     private String senha;
