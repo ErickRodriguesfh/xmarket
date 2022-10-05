@@ -40,4 +40,10 @@ public class UsuarioServico {
 		return valid;
 	}
 
+    public Usuario buscarPeloId(Long id){
+        return usuarioRepository.findById(id).get();
+    }
+
+
+
 }

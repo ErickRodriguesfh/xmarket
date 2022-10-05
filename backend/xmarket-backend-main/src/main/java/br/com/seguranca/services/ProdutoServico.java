@@ -54,5 +54,19 @@ public class ProdutoServico {
 
 
 
+	public void atualizarEstoque(Integer quantidade, Long idProduto){
+
+		Produto produto = produtoRepository.findById(idProduto).get();
+
+		produto.setQuantidade(produto.getQuantidade() - quantidade);
+		produtoRepository.save(produto);
+	}
+
+
+
+
+
+
+
 
 }
