@@ -1,0 +1,110 @@
+.button-return{
+    background-color: white; 
+    width: 98%; 
+    height:10vh; 
+    margin: auto; 
+    margin-top: 1.5vh;
+    border-radius: 4px;
+    border: 1px solid #194283;
+}
+.button-finalize{
+    background-color: #194283; 
+    width: 98%;
+    height:10vh; 
+    margin: auto; 
+    margin-top: 1.5vh;
+    border-radius: 4px;
+}
+
+.payment-area{
+    width: 98%; 
+    height:75vh; 
+    margin: auto; 
+    margin-top: 1vh;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+}
+
+.products-area{
+    width: 98%;
+    height: 98vh;
+    margin: auto;
+    margin-top: 1vh;
+
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+
+    padding: 0.1% 1%;
+}
+
+.products-item{
+    width: 100%;
+    height: 80px;
+    margin: 1vh auto;
+
+
+    border-radius: 1px;
+
+    display: flex;
+    justify-content: center;
+    padding: 0.8%;
+
+    box-shadow: 0.5px 2px 0.5px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.first-infos{
+    width: 70%;
+    height: 100%;
+
+    display: flex;
+}
+
+.image-item{
+    width: 100px;
+    height: 100%;
+}
+.image-item img {
+    width: 100px;
+    height: 100%;
+}
+.description-item{
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+
+    padding-left: 10px;
+}
+.description-item h4 {
+    display: block;
+    margin: auto 0;
+}
+.description-item h6 {
+    text-align: start;
+}
+
+.second-infos{
+    width: 30%;
+    height: 100%;
+
+    display: flex;
+    justify-content: end;
+}
+
+.control-count{
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    background-color: white;
+
+    border: 1px solid #194283;
+
+    text-align: center;
+}
+
+.container-description{
+    display: inline-grid;
+}
