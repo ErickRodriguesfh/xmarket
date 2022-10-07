@@ -9,7 +9,9 @@ import br.com.seguranca.model.Usuario;
 public interface UsuarioRepositorio extends JpaRepository <Usuario, Long> {
 
 
-    Usuario findByUsuario(String usuario);
-   
+
+    Usuario getByEmail(String email);
+    Usuario getByCpf(String cpf);
+    Usuario getByRg(String rg);
 
 }

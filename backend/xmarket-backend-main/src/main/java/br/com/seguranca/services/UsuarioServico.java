@@ -18,29 +18,44 @@ public class UsuarioServico {
     private UsuarioRepositorio usuarioRepository;
    
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	
-    public Usuario salvarUsuario(UsuarioDTO usuarioDTO){
-    	String encoder = this.passwordEncoder.encode(usuarioDTO.getSenha()); /* Criptografa a senha */
-		usuarioDTO.setSenha(encoder);
-		/* Seta a senha criptografada */
+
+
+    //Método para verificar se exitem email,cpf e rg já cadastrados no banco de dados
+    public boolean validarCadastro(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
-        BeanUtils.copyProperties(usuarioDTO, usuario);
-        return usuarioRepository.save(usuario);
+        usuario = usuarioRepository.getByEmail(usuarioDTO.getEmail());
+        usuario = usuarioRepository.getByCpf(usuarioDTO.getCpf());
+        usuario = usuarioRepository.getByRg(usuarioDTO.getRg());
+        if(usuario == null) {
+            return true;
+        }
+        return false;
+
     }
 
-    public Usuario validandoUsuario(Login login){
-        Usuario newObj = new Usuario();
-        newObj =  usuarioRepository.findByUsuario(login.getUsuario());
-        return newObj;
+    public Usuario cadastrarUsuario(UsuarioDTO usuarioDTO) {
+        Usuario usuario = new Usuario();/* Instancia um objeto usuario */
+        String encoder = this.passwordEncoder.encode(usuarioDTO.getSenha()); /* Criptografa a senha */
+        usuarioDTO.setSenha(encoder);/* Seta a senha criptografada */
+        BeanUtils.copyProperties(usuarioDTO, usuario); /*Passa as propriedades de DTO para o objeto*/
+        return usuarioRepository.save(usuario);//Salva o objeto com a senha criptograda
     }
-    
-    public boolean validarSenha(Login login) {
-		String senha = usuarioRepository.findByUsuario(login.getUsuario()).getSenha();/* Valida a senha para login */
-		boolean valid = passwordEncoder.matches(login.getSenha(), senha);
-		return valid;
-	}
 
-    public Usuario buscarPeloId(Long id){
+
+
+    public boolean validarLogin(Login login) {
+        Usuario usuario = usuarioRepository.getByEmail(login.getEmail());//Verifica se o existe usuario com o email digitado, caso nao exista ele retorna false
+        if (usuario == null) { /*Caso o objeto seja nulo ou vazio retorna um false*/
+            return false;
+        } else {
+            String senha = usuarioRepository.getByEmail(login.getEmail()).getSenha(); /* Filtra pelo email, se caso email existir pega a senha */
+            boolean valid = passwordEncoder.matches(login.getSenha(), senha); /* Compara a senha digitada com a senha do banco de dados criptografada */
+            return valid; /*Se as senhas coíncidem retorna true, senão, retorna false*/
+        }
+
+    }
+
+    public Usuario buscarPeloId(Long id) {
         return usuarioRepository.findById(id).get();
     }
 

@@ -5,14 +5,9 @@ package br.com.seguranca.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.seguranca.dto.CarrinhoDTO;
 import br.com.seguranca.model.Carrinho;
@@ -59,6 +54,26 @@ public class CarrinhoControlador {
     	}
     }
 
+
+
+
+    @PutMapping("/alterar/{ordem}/{nova-quantidade}/{idProduto}")
+    public ResponseEntity alterarQuantidadeProduto(@PathVariable("ordem") String ordem,@PathVariable("nova-quantidade") Integer novaQuantidade,@PathVariable("idProduto") Long idProduto){
+
+        int quantidade = carrinhoServico.buscarQuantidadeProduto(idProduto);
+
+        if(ordem.equals("AUMENTAR")){
+
+            carrinhoServico.aumentarItemCarrinho(novaQuantidade, idProduto);
+
+        }
+        if(ordem.equals("DIMINUIR")){
+
+            carrinhoServico.diminuirItemCarrinho(novaQuantidade, idProduto);
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+
+    }
 
 
 

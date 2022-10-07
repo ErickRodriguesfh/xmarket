@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Login {
-	private Long id;
-    private String usuario;
+    private Long id;
+    private String email;
     private String senha;
 }
