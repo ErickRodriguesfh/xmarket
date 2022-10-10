@@ -76,19 +76,30 @@ public class CarrinhoServico {
 		return true;
 	}
 
+	public void  fecharVenda(List<ProdutoDTO> produtos){
 
+		for (ProdutoDTO p : produtos){
+			System.out.println(p.getQuantidade() + p.getId());
+			int quantidadeNoBanco = buscarQuantidadeProduto(p.getId());
 
-	public void aumentarItemCarrinho(Integer valorDigitado, Long idProduto){
+			System.out.println("Quantidade no banco" + quantidadeNoBanco);
 
-		 carrinhoRepositorio.incrementarUmItemCarrinho(valorDigitado, idProduto);
+			if(p.getQuantidade() <= quantidadeNoBanco){
+				Integer novaQuantidade = quantidadeNoBanco - p.getQuantidade();
+				System.out.println("Nova quantidade" + novaQuantidade);
+				carrinhoRepositorio.atualizarQuantidade(novaQuantidade, p.getId());
+			}else{
+
+				System.out.println("Produto insuficiente no estoque");
+			}
+
+		}
 
 	}
 
-	public void diminuirItemCarrinho(Integer valorDigitado, Long idProduto){
 
-		carrinhoRepositorio.diminuirUmItemCarrinho(valorDigitado, idProduto);
 
-	}
+
 
 	public int buscarQuantidadeProduto(Long id){
 

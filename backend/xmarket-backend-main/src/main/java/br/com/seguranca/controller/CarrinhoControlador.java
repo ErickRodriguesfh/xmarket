@@ -4,6 +4,8 @@ package br.com.seguranca.controller;
 
 import java.util.List;
 
+import br.com.seguranca.dto.ProdutoDTO;
+import br.com.seguranca.model.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,21 +59,11 @@ public class CarrinhoControlador {
 
 
 
-    @PutMapping("/alterar/{ordem}/{nova-quantidade}/{idProduto}")
-    public ResponseEntity alterarQuantidadeProduto(@PathVariable("ordem") String ordem,@PathVariable("nova-quantidade") Integer novaQuantidade,@PathVariable("idProduto") Long idProduto){
+    @PostMapping("/fecharVenda")
+    public void fecharVenda(@RequestBody List<ProdutoDTO> produtos){
 
-        int quantidade = carrinhoServico.buscarQuantidadeProduto(idProduto);
+        carrinhoServico.fecharVenda(produtos);
 
-        if(ordem.equals("AUMENTAR")){
-
-            carrinhoServico.aumentarItemCarrinho(novaQuantidade, idProduto);
-
-        }
-        if(ordem.equals("DIMINUIR")){
-
-            carrinhoServico.diminuirItemCarrinho(novaQuantidade, idProduto);
-        }
-        return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 

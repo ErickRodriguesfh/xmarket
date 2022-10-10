@@ -24,6 +24,10 @@ public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
     public List<Carrinho> findByUsuario(Usuario usuario);
 
 
+    @Query(value = "SELECT * FROM tabela_carrinho WHERE id_usuario = ?1", nativeQuery = true)
+    public List<Carrinho> buscarPeloId(Long idUsuario);
+
+
     // deletar produto pelo id do cliente e id do produto
     @Modifying
     @Transactional
@@ -32,22 +36,14 @@ public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
 
 
     //Método para incrementar um item no carrinho
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE tabela_carrinho SET valor_digitado = ?1, quantidade=(quantidade+valor_digitado) WHERE id_produto=?2 ", nativeQuery = true)
-    public void incrementarUmItemCarrinho(Integer valorDigitado, Long idProduto);
-
-
-    //Método para diminuir um item no carrinho
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE tabela_carrinho SET valor_digitado = ?1, quantidade=(quantidade-valor_digitado) WHERE id_produto=?2 ", nativeQuery = true)
-    public void diminuirUmItemCarrinho(Integer valorDigitado, Long idProduto);
 
 
     @Query(value = "SELECT quantidade from tabela_produtos WHERE id= ?1", nativeQuery = true)
     public int buscarQuantidade(Long id);
 
-
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE tabela_produtos SET quantidade = ?1 WHERE id = ?2", nativeQuery = true)
+    public Integer atualizarQuantidade(Integer quantidade, Long idProduto);
 
 }

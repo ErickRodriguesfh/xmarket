@@ -4,9 +4,12 @@ public enum EnumPagamento {
 
 
     PIX,
+
     BOLETO,
-    CARTAODEBITO,
-    CARTAOCREDITO
+
+    CARTAO
+
+
 
 
 
