@@ -76,7 +76,7 @@ public class CarrinhoServico {
 		return true;
 	}
 
-	public void  fecharVenda(List<ProdutoDTO> produtos){
+	public void fecharVenda(List<ProdutoDTO> produtos, Long idUsuario){
 
 		for (ProdutoDTO p : produtos){
 			System.out.println(p.getQuantidade() + p.getId());
@@ -86,11 +86,11 @@ public class CarrinhoServico {
 
 			if(p.getQuantidade() <= quantidadeNoBanco){
 				Integer novaQuantidade = quantidadeNoBanco - p.getQuantidade();
-				System.out.println("Nova quantidade" + novaQuantidade);
 				carrinhoRepositorio.atualizarQuantidade(novaQuantidade, p.getId());
+				carrinhoRepositorio.limparCarrinho(idUsuario);
 			}else{
-
 				System.out.println("Produto insuficiente no estoque");
+
 			}
 
 		}

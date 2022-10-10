@@ -17,6 +17,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10px;
     position: relative;
+
 }
 
 .image-item {
@@ -75,6 +76,8 @@
 
     display: flex;
     justify-content: center;
+
+    cursor: pointer;
 }
 
 .button-item h3{
@@ -119,4 +122,9 @@
 
 .filter-itens li {
     margin: 0.5%;
+}
+
+#button-cart{
+    cursor: pointer;
+    
 }

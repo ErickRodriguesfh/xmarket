@@ -46,4 +46,8 @@ public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
     @Query(value = "UPDATE tabela_produtos SET quantidade = ?1 WHERE id = ?2", nativeQuery = true)
     public Integer atualizarQuantidade(Integer quantidade, Long idProduto);
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM tabela_carrinho WHERE id_usuario = ?1", nativeQuery = true)
+    public void limparCarrinho(Long idUsuario);
 }

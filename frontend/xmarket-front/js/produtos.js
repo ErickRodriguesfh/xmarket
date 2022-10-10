@@ -104,15 +104,19 @@ async function getRequest(){
             let btnEvent = document.getElementById(`submit-${id}`);
             btnEvent.addEventListener('click', () => {
                 cart.push(element)
+
                 localStorage.setItem(`cart`, JSON.stringify(cart));
+
+                
                 let obj = JSON.parse(localStorage.getItem(`${id}`));
                 console.log(obj)
-
                 console.log(cart)
+
+                addProductToCart(element["id"], 2, 1)
+
             });
           })
 }
-localStorage.clear()
 getRequest()
 
 let test = document.getElementById("button-cart");
@@ -121,5 +125,20 @@ let test = document.getElementById("button-cart");
                 window.location.href="carrinho.html";
             })
 
+            
+async function addProductToCart(id_produto, id_usuario, quantidade){
 
+    let endPoint = `http://localhost:8080/carrinho/adicionar/${id_produto}/${id_usuario}/${quantidade}`;
+    let init = {    
+        method: "POST",
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        referrerPolicy: 'no-referrer', // no-referrer, *client
+    }
+    await fetch(endPoint, init);
 
+}

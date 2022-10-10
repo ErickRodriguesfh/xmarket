@@ -21,11 +21,11 @@ async function getCredentials(){
 
     let response = await fetch(endPoint, init);
     console.log(response);
-
+    
     if(response.status == 200){
         localStorage.setItem("logado", true);
         window.location.href="home-page.html";
-       //window.open("home-page.html")
+        //window.open("home-page.html")
     }
 }
 localStorage.setItem("logado", false);

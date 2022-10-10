@@ -59,14 +59,10 @@ public class CarrinhoControlador {
 
 
 
-    @PostMapping("/fecharVenda")
-    public void fecharVenda(@RequestBody List<ProdutoDTO> produtos){
-
-        carrinhoServico.fecharVenda(produtos);
-
-
+    @PostMapping("/fecharVenda/{idUsuario}")
+    public void fecharVenda(@RequestBody List<ProdutoDTO> produtos, @PathVariable("idUsuario") Long idUsuario){
+        carrinhoServico.fecharVenda(produtos, idUsuario);
     }
-
 
 
 }

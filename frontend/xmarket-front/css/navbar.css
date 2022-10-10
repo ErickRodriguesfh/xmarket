@@ -1,11 +1,9 @@
 .img-logo {
-    /* position: absolute;
-    left: 0;
-    right: 0; */
     margin: auto;
     height: 45px;
     width: 200px;
     padding: 0;
+    
 }
 
 .navbar-toggler {
@@ -13,7 +11,8 @@
 }
 
 nav {
-    background-color: blue !important;
+    border-bottom: 0px solid #194283;
+    box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, 0.2)
 }
 
 .secondary-navigator {
@@ -21,4 +20,8 @@ nav {
     justify-content: space-around;
     width: 100px;
 }
-s
+
+.primary-color{
+    fill: #194283;
+    color: #194283;
+}
