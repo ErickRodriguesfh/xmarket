@@ -56,12 +56,31 @@ public class CarrinhoControlador {
     	}
     }
 
-
-
+    @DeleteMapping("/{idCliente}")
+    public void esvaziarCarrinho(@PathVariable("idCliente") Long idCliente){
+        carrinhoServico.removerCarrinho(idCliente);
+    }
 
     @PostMapping("/fecharVenda/{idUsuario}")
     public void fecharVenda(@RequestBody List<ProdutoDTO> produtos, @PathVariable("idUsuario") Long idUsuario){
         carrinhoServico.fecharVenda(produtos, idUsuario);
+    }
+
+
+    @PutMapping("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}") // ("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}")
+    public ResponseEntity alterarQuantidadeProduto(@PathVariable("ordem") String ordem, @PathVariable("id-usuario") Long idUsuario, @PathVariable("id-produto") Long idProduto , @PathVariable("nova-quantidade") Integer novaQuantidade){
+
+        int quantidade = carrinhoServico.buscarQuantidadeProduto(idProduto);
+
+        if(ordem.equals("AUMENTAR")){
+            carrinhoServico.aumentarItemCarrinho(novaQuantidade, idProduto, idUsuario);
+        }
+        if(ordem.equals("DIMINUIR")){
+            carrinhoServico.diminuirItemCarrinho(novaQuantidade, idProduto, idUsuario);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
 

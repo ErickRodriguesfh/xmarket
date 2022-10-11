@@ -75,7 +75,9 @@ public class CarrinhoServico {
 		carrinhoRepositorio.deletarProduto(idProduto, idUsuario);
 		return true;
 	}
-
+	public void removerCarrinho(Long idCliente){
+		carrinhoRepositorio.limparCarrinho(idCliente);
+	}
 	public void fecharVenda(List<ProdutoDTO> produtos, Long idUsuario){
 
 		for (ProdutoDTO p : produtos){
@@ -98,8 +100,17 @@ public class CarrinhoServico {
 	}
 
 
+	public void aumentarItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
 
+		carrinhoRepositorio.incrementarUmItemCarrinho(valorDigitado, idProduto, idUsuario);
 
+   }
+
+   public void diminuirItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
+
+	   carrinhoRepositorio.diminuirUmItemCarrinho(valorDigitado, idProduto, idUsuario);
+
+   }
 
 	public int buscarQuantidadeProduto(Long id){
 
