@@ -52,7 +52,17 @@ public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
     public void limparCarrinho(Long idUsuario);
 
 
+    // Método para incrementar um item no carrinho
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE tabela_carrinho SET valor_digitado = ?1, quantidade=(quantidade+valor_digitado) WHERE id_produto=?2 AND id_usuario=?3", nativeQuery = true)
+    public void incrementarUmItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario);
 
+    // Método para diminuir um item no carrinho
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE tabela_carrinho SET valor_digitado = ?1, quantidade=(quantidade-valor_digitado) WHERE id_produto=?2 AND id_usuario=?3", nativeQuery = true)
+    public void diminuirUmItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario);
 
 
 }

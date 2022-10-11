@@ -6,6 +6,7 @@ import java.util.List;
 
 import br.com.seguranca.dto.ProdutoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,5 +66,21 @@ public class CarrinhoControlador {
         carrinhoServico.fecharVenda(produtos, idUsuario);
     }
 
+    @PutMapping("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}") // ("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}")
+    public ResponseEntity alterarQuantidadeProduto(@PathVariable("ordem") String ordem, @PathVariable("id-usuario") Long idUsuario, @PathVariable("id-produto") Long idProduto , @PathVariable("nova-quantidade") Integer novaQuantidade){
 
+        int quantidade = carrinhoServico.buscarQuantidadeProduto(idProduto);
+
+        if(ordem.equals("AUMENTAR")){
+            carrinhoServico.aumentarItemCarrinho(novaQuantidade, idProduto, idUsuario);
+        }
+        if(ordem.equals("DIMINUIR")){
+            carrinhoServico.diminuirItemCarrinho(novaQuantidade, idProduto, idUsuario);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+
+    }
+    
+    
 }

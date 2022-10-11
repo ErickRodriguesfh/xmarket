@@ -19,8 +19,8 @@
 
         <script src="https://kit.fontawesome.com/c6a43d1a54.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/carrinho.css">
+    <link rel="stylesheet" href="../css/shared/navbar.css">
+    <link rel="stylesheet" href="../css/carrinho/carrinho.css">
 </head>
 
 <body>
@@ -170,30 +170,34 @@
                         <div class="payment-area">
                             <div class="payment-value">
                                 <div class="payment-itens">
-                                    <div class="payment-products">
-
+                                    <div id="payment-products" class="payment-products">
                                     </div>
                                     <div class="payment-total">
                                         <div class="payment-frete">
                                             <p>Frete</p>
-                                            <p>R$ 0.00</p>
+                                            <div class="value-area" style="display: flex;">
+                                                <p>R$</p>
+                                                <p id="frete">12.99 </p> 
+                                            </div>
+                                            
                                         </div>
                                         <div class="payment-total-products">
                                             <p>Produtos</p>
-                                            <p>R$ 0.00</p>
+                                            <div style="display: flex;">
+                                                <p>R$</p>
+                                                <p id="produtos-somados">0.00</p>
+                                            </div>
                                         </div>
-                                        <div class="payment-sale">
-                                            <h6>Total</h6>
-                                            <h6>R$0.00</h6>
+                                        <div class="payment-sale" style="font-weight: bold;">
+                                            <p>Total</p>
+                                            <div style="display: flex;">
+                                                <p>R$</p>
+                                                <p id="total-somado">0.00</p>
+                                            </div>
                                         </div>
 
                                     </div>
                                 </div>
-                            </div>
-                            <div class="payment-method" style="width: 100%; height: 50%; display: inline-grid;">
-                                <div style=" width: 100%; background-color: red ;"></div>
-                                <div style=" width: 100%; background-color: blue;"></div>
-                                <div style=" width: 100%; background-color: forestgreen;"></div>
                             </div>
                         </div>
                         <div id="finalizar-compra" class="button-finalize" style="display: flex;">
@@ -213,8 +217,9 @@
         </div>
         </div>
     </main>
-
-    <script src="../js/carrinho.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="module" src="../js/carrinho.js"></script>
+    
 </body>
 
 </html>

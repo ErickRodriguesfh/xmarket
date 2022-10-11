@@ -112,6 +112,18 @@ public class CarrinhoServico {
 
 	}
 
+	public void aumentarItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
+
+		carrinhoRepositorio.incrementarUmItemCarrinho(valorDigitado, idProduto, idUsuario);
+
+   }
+
+   public void diminuirItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
+
+	   carrinhoRepositorio.diminuirUmItemCarrinho(valorDigitado, idProduto, idUsuario);
+
+   }
+
 
 	public int buscarQuantidadeProduto(Long id){
 

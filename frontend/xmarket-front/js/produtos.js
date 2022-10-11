@@ -1,13 +1,23 @@
+import request_API from "./services/service.js";
 
+let idUsuario;
 
-function cardItem(){
+idUsuario = "2";
+popular_produtos(); //cart-button
+
+let cartButton = document.getElementById("cart-button");
+cartButton.addEventListener("click", ()=>{
+    window.location.href = "carrinho.html";
+})
+
+function cardItem() {
     let element = document.createElement("div");
 
     element.setAttribute("class", "card-item");
 
     return element;
 }
-function imageItem(path){
+function imageItem(path) {
     let image_item = document.createElement("div");
     let image = document.createElement("img");
 
@@ -17,7 +27,7 @@ function imageItem(path){
 
     return image_item;
 }
-function titleItem(nomeProduto){
+function titleItem(nomeProduto) {
     let title_item = document.createElement("div");
     let title_item_h2 = document.createElement("h4");
     let conteudo = document.createTextNode(nomeProduto);
@@ -28,7 +38,7 @@ function titleItem(nomeProduto){
 
     return title_item
 }
-function descriptionItem(price){
+function descriptionItem(price) {
     let description_item = document.createElement("div");
     let description_item_price = document.createElement("h3");
     let conteudo = document.createTextNode("R$" + price);
@@ -39,7 +49,7 @@ function descriptionItem(price){
 
     return description_item;
 }
-function buttonItem(id){
+function buttonItem(id) {
     let button_item = document.createElement("div");
     let button_item_title = document.createElement("h3");
     let conteudo = document.createTextNode("Adicionar");
@@ -52,7 +62,7 @@ function buttonItem(id){
 
     return button_item;
 }
-function product_element(nameProduct, brand, price, path, id){
+function product_element(nameProduct, brand, price, path, id) {
     let card_item = cardItem();
     let image_item = imageItem(path);
     let title_item = titleItem(`${nameProduct} - ${brand} `);
@@ -67,78 +77,30 @@ function product_element(nameProduct, brand, price, path, id){
     document.getElementById("product-container").appendChild(card_item);
 }
 
-
-async function getRequest(){
-    let cart = []
+async function popular_produtos() {
     let dados;
     let endPoint = "http://localhost:8080/produtos";
 
-    let init = {    
-        method: "GET",
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        referrerPolicy: 'no-referrer', // no-referrer, *client
-    }
+    dados = await request_API("GET", endPoint);
 
-    
-    await fetch(endPoint)
-        .then(function(response){
-            return response.json()
-        })
-        .then(function(data){
-           dados = data
-        }).catch(eer => console.log(eer))
+    dados.forEach((element, id) => {
+        let nome = element["nome"];
+        let marca = element["marca"];
+        let price = element["preco"];
+        let imagePath = element["imagemUrl"];
 
-        dados.forEach((element,id)=>{
-            let nome = element["nome"];
-            let marca = element["marca"];
-            let price = element["preco"];
-            let imagePath = element["imagemUrl"];
-            
-            product_element(nome, marca, price, imagePath, id)
+        product_element(nome, marca, price, imagePath, id)
 
-            let btnEvent = document.getElementById(`submit-${id}`);
-            btnEvent.addEventListener('click', () => {
-                cart.push(element)
+        let btnEvent = document.getElementById(`submit-${id}`);
+        btnEvent.addEventListener('click', () => {
+            adicionar_produto_carrinho(element["id"], 2, 1)
 
-                localStorage.setItem(`cart`, JSON.stringify(cart));
-
-                
-                let obj = JSON.parse(localStorage.getItem(`${id}`));
-                console.log(obj)
-                console.log(cart)
-
-                addProductToCart(element["id"], 2, 1)
-
-            });
-          })
+        });
+    });
 }
-getRequest()
 
-let test = document.getElementById("button-cart");
-            test.addEventListener('click', () => {
-                console.log("entrou");
-                window.location.href="carrinho.html";
-            })
-
-            
-async function addProductToCart(id_produto, id_usuario, quantidade){
-
+async function adicionar_produto_carrinho(id_produto, id_usuario, quantidade) {
     let endPoint = `http://localhost:8080/carrinho/adicionar/${id_produto}/${id_usuario}/${quantidade}`;
-    let init = {    
-        method: "POST",
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        referrerPolicy: 'no-referrer', // no-referrer, *client
-    }
-    await fetch(endPoint, init);
 
+    await request_API("POST", endPoint);
 }
