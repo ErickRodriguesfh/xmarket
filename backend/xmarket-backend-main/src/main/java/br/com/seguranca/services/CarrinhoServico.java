@@ -3,14 +3,17 @@ package br.com.seguranca.services;
 import br.com.seguranca.dto.CarrinhoDTO;
 import br.com.seguranca.dto.ProdutoDTO;
 import br.com.seguranca.dto.RetornoUsuarioDTO;
+import br.com.seguranca.enums.EnumPagamento;
 import br.com.seguranca.model.Carrinho;
 import br.com.seguranca.model.Produto;
 import br.com.seguranca.model.Usuario;
+import br.com.seguranca.model.Venda;
 import br.com.seguranca.repositories.CarrinhoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,9 @@ public class CarrinhoServico {
 
     @Autowired
     private UsuarioServico usuarioServico;
+
+	@Autowired
+	private VendaServico vendaServico;
 
     public Carrinho adicionarCarrinho(Long idProduto, Long idUsuario, Integer quantidade) {
 
@@ -75,13 +81,16 @@ public class CarrinhoServico {
 		carrinhoRepositorio.deletarProduto(idProduto, idUsuario);
 		return true;
 	}
-	public void removerCarrinho(Long idCliente){
-		carrinhoRepositorio.limparCarrinho(idCliente);
-	}
+
+	//Função para fechar venda
 	public void fecharVenda(List<ProdutoDTO> produtos, Long idUsuario){
+		Double valorTotal = 123.232;
+		String identificadorVenda= "teste2";
+		Usuario usuario = usuarioServico.buscarPeloId(idUsuario);
+
 
 		for (ProdutoDTO p : produtos){
-			System.out.println(p.getQuantidade() + p.getId());
+
 			int quantidadeNoBanco = buscarQuantidadeProduto(p.getId());
 
 			System.out.println("Quantidade no banco" + quantidadeNoBanco);
@@ -90,6 +99,10 @@ public class CarrinhoServico {
 				Integer novaQuantidade = quantidadeNoBanco - p.getQuantidade();
 				carrinhoRepositorio.atualizarQuantidade(novaQuantidade, p.getId());
 				carrinhoRepositorio.limparCarrinho(idUsuario);
+				Venda venda = new Venda(null, identificadorVenda, p.toProduto(), usuario, LocalDateTime.now()
+						, valorTotal,
+						EnumPagamento.PIX);
+				vendaServico.fecharVenda(venda);
 			}else{
 				System.out.println("Produto insuficiente no estoque");
 
@@ -99,18 +112,6 @@ public class CarrinhoServico {
 
 	}
 
-
-	public void aumentarItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
-
-		carrinhoRepositorio.incrementarUmItemCarrinho(valorDigitado, idProduto, idUsuario);
-
-   }
-
-   public void diminuirItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
-
-	   carrinhoRepositorio.diminuirUmItemCarrinho(valorDigitado, idProduto, idUsuario);
-
-   }
 
 	public int buscarQuantidadeProduto(Long id){
 

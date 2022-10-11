@@ -1,28 +1,9 @@
-import request_API from "./services/service.js";
-
-
-let idUsuario;
 let dados;
 
-idUsuario = "2";
-popular_carrinho();
-
-let finalizarCompra = document.getElementById("finalizar-compra");
-let cleanCart = document.getElementById("button-clean-cart");
-let returnToProduto = document.getElementById("button-return");
-
-
-finalizarCompra.addEventListener('click', finalizar_compra);
-cleanCart.addEventListener('click', clean_cart);
-
-returnToProduto.addEventListener('click', () => {
-    window.location.href = "produtos.html";
-});
-
-function card_item(path, nome, marca, preco, quantidade, id) {
+function card_item(path, nome, marca, preco, quantidade, id){
     let product_item = document.createElement("div");
     product_item.setAttribute("class", "products-item");
-
+    
     let f_infos = first_infos(path, nome, marca, preco);
     let s_infos = second_infos(quantidade, id);
 
@@ -32,7 +13,7 @@ function card_item(path, nome, marca, preco, quantidade, id) {
     document.getElementById("products-area").appendChild(product_item);
 }
 
-function first_infos(path, nome, marca, preco) {
+function first_infos(path, nome, marca, preco){
     let first_infos = document.createElement("div");
     first_infos.setAttribute("class", "first-infos");
 
@@ -84,7 +65,7 @@ function first_infos(path, nome, marca, preco) {
     return first_infos;
 }
 
-function second_infos(quantidade, id) {
+function second_infos(quantidade, id){
     let second_infos = document.createElement("div");
     second_infos.setAttribute("class", "second-infos");
 
@@ -111,9 +92,8 @@ function second_infos(quantidade, id) {
     btn_more.setAttribute("class", "control-count");
 
     input_quantidade.setAttribute("class", "control-count");
-    input_quantidade.setAttribute("type", "text");
-    input_quantidade.setAttribute("id", `input-qtd-${id}`); //disabled="disabled"
-    input_quantidade.setAttribute("disabled", 'disabled');
+    input_quantidade.setAttribute("type" , "text");
+    input_quantidade.setAttribute("id", `input-qtd-${id}`);
 
     input_quantidade.value = quantidade;
 
@@ -138,160 +118,147 @@ function second_infos(quantidade, id) {
     return second_infos;
 }
 
-async function popular_carrinho() {
-    dados = await request_API("GET", `http://localhost:8080/carrinho/exibirCarrinho/2`);
+async function getAllElementsCart(){
+    let endPoint = `http://localhost:8080/carrinho/exibirCarrinho/2`;
+    let init = {    
+        method: "GET",
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        referrerPolicy: 'no-referrer', // no-referrer, *client
+    }
 
+    let response = await fetch(endPoint, init);
+    dados = await response.json();
+
+    console.log(dados);
     dados.forEach(element => {
         let nome = element["produtoDTO"]["nome"];
         let marca = element["produtoDTO"]["marca"];
-        let preco = element["produtoDTO"]["preco"];
+        let price = element["produtoDTO"]["preco"];
         let imagePath = element["produtoDTO"]["imagemUrl"];
         let quantidade = element["quantidade"];
         let id = element["produtoDTO"]["id"];
 
-        // Criação dinamicamente do produto no carrinho
-        card_item(imagePath, nome, marca, preco, quantidade, id);
-        lista_produtos_calculo(id, nome, marca, quantidade, preco); //idProduto, nomeProduto, marca, quantidade, preco
 
-        // Input da quantidade do produto
-        let qtdProduto = document.getElementById(`input-qtd-${id}`);
+        card_item(imagePath, nome, marca, price, quantidade, id);
 
-        // Botoes de controle do produto
+        console.log(document)
+        console.log(`delete-button-${id}`); //delete-button-1
+        console.log("quantidade" + quantidade);
         let btnLess = document.getElementById(`less-qtd-${id}`);
         let btnMore = document.getElementById(`more-qtd-${id}`);
+        let qtdProduto = document.getElementById(`input-qtd-${id}`);
         let deleteButton = document.getElementById(`delete-button-${id}`);
-        let inputQuantidade = document.getElementById(`input-qtd-${id}`);
-    
-        // Adicionando funções aos botões
+
+
         btnLess.addEventListener('click', () => {
-            if (parseInt(qtdProduto.value) > 1) {
+            if(parseInt(qtdProduto.value) >1){
                 qtdProduto.value = parseInt(qtdProduto.value) - 1;
-
-                let precoProduto = document.getElementById(`preco-produto-${id}`); //quantidade-produto
-                let quantidadeProduto = document.getElementById(`quantidade-produto-${id}`);
-
-                precoProduto.innerHTML = (preco * inputQuantidade.value).toFixed(2);
-                quantidadeProduto.innerHTML = inputQuantidade.value;
-                let endPoint = `http://localhost:8080/carrinho/alterar/DIMINUIR/${idUsuario}/${id}/${1}`;
-                request_API("PUT", endPoint);
-
-                calcular_soma()
             }
+                
         });
 
         btnMore.addEventListener('click', () => {
-            if (parseInt(qtdProduto.value) < 20) {
+            if(parseInt(qtdProduto.value) < 20){
                 qtdProduto.value = parseInt(qtdProduto.value) + 1;
-
-                let precoProduto = document.getElementById(`preco-produto-${id}`);
-                let quantidadeProduto = document.getElementById(`quantidade-produto-${id}`);
-
-                precoProduto.innerHTML = (preco * inputQuantidade.value).toFixed(2);
-                quantidadeProduto.innerHTML = inputQuantidade.value;
-
-                let endPoint = `http://localhost:8080/carrinho/alterar/AUMENTAR/${idUsuario}/${id}/${1}`;
-                request_API("PUT", endPoint);
-
-                calcular_soma()
-                //window.location.href = "carrinho.html";
             }
+            
+
         });
 
-        deleteButton.addEventListener('click', () => {
-            let endPoint = `http://localhost:8080/carrinho/removerItem/${id}/${idUsuario}/${quantidade}`;
-            request_API("DELETE", endPoint)
+        deleteButton.addEventListener('click',() => {
 
-            window.location.href = "carrinho.html";
+            let endPoint = `http://localhost:8080/carrinho/removerItem/${id}/${2}/${quantidade}`;
+
+            let init = {    
+                method: "DELETE",
+                mode: 'cors', 
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                referrerPolicy: 'no-referrer',
+            }
+        
+            fetch(endPoint, init);
+        
+            window.location.href="carrinho.html";
         });
     });
-
-    calcular_soma();
-    
 }
+getAllElementsCart()
 
-function finalizar_compra() {
+
+function finalizar_compra(){
     let listVendas = [];
     let produtosDTO = Object.assign(dados);
 
     produtosDTO.forEach(element => {
-        let qtdProduto = document.getElementById(`input-qtd-${element["produtoDTO"]["id"]}`).value;
-        element["produtoDTO"]["quantidade"] = qtdProduto;
+        listVendas.push(element["produtoDTO"])
+    })
 
-        listVendas.push(element["produtoDTO"]);
-    });
+    console.log("-----------")
+    console.log(listVendas);
 
     let endPoint = `http://localhost:8080/carrinho/fecharVenda/2`;
 
-    request_API("POST", endPoint, listVendas);
+    let init = {
+        method: "POST",
+        mode: 'cors', 
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(listVendas)
+    }
+    fetch(endPoint, init);
 }
 
-async function clean_cart() {
-    let endPoint = `http://localhost:8080/carrinho/${idUsuario}`;
-    request_API("DELETE", endPoint);
 
-    window.location.href = "produto.html";
+let finalizarCompra = document.getElementById("finalizar-compra");
+
+finalizarCompra.addEventListener('click', finalizar_compra);
+
+
+let cleanCart = document.getElementById("button-clean-cart");
+let returnToProduto = document.getElementById("button-return");
+
+cleanCart.addEventListener('click', clean_cart);
+returnToProduto.addEventListener('click',() => {
+    window.location.href="produtos.html";
+});
+
+async function clean_cart(){
+    localStorage.clear();
+    window.location.href="produtos.html";
+
+    let endPoint = `http://localhost:8080/carrinho/${2}`;
+    let init = {    
+        method: "DELETE",
+        mode: 'cors', 
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        referrerPolicy: 'no-referrer',
+    }
+
+    await fetch(endPoint, init);
 }
 
-function lista_produtos_calculo(idProduto, nomeProduto, marca, quantidade, preco) {
-    let valorProduto = document.createElement("div");
-    valorProduto.setAttribute("class", "valor-produto");
-    valorProduto.setAttribute("id", `valor-produto-${idProduto}`);
-
-    let previewProduto = document.createElement("div");
-    previewProduto.setAttribute("class", "preview-produto");
-
-    let _produto = document.createElement("p");
-    let _multiplicacao = document.createElement("p");
-    let _quantidade = document.createElement("p");
-    _quantidade.setAttribute("id", `quantidade-produto-${idProduto}`);
-
-    _produto.appendChild(document.createTextNode(`${nomeProduto} - ${marca}`));
-    _multiplicacao.appendChild(document.createTextNode(`x ${'\u00A0' + '\u00A0' + '\u00A0' + '\u00A0'}`));
-    _quantidade.appendChild(document.createTextNode(`${quantidade}`));
-
-    previewProduto.appendChild(_produto);
-    previewProduto.appendChild(_multiplicacao);    
-    previewProduto.appendChild(_quantidade);
-
-    let somaProduto = document.createElement("div");
-    somaProduto.setAttribute("class", "soma-produto");
-
-    let _real = document.createElement("p");
-    let _preco = document.createElement("p");
-    _preco.setAttribute("id", `preco-produto-${idProduto}`);
-
-    _real.appendChild(document.createTextNode("R$"));
-    _preco.appendChild(document.createTextNode((preco * quantidade).toFixed(2)));
-
-    somaProduto.appendChild(_real);
-    somaProduto.appendChild(_preco);
-
-    valorProduto.appendChild(previewProduto);
-    valorProduto.appendChild(somaProduto);
-
-
-    let pagamentoDeProdutos = document.getElementById("payment-products");
-    pagamentoDeProdutos.appendChild(valorProduto);
-
+async function remove_item(idProduto, quantidade){
+    
 
 }
 
-function calcular_soma(){
-    let totalProdutosCarrinho = 0;
-    let maninContainer = document.getElementById("payment-products");
-    let totalProdutos = document.getElementById("total-somado");
-    let produtosSomados = document.getElementById("produtos-somados");
 
-    maninContainer.childNodes.forEach((element) => {
-        if(element.lastChild !== null){
-            totalProdutosCarrinho = totalProdutosCarrinho + parseFloat(element.lastChild.lastChild.innerHTML);
-        }
-    });
-    produtosSomados.innerHTML = 0;
-    totalProdutos.innerHTML = 0;
 
-    produtosSomados.innerHTML = totalProdutosCarrinho.toFixed(2);
-    totalProdutos.innerHTML = (totalProdutosCarrinho + 12.99).toFixed(2);
-
-    //produtos-somados
-}
+///carrinho/removerItem/{idProduto}/{idCliente}/{quantidade}

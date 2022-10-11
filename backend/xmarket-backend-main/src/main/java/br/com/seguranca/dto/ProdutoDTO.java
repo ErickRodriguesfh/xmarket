@@ -30,4 +30,22 @@ public class ProdutoDTO {
 
     }
 
+
+    public Produto toProduto (){
+
+        return new Produto(
+                this.id,
+                this.nome,
+                this.preco,
+                this.marca,
+                this.imagemUrl,
+                this.quantidade
+
+
+
+
+        );
+
+    }
+
 }

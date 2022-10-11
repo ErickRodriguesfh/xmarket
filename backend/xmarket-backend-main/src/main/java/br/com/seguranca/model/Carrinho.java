@@ -34,30 +34,28 @@ public class Carrinho {
     private Double valorTotal;
 
 
-    public RetornoUsuarioDTO toRetornoUsuarioDTO(){
+    public RetornoUsuarioDTO toRetornoUsuarioDTO() {
 
-         RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO(
-                 usuario.getId(), usuario.getUsuario(), usuario.getTelefone(), usuario.getEndereco()
+        RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO(
+                usuario.getId(), usuario.getUsuario(), usuario.getTelefone(), usuario.getEndereco()
 
-         );
+        );
 
-         return usuarioDTO;
+        return usuarioDTO;
 
     }
 
 
-    public ProdutoDTO toProdutoDTO(){
+    public ProdutoDTO toProdutoDTO() {
 
         ProdutoDTO produtoDTO = new ProdutoDTO(
-              produto.getId() , produto.getNome(), produto.getPreco(), produto.getMarca(), produto.getQuantidade(),
+                produto.getId(), produto.getNome(), produto.getPreco(), produto.getMarca(), produto.getQuantidade(),
                 produto.getImagemUrl()
         );
 
         return produtoDTO;
 
     }
-
-
 
 
 }

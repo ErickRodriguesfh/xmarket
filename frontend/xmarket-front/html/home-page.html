@@ -20,8 +20,31 @@
 
 
     <script src="../js/verificacao.js"></script>
-    <link rel="stylesheet" href="../css/shared/navbar.css">
     <style>
+        .img-logo {
+            /* position: absolute;
+            left: 0;
+            right: 0; */
+            margin: auto;
+            height: 45px;
+            width: 200px;
+            padding: 0;
+        }
+
+        .navbar-toggler {
+            /* position: absolute; */
+        }
+
+        nav {
+            background-color: blue !important;
+        }
+
+        .secondary-navigator {
+            display: flex;
+            justify-content: space-around;
+            width: 100px;
+        }
+
         .carousel-inner {
             height: 0%;
             max-height: 50vh;
@@ -67,11 +90,10 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
-                <svg class="img-logo" version="1.0" xmlns="http://www.w3.org/2000/svg"
+                <svg class="img-logo " version="1.0" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 320.000000 79.000000" preserveAspectRatio="xMidYMid meet">
 
-                    <g class="primary-color" transform="translate(0.000000,79.000000) scale(0.100000,-0.100000)"
-                        fill="#000000" stroke="none">
+                    <g transform="translate(0.000000,79.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
                         <path d="M20 405 l0 -385 1580 0 1580 0 0 385 0 385 -1580 0 -1580 0 0 -385z
                m3110 -4 c0 -291 -2 -330 -16 -335 -9 -3 -532 -6 -1163 -6 -879 0 -1150 3
                -1159 12 -9 9 -12 96 -12 328 0 174 3 320 7 323 3 4 532 7 1175 7 l1168 0 0
@@ -132,8 +154,7 @@
                         <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px"
                             viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
-                            <g class="primary-color"
-                                transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
+                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
                                 stroke="none">
                                 <path d="M70 4818 c-92 -62 -90 -182 4 -252 26 -20 42 -21 351 -24 289 -3 324
                        -5 338 -20 11 -12 629 -2276 692 -2534 7 -26 5 -28 -23 -28 -47 0 -147 -35
@@ -170,8 +191,7 @@
                     <div class="cart-logo">
                         <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px"
                             viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
-                            <g class="primary-color"
-                                transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
+                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
                                 stroke="none">
                                 <path d="M1720 4806 c-214 -75 -544 -265 -665 -383 -91 -88 -110 -203 -60
                                 -353 39 -114 42 -277 8 -385 -74 -232 -269 -397 -513 -434 -128 -20 -210 -73
@@ -192,6 +212,8 @@
                             </g>
                         </svg>
                     </div>
+
+
                 </div>
             </div>
         </nav>

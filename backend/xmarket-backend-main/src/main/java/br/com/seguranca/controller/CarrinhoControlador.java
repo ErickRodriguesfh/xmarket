@@ -5,9 +5,7 @@ package br.com.seguranca.controller;
 import java.util.List;
 
 import br.com.seguranca.dto.ProdutoDTO;
-import br.com.seguranca.model.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +30,7 @@ public class CarrinhoControlador {
         return ResponseEntity.status(201).build();
     }
 
+
     @GetMapping("/exibirCarrinho/{idUsuario}")
     public ResponseEntity<List<CarrinhoDTO>> buscarCarrinho(@PathVariable("idUsuario") Long id){
        List <CarrinhoDTO>  carrinho = carrinhoServico.buscarCarrinho(id);
@@ -44,10 +43,12 @@ public class CarrinhoControlador {
     }
 
     
-    
+
+
     //Diogo Implementou no Banco!!!! ///
     @DeleteMapping("/removerItem/{idProduto}/{idCliente}/{quantidade}")
-    public ResponseEntity<CarrinhoDTO> removerItemCarrinho(@PathVariable("idProduto") Long idProduto, @PathVariable("idCliente") Long idCliente,
+    public ResponseEntity<CarrinhoDTO> removerItemCarrinho(@PathVariable("idProduto") Long idProduto,
+                                                           @PathVariable("idCliente") Long idCliente,
                                        @PathVariable("quantidade") Integer quantidadeProduto ){
     	if(carrinhoServico.removerProduto(idProduto, idCliente, quantidadeProduto)) {
     		return ResponseEntity.status(200).build();
@@ -56,31 +57,12 @@ public class CarrinhoControlador {
     	}
     }
 
-    @DeleteMapping("/{idCliente}")
-    public void esvaziarCarrinho(@PathVariable("idCliente") Long idCliente){
-        carrinhoServico.removerCarrinho(idCliente);
-    }
+
+
 
     @PostMapping("/fecharVenda/{idUsuario}")
     public void fecharVenda(@RequestBody List<ProdutoDTO> produtos, @PathVariable("idUsuario") Long idUsuario){
         carrinhoServico.fecharVenda(produtos, idUsuario);
-    }
-
-
-    @PutMapping("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}") // ("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}")
-    public ResponseEntity alterarQuantidadeProduto(@PathVariable("ordem") String ordem, @PathVariable("id-usuario") Long idUsuario, @PathVariable("id-produto") Long idProduto , @PathVariable("nova-quantidade") Integer novaQuantidade){
-
-        int quantidade = carrinhoServico.buscarQuantidadeProduto(idProduto);
-
-        if(ordem.equals("AUMENTAR")){
-            carrinhoServico.aumentarItemCarrinho(novaQuantidade, idProduto, idUsuario);
-        }
-        if(ordem.equals("DIMINUIR")){
-            carrinhoServico.diminuirItemCarrinho(novaQuantidade, idProduto, idUsuario);
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).build();
-
     }
 
 

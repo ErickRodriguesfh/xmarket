@@ -24,4 +24,5 @@ export default async function login_service(){
         }).catch(eer => console.log(eer))
     
     return dados;
+
 }
