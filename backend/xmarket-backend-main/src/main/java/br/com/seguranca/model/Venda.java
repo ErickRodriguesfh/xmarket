@@ -36,7 +36,7 @@ public class Venda {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private Usuario usuario ;
+    private Cliente usuario ;
 
     @JsonFormat
     private LocalDateTime dataVenda;

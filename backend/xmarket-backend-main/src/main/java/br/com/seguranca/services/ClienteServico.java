@@ -6,23 +6,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.seguranca.dto.UsuarioDTO;
+import br.com.seguranca.dto.ClienteDTO;
 import br.com.seguranca.model.Login;
-import br.com.seguranca.model.Usuario;
-import br.com.seguranca.repositories.UsuarioRepositorio;
+import br.com.seguranca.model.Cliente;
+import br.com.seguranca.repositories.ClienteRepositorio;
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class UsuarioServico {
+@RequiredArgsConstructor
+public class ClienteServico {
 
     @Autowired
-    private UsuarioRepositorio usuarioRepository;
+    private ClienteRepositorio usuarioRepository;
    
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     //Método para verificar se exitem email,cpf e rg já cadastrados no banco de dados
-    public boolean validarCadastro(UsuarioDTO usuarioDTO) {
-        Usuario usuario = new Usuario();
+    public boolean validarCadastro(ClienteDTO usuarioDTO) {
+        Cliente usuario = new Cliente();
         usuario = usuarioRepository.getByEmail(usuarioDTO.getEmail());
         usuario = usuarioRepository.getByCpf(usuarioDTO.getCpf());
         usuario = usuarioRepository.getByRg(usuarioDTO.getRg());
@@ -33,8 +35,8 @@ public class UsuarioServico {
 
     }
 
-    public Usuario cadastrarUsuario(UsuarioDTO usuarioDTO) {
-        Usuario usuario = new Usuario();/* Instancia um objeto usuario */
+    public Cliente cadastrarUsuario(ClienteDTO usuarioDTO) {
+        Cliente usuario = new Cliente();/* Instancia um objeto usuario */
         String encoder = this.passwordEncoder.encode(usuarioDTO.getSenha()); /* Criptografa a senha */
         usuarioDTO.setSenha(encoder);/* Seta a senha criptografada */
         BeanUtils.copyProperties(usuarioDTO, usuario); /*Passa as propriedades de DTO para o objeto*/
@@ -44,7 +46,7 @@ public class UsuarioServico {
 
 
     public boolean validarLogin(Login login) {
-        Usuario usuario = usuarioRepository.getByEmail(login.getEmail());//Verifica se o existe usuario com o email digitado, caso nao exista ele retorna false
+        Cliente usuario = usuarioRepository.getByEmail(login.getEmail());//Verifica se o existe usuario com o email digitado, caso nao exista ele retorna false
         if (usuario == null) { /*Caso o objeto seja nulo ou vazio retorna um false*/
             return false;
         } else {
@@ -55,7 +57,7 @@ public class UsuarioServico {
 
     }
 
-    public Usuario buscarPeloId(Long id) {
+    public Cliente buscarPeloId(Long id) {
         return usuarioRepository.findById(id).get();
     }
 

@@ -1,27 +1,27 @@
 package br.com.seguranca.repositories;
 
-import br.com.seguranca.model.Carrinho;
-import br.com.seguranca.model.Produto;
-import br.com.seguranca.model.Usuario;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.List;
+import br.com.seguranca.model.Carrinho;
+import br.com.seguranca.model.Cliente;
+import br.com.seguranca.model.Produto;
 
 @Repository
 public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
 
 
     //buscar carrinho pelo usuario e produto
-    public Carrinho findByUsuarioAndProduto(Usuario usuario, Produto produto);
+    public Carrinho findByUsuarioAndProduto(Cliente usuario, Produto produto);
 
 
     //buscar o carrinho do usuario pelo id do mesmo
-    public List<Carrinho> findByUsuario(Usuario usuario);
+    public List<Carrinho> findByUsuario(Cliente usuario);
 
 
     @Query(value = "SELECT * FROM tabela_carrinho WHERE id_usuario = ?1", nativeQuery = true)

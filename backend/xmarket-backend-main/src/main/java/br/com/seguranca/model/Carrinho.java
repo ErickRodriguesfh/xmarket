@@ -27,7 +27,7 @@ public class Carrinho {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    private Cliente usuario;
 
     private Integer quantidade;
 
@@ -37,7 +37,7 @@ public class Carrinho {
     public RetornoUsuarioDTO toRetornoUsuarioDTO() {
 
         RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO(
-                usuario.getId(), usuario.getUsuario(), usuario.getTelefone(), usuario.getEndereco()
+                usuario.getId(), usuario.getNome(), usuario.getTelefone(), usuario.getEndereco()
 
         );
 

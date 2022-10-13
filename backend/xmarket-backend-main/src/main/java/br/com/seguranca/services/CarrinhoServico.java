@@ -1,21 +1,21 @@
 package br.com.seguranca.services;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.com.seguranca.dto.CarrinhoDTO;
 import br.com.seguranca.dto.ProdutoDTO;
 import br.com.seguranca.dto.RetornoUsuarioDTO;
 import br.com.seguranca.enums.EnumPagamento;
 import br.com.seguranca.model.Carrinho;
+import br.com.seguranca.model.Cliente;
 import br.com.seguranca.model.Produto;
-import br.com.seguranca.model.Usuario;
 import br.com.seguranca.model.Venda;
 import br.com.seguranca.repositories.CarrinhoRepositorio;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
@@ -28,7 +28,7 @@ public class CarrinhoServico {
     private ProdutoServico produtoServico;
 
     @Autowired
-    private UsuarioServico usuarioServico;
+    private ClienteServico usuarioServico;
 
 	@Autowired
 	private VendaServico vendaServico;
@@ -36,7 +36,7 @@ public class CarrinhoServico {
     public Carrinho adicionarCarrinho(Long idProduto, Long idUsuario, Integer quantidade) {
 
 		Produto produto = produtoServico.findById(idProduto);
-		Usuario usuario = usuarioServico.buscarPeloId(idUsuario);
+		Cliente usuario = usuarioServico.buscarPeloId(idUsuario);
 		Carrinho carrinho = carrinhoRepositorio.findByUsuarioAndProduto(usuario, produto);
 		Integer quantidadeAtualizada = quantidade;
 
@@ -60,7 +60,7 @@ public class CarrinhoServico {
 	}
 
 	public List<CarrinhoDTO> buscarCarrinho(Long id) {
-		Usuario usuario = usuarioServico.buscarPeloId(id);
+		Cliente usuario = usuarioServico.buscarPeloId(id);
 		List<CarrinhoDTO> carrinhos = new ArrayList<>();
 		RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO();
 		ProdutoDTO produtoDTO = new ProdutoDTO();
@@ -86,7 +86,7 @@ public class CarrinhoServico {
 	public void fecharVenda(List<ProdutoDTO> produtos, Long idUsuario){
 		Double valorTotal = 123.232;
 		String identificadorVenda= "teste2";
-		Usuario usuario = usuarioServico.buscarPeloId(idUsuario);
+		Cliente usuario = usuarioServico.buscarPeloId(idUsuario);
 
 
 		for (ProdutoDTO p : produtos){
