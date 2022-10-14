@@ -28,9 +28,10 @@ public class ClienteControlador {
 
 
 	// END POINT para cadastrar cliente
+	@PostMapping("/cadastrar")
 	public ResponseEntity cadastroCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
-		if (usuarioService.validarCadastro(clienteDTO)) {
-			usuarioService.cadastrarUsuario(clienteDTO);
+		if (usuarioService.validacaoGeral(clienteDTO)) {
+			usuarioService.cadastrarCliente(clienteDTO);
 			return ResponseEntity.status(201).build();
 		}
 		return ResponseEntity.status(422).body("Usuario já existe!");

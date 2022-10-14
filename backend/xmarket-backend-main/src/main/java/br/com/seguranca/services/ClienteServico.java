@@ -1,5 +1,7 @@
 package br.com.seguranca.services;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -7,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.seguranca.dto.ClienteDTO;
-import br.com.seguranca.model.Login;
 import br.com.seguranca.model.Cliente;
+import br.com.seguranca.model.Login;
 import br.com.seguranca.repositories.ClienteRepositorio;
 import lombok.RequiredArgsConstructor;
 
@@ -22,20 +24,7 @@ public class ClienteServico {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-    //Método para verificar se exitem email,cpf e rg já cadastrados no banco de dados
-    public boolean validarCadastro(ClienteDTO usuarioDTO) {
-        Cliente usuario = new Cliente();
-        usuario = usuarioRepository.getByEmail(usuarioDTO.getEmail());
-        usuario = usuarioRepository.getByCpf(usuarioDTO.getCpf());
-        usuario = usuarioRepository.getByRg(usuarioDTO.getRg());
-        if(usuario == null) {
-            return true;
-        }
-        return false;
-
-    }
-
-    public Cliente cadastrarUsuario(ClienteDTO usuarioDTO) {
+    public Cliente cadastrarCliente(ClienteDTO usuarioDTO) {
         Cliente usuario = new Cliente();/* Instancia um objeto usuario */
         String encoder = this.passwordEncoder.encode(usuarioDTO.getSenha()); /* Criptografa a senha */
         usuarioDTO.setSenha(encoder);/* Seta a senha criptografada */
@@ -60,7 +49,54 @@ public class ClienteServico {
     public Cliente buscarPeloId(Long id) {
         return usuarioRepository.findById(id).get();
     }
-
+    
+    
+    public List<Cliente> listarClientes(){
+    	List<Cliente> clientes = usuarioRepository.findAll();
+    	return clientes;
+    }
+    
+    
+    public Cliente alterarCliente(Cliente cliente) {
+    	Cliente clienteAlterado = usuarioRepository.save(cliente);
+    	return clienteAlterado;
+    }
+    
+    
+    
+    
+  
+  //Método para verificar se exitem email,cpf e rg já cadastrados no banco de dados
+    public boolean validarEmail(ClienteDTO clienteDTO) {
+        Cliente cliente = usuarioRepository.getByEmail(clienteDTO.getEmail());
+        if(cliente == null) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean validarCpf(ClienteDTO clienteDTO) {
+    	Cliente cliente = usuarioRepository.getByCpf(clienteDTO.getCpf());
+    	 if(cliente == null) {
+             return true;
+         }
+         return false;
+    }
+    
+    public boolean validarRg(ClienteDTO clienteDTO) {
+    	Cliente cliente = usuarioRepository.getByRg(clienteDTO.getRg());
+    	 if(cliente == null) {
+             return true;
+         }
+         return false;
+    }
+    
+    public boolean validacaoGeral(ClienteDTO clienteDTO) {
+    	if(validarCpf(clienteDTO) || validarEmail(clienteDTO) || validarRg(clienteDTO)) {
+    		return false;
+    	}
+    	return true;
+    }
 
 
 }

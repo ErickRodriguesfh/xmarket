@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 public class ClienteDTO {
 
     @NotEmpty
-    private String usuario;
+    private String nome;
 
     @Email(message = "Insira um email válido!")
     @NotEmpty(message = "O campo email é obrigatório!")

@@ -1,11 +1,15 @@
 package br.com.seguranca.services;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.seguranca.dto.ClienteDTO;
 import br.com.seguranca.model.Administrador;
+import br.com.seguranca.model.Cliente;
 import br.com.seguranca.model.LoginAdmin;
 import br.com.seguranca.repositories.AdminRepositorio;
 import br.com.seguranca.repositories.ClienteRepositorio;
@@ -37,4 +41,41 @@ public class AdminServico {
 		    return valid;
 	}
 	
+	
+	
+	
+	
+	
+	
+	//Método para verificar se exitem email,cpf e rg já cadastrados no banco de dados
+    public boolean validarEmail(Administrador administrador) {
+        Administrador admin = adminRepositorio.getByEmail(administrador.getEmail());
+        if(admin == null) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean validarCpf(Administrador administrador) {
+    	Administrador admin = adminRepositorio.getByCpf(administrador.getCpf());
+    	 if(admin == null) {
+             return true;
+         }
+         return false;
+    }
+    
+    public boolean validarRg(Administrador administrador) {
+    	 Administrador admin = adminRepositorio.getByRg(administrador.getRg());
+    	 if(admin == null) {
+             return true;
+         }
+         return false;
+    }
+    
+    public boolean validacaoGeral(Administrador administrador) {
+    	if(validarCpf(administrador) || validarEmail(administrador) || validarRg(administrador)) {
+    		return false;
+    	}
+    	return true;
+    }
 }
