@@ -92,10 +92,10 @@ public class ClienteServico {
     }
     
     public boolean validacaoGeral(ClienteDTO clienteDTO) {
-    	if(validarCpf(clienteDTO) || validarEmail(clienteDTO) || validarRg(clienteDTO)) {
-    		return false;
+    	if(validarCpf(clienteDTO) && validarEmail(clienteDTO) && validarRg(clienteDTO)) {
+    		return true;
     	}
-    	return true;
+    	return false;
     }
 
 

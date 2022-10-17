@@ -1,25 +1,24 @@
 package br.com.seguranca.model;
 
 
-import br.com.seguranca.dto.ProdutoDTO;
+
+
 import br.com.seguranca.enums.EnumPagamento;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 @Table(name = "tabela_venda")
 public class Venda {
 
@@ -27,24 +26,16 @@ public class Venda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String identificadorVenda;
+    @Enumerated(EnumType.STRING)
+    private EnumPagamento enumPagamento;
 
     @ManyToOne
-    @JoinColumn(name = "id_produto")
-    private Produto produto;
+    private Cliente cliente;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Cliente usuario ;
-
-    @JsonFormat
     private LocalDateTime dataVenda;
 
-    private Double valorTotal;
-
-    @Enumerated(EnumType.STRING)
-    private EnumPagamento formaPagamento;
+    @OneToMany(mappedBy = "venda")
+    private Set<ItemVenda> itens = new HashSet<>();
 
 
 

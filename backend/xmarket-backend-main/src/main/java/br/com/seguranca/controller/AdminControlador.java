@@ -13,15 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.seguranca.dto.ClienteDTO;
 import br.com.seguranca.dto.ProdutoDTO;
@@ -32,6 +24,7 @@ import br.com.seguranca.model.Produto;
 import br.com.seguranca.services.AdminServico;
 import br.com.seguranca.services.ClienteServico;
 import br.com.seguranca.services.ProdutoServico;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/admin")
@@ -78,9 +71,14 @@ public class AdminControlador {
 		return ResponseEntity.status(200).body(produtoServico.listarProdutos());
 	}
 	@PostMapping("/estoque/inserir")
-	public ResponseEntity<ProdutoDTO> inserirProduto (@RequestBody ProdutoDTO produtoDTO) { //Validar Inserção de produtos iguais!!!!!!!
-		produtoServico.inserirProduto(produtoDTO);
+	public ResponseEntity<ProdutoDTO> inserirProduto (@RequestBody ProdutoDTO produtoDTO,
+													  @RequestParam("arquivoImagem") MultipartFile arquivoImagem) { //Validar Inserção de produtos iguais!!!!!!!
+
+
+		produtoServico.inserirProduto(produtoDTO, arquivoImagem);
 		return ResponseEntity.status(201).body(produtoDTO);
+
+
 	}
 	
 	@DeleteMapping("/estoque/excluir")

@@ -32,13 +32,6 @@ public class ProdutoControlador {
 		return produtoService.listarProdutos();
 	}
 	
-	@PostMapping
-	public ResponseEntity<ProdutoDTO> inserirProduto (@RequestBody ProdutoDTO produtoDTO) {
-
-		produtoService.inserirProduto(produtoDTO);
-		return ResponseEntity.status(HttpStatus.OK).body(produtoDTO);
-		
-	}
 
 
 

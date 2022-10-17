@@ -1,5 +1,8 @@
 package br.com.seguranca.services;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import br.com.seguranca.dto.ProdutoDTO;
 import br.com.seguranca.model.Produto;
 import br.com.seguranca.repositories.ProdutoRepositorio;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProdutoServico {
@@ -19,9 +23,24 @@ public class ProdutoServico {
 
 
 
-	public Produto inserirProduto(ProdutoDTO produtoDTO) {
+	public Produto inserirProduto(ProdutoDTO produtoDTO, MultipartFile arquivoImagem) {
 		Produto produto = new Produto();
 		BeanUtils.copyProperties(produtoDTO, produto);
+
+
+		try {
+			String diretorioImagens = "C:\\imagens";
+			byte[] bytes = arquivoImagem.getBytes();
+		Path path = Paths.get(diretorioImagens + arquivoImagem.getOriginalFilename());
+			Files.write(path, bytes);
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+
+
+
 		return produtoRepository.save(produto);
 	}
 	

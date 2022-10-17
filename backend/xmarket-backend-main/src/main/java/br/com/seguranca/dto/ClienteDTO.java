@@ -27,7 +27,6 @@ public class ClienteDTO {
     @Size(min = 6, max = 16)
     private String senha;
 
-    private String role;
     @CPF(message = "Cpf Inválido!")
     @NotEmpty
     private String cpf;
@@ -37,6 +36,7 @@ public class ClienteDTO {
     private String telefone;
     @NotEmpty(message = "Endereco Obrigatório")
     private String endereco;
+
     @NotEmpty(message = "RG Obrigatório")
     private String rg;
 
