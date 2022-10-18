@@ -83,31 +83,7 @@ public class CarrinhoServico {
 	}
 
 	//Função para fechar venda
-	public void fecharVenda(List<ProdutoDTO> produtos, Long idUsuario){
 
-		Cliente usuario = usuarioServico.buscarPeloId(idUsuario);
-
-
-		for (ProdutoDTO p : produtos){
-
-			int quantidadeNoBanco = buscarQuantidadeProduto(p.getId());
-
-
-
-			if(p.getQuantidade() <= quantidadeNoBanco){
-				Integer novaQuantidade = quantidadeNoBanco - p.getQuantidade();
-				carrinhoRepositorio.atualizarQuantidade(novaQuantidade, p.getId());
-				carrinhoRepositorio.limparCarrinho(idUsuario);
-
-
-			}else{
-				System.out.println("Produto insuficiente no estoque");
-
-			}
-
-		}
-
-	}
 
 	public void aumentarItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
 

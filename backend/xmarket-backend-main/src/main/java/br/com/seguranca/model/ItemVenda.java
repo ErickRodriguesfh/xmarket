@@ -1,6 +1,6 @@
 package br.com.seguranca.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,17 +21,20 @@ public class ItemVenda implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private Integer quantidade;
 
-    private Double preco;
+    private Double precoUnitario;
 
     @ManyToOne
     @JoinColumn(name = "id_produto")
     private Produto produto;
 
     @ManyToOne
-    @JoinColumn(name = "id_pedido")
+    @JoinColumn(name = "id_venda")
     private Venda venda;
+
+
 
 
 

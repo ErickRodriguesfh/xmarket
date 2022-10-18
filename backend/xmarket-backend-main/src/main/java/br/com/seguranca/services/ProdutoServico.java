@@ -23,21 +23,9 @@ public class ProdutoServico {
 
 
 
-	public Produto inserirProduto(ProdutoDTO produtoDTO, MultipartFile arquivoImagem) {
+	public Produto inserirProduto(ProdutoDTO produtoDTO) {
 		Produto produto = new Produto();
 		BeanUtils.copyProperties(produtoDTO, produto);
-
-
-		try {
-			String diretorioImagens = "C:\\imagens";
-			byte[] bytes = arquivoImagem.getBytes();
-		Path path = Paths.get(diretorioImagens + arquivoImagem.getOriginalFilename());
-			Files.write(path, bytes);
-
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-
 
 
 

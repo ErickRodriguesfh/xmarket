@@ -71,11 +71,11 @@ public class AdminControlador {
 		return ResponseEntity.status(200).body(produtoServico.listarProdutos());
 	}
 	@PostMapping("/estoque/inserir")
-	public ResponseEntity<ProdutoDTO> inserirProduto (@RequestBody ProdutoDTO produtoDTO,
-													  @RequestParam("arquivoImagem") MultipartFile arquivoImagem) { //Validar Inserção de produtos iguais!!!!!!!
+	public ResponseEntity<ProdutoDTO> inserirProduto (@RequestBody ProdutoDTO produtoDTO
+													) { //Validar Inserção de produtos iguais!!!!!!!
 
 
-		produtoServico.inserirProduto(produtoDTO, arquivoImagem);
+		produtoServico.inserirProduto(produtoDTO);
 		return ResponseEntity.status(201).body(produtoDTO);
 
 
