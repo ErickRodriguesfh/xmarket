@@ -128,6 +128,22 @@ public class AdminControlador {
 		return ResponseEntity.status(422).body("Usuario já existe!");
 	}
 	
+	@GetMapping("/clientes/buscar/{id}")
+	public ResponseEntity<Cliente> buscarCliente(@PathVariable Long id){
+		Cliente cliente = clienteServico.buscarPeloId(id);
+		if(cliente != null) {
+			return ResponseEntity.status(200).body(cliente);
+		}
+		return ResponseEntity.noContent().build();
+	}
+	
+	@DeleteMapping("/clientes/deletar/{id}")
+	public ResponseEntity<?> deletarCliente(@PathVariable Long id){
+		if(clienteServico.deletarCliente(id)) {
+			return ResponseEntity.status(200).body("Excluído");
+		}
+		return ResponseEntity.noContent().build();
+	}
 	
 	// Mapeia as Exceções (400)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

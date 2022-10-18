@@ -21,11 +21,7 @@ public class VendaController {
 
     @PostMapping("/{idCliente}")
     public void criarVenda(@PathVariable("idCliente") Long idCliente, @RequestBody VendaDTO vendaDTO){
-
-
         vendaServico.criarVenda(idCliente, vendaDTO);
-
-
     }
 
 

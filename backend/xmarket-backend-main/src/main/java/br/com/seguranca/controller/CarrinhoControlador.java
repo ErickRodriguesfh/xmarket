@@ -60,12 +60,6 @@ public class CarrinhoControlador {
 
 
 
-
-    @PostMapping("/fecharVenda/{idUsuario}")
-    public void fecharVenda(@RequestBody List<ProdutoDTO> produtos, @PathVariable("idUsuario") Long idUsuario){
-        carrinhoServico.fecharVenda(produtos, idUsuario);
-    }
-
     @PutMapping("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}") // ("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}")
     public ResponseEntity alterarQuantidadeProduto(@PathVariable("ordem") String ordem, @PathVariable("id-usuario") Long idUsuario, @PathVariable("id-produto") Long idProduto , @PathVariable("nova-quantidade") Integer novaQuantidade){
 

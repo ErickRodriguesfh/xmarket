@@ -47,20 +47,27 @@ public class ClienteServico {
     }
 
     public Cliente buscarPeloId(Long id) {
-        return usuarioRepository.findById(id).get();
-    }
-    
-    
-    public List<Cliente> listarClientes(){
-    	List<Cliente> clientes = usuarioRepository.findAll();
-    	return clientes;
-    }
-    
-    
-    public Cliente alterarCliente(Cliente cliente) {
-    	Cliente clienteAlterado = usuarioRepository.save(cliente);
-    	return clienteAlterado;
-    }
+		return usuarioRepository.findById(id).orElse(null);
+	}
+
+	public List<Cliente> listarClientes() {
+		List<Cliente> clientes = usuarioRepository.findAll();
+		return clientes;
+	}
+
+	public Cliente alterarCliente(Cliente cliente) {
+		Cliente clienteAlterado = usuarioRepository.save(cliente);
+		return clienteAlterado;
+	}
+
+	public boolean deletarCliente(Long id) {
+		Cliente cliente = buscarPeloId(id);
+		if (cliente != null) {
+			usuarioRepository.deleteById(id);
+			return true;
+		}
+		return false;
+	}
     
     
     
