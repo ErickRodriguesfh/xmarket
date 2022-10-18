@@ -43,6 +43,29 @@ public class ProdutoServico {
 		return produtoDTOS;
 	}
 	
+	public Produto inserirSomenteProduto(ProdutoDTO produtoDTO){
+		Produto produto = new Produto();
+		BeanUtils.copyProperties(produtoDTO, produto);
+
+		return produtoRepository.save(produto);
+	}
+	
+	public String inserirSomenteImagem(MultipartFile arquivoImagem) {
+		Path path = Paths.get("");
+		try {
+			//"C:\\Users\\00787701\\Desktop\\github\\xmarket-1\\frontend\\xmarket-front\\assets\\produtos"
+			String diretorioImagens = "..\\..\\imagens-produtos\\"; //frontend/xmarket-front/assets/produtos/  //   ..\\..\\frontend\\xmarket-front\\assets\\produtos\\
+			byte[] bytes = arquivoImagem.getBytes();
+			path = Paths.get(diretorioImagens + arquivoImagem.getOriginalFilename());
+			Files.write(path, bytes);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return(path.toString());
+	}
+
 	public boolean excluirProduto(Long id) {
 		produtoRepository.deleteById(id);
 		return true;

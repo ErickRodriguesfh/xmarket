@@ -32,93 +32,89 @@ public class AdminControlador {
 
 	@SuppressWarnings("unused")
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	
+
 	@Autowired
 	private AdminServico adminServico;
 	@Autowired
 	private ProdutoServico produtoServico;
 	@Autowired
 	private ClienteServico clienteServico;
-	
-	
-	//Login
+
+	// Login
 	@PostMapping
-	 public ResponseEntity<Administrador> login(@Valid @RequestBody LoginAdmin login){
-		 boolean valid = adminServico.validarLogin(login);
-			if (valid) {
-				return ResponseEntity.status(200).build();
-			}
-			return ResponseEntity.status(401).build(); 	
-	 }
-	 
-	 
-	 //Cadastro de Admins
+	public ResponseEntity<Administrador> login(@Valid @RequestBody LoginAdmin login) {
+		boolean valid = adminServico.validarLogin(login);
+		if (valid) {
+			return ResponseEntity.status(200).build();
+		}
+		return ResponseEntity.status(401).build();
+	}
+
+	// Cadastro de Admins
 	@PostMapping("/cadastrar")
-	 public ResponseEntity<?> cadastrar(@Valid @RequestBody Administrador administrador){
+	public ResponseEntity<?> cadastrar(@Valid @RequestBody Administrador administrador) {
 		if (adminServico.validacaoGeral(administrador)) {
 			adminServico.cadastrar(administrador);
 			return ResponseEntity.status(201).build();
 		}
 		return ResponseEntity.status(422).body("Usuario já existe!");
 	}
-	
-	
-	
-	//Controle de Estoque
-	
+
+	// Controle de Estoque
+
 	@GetMapping("/estoque")
-	public ResponseEntity<List<ProdutoDTO>> listaDeProdutos(){
+	public ResponseEntity<List<ProdutoDTO>> listaDeProdutos() {
 		return ResponseEntity.status(200).body(produtoServico.listarProdutos());
 	}
+
 	@PostMapping("/estoque/inserir")
-	public ResponseEntity<ProdutoDTO> inserirProduto (@RequestBody ProdutoDTO produtoDTO
-													) { //Validar Inserção de produtos iguais!!!!!!!
+	public ResponseEntity<ProdutoDTO> inserirProduto(@RequestBody ProdutoDTO produto) {
 
-
-		produtoServico.inserirProduto(produtoDTO);
-		return ResponseEntity.status(201).body(produtoDTO);
-
-
+		produtoServico.inserirSomenteProduto(produto);
+		return ResponseEntity.status(201).body(produto);
 	}
 	
-	@DeleteMapping("/estoque/excluir")
-	public ResponseEntity<ProdutoDTO> excluir(@RequestBody Long id){
+	@PostMapping("/estoque/inserir/imagem")
+	public ResponseEntity<?> teste(@RequestParam("arquivoImagem") MultipartFile arquivoImagem) {
+		String path = produtoServico.inserirSomenteImagem(arquivoImagem);
+
+		return ResponseEntity.status(201).body(path);
+	}
+
+	@DeleteMapping("/estoque/excluir/{id}")
+	public ResponseEntity<ProdutoDTO> excluir(@PathVariable Long id) {
 		produtoServico.excluirProduto(id);
 		return ResponseEntity.status(200).build();
 	}
-	
-	
+
 	@PutMapping("/estoque/alterar")
-	public ResponseEntity<?> editarProduto(@Valid @RequestBody Produto produto){ //Não pode colocar quantidade negativa
+	public ResponseEntity<?> editarProduto(@Valid @RequestBody Produto produto) { // Não pode colocar quantidade
+																					// negativa
 		boolean edicaoValida = produtoServico.editarProduto(produto);
-		if(edicaoValida) {
+		if (edicaoValida) {
 			return ResponseEntity.status(200).build();
 		}
 		return ResponseEntity.status(406).body("Quantidade inválida!");
 	}
-	
-	
+
 	@GetMapping("/estoque/busca/{id}")
-	public ResponseEntity<Produto> buscarPorId(@Valid @RequestBody Long id, String lodas){
+	public ResponseEntity<Produto> buscarPorId(@Valid @RequestBody Long id, String lodas) {
 		return ResponseEntity.status(200).body(produtoServico.findById(id));
 	}
-	
-	
-	
-	//Controle de Clientes
+
+	// Controle de Clientes
 
 	@GetMapping("/clientes")
-	public ResponseEntity<List<Cliente>> listaDeClientes(){
+	public ResponseEntity<List<Cliente>> listaDeClientes() {
 		return ResponseEntity.status(200).body(clienteServico.listarClientes());
 	}
-	
-	
+
 	@PutMapping("/clientes/alterar")
-	public ResponseEntity<Cliente> alterarCliente(@Valid @RequestBody Cliente cliente){
-			clienteServico.alterarCliente(cliente);
-			return ResponseEntity.status(200).build();
+	public ResponseEntity<Cliente> alterarCliente(@Valid @RequestBody Cliente cliente) {
+		clienteServico.alterarCliente(cliente);
+		return ResponseEntity.status(200).build();
 	}
-	
+
 	@PostMapping("/clientes/cadastrar")
 	public ResponseEntity cadastroCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
 		if (clienteServico.validacaoGeral(clienteDTO)) {
@@ -127,24 +123,24 @@ public class AdminControlador {
 		}
 		return ResponseEntity.status(422).body("Usuario já existe!");
 	}
-	
+
 	@GetMapping("/clientes/buscar/{id}")
-	public ResponseEntity<Cliente> buscarCliente(@PathVariable Long id){
+	public ResponseEntity<Cliente> buscarCliente(@PathVariable Long id) {
 		Cliente cliente = clienteServico.buscarPeloId(id);
-		if(cliente != null) {
+		if (cliente != null) {
 			return ResponseEntity.status(200).body(cliente);
 		}
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@DeleteMapping("/clientes/deletar/{id}")
-	public ResponseEntity<?> deletarCliente(@PathVariable Long id){
-		if(clienteServico.deletarCliente(id)) {
+	public ResponseEntity<?> deletarCliente(@PathVariable Long id) {
+		if (clienteServico.deletarCliente(id)) {
 			return ResponseEntity.status(200).body("Excluído");
 		}
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	// Mapeia as Exceções (400)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)

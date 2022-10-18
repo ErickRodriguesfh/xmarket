@@ -238,20 +238,28 @@ function lista_produtos_calculo(idProduto, nomeProduto, marca, quantidade, preco
     valorProduto.setAttribute("id", `valor-produto-${idProduto}`);
 
     let previewProduto = document.createElement("div");
+    let second = document.createElement("div");
+second
     previewProduto.setAttribute("class", "preview-produto");
 
     let _produto = document.createElement("p");
     let _multiplicacao = document.createElement("p");
     let _quantidade = document.createElement("p");
     _quantidade.setAttribute("id", `quantidade-produto-${idProduto}`);
-
+    second.style.width = "40px"
+    second.style.display = "flex";
+    
     _produto.appendChild(document.createTextNode(`${nomeProduto} - ${marca}`));
     _multiplicacao.appendChild(document.createTextNode(`x ${'\u00A0' + '\u00A0' + '\u00A0' + '\u00A0'}`));
     _quantidade.appendChild(document.createTextNode(`${quantidade}`));
 
+    second.appendChild(_multiplicacao);
+    second.appendChild(_quantidade);
+
     previewProduto.appendChild(_produto);
-    previewProduto.appendChild(_multiplicacao);    
-    previewProduto.appendChild(_quantidade);
+    previewProduto.appendChild(second);
+    // previewProduto.appendChild(_multiplicacao);    
+    // previewProduto.appendChild(_quantidade);
 
     let somaProduto = document.createElement("div");
     somaProduto.setAttribute("class", "soma-produto");
@@ -280,18 +288,15 @@ function calcular_soma(){
     let totalProdutosCarrinho = 0;
     let maninContainer = document.getElementById("payment-products");
     let totalProdutos = document.getElementById("total-somado");
-    let produtosSomados = document.getElementById("produtos-somados");
 
     maninContainer.childNodes.forEach((element) => {
         if(element.lastChild !== null){
             totalProdutosCarrinho = totalProdutosCarrinho + parseFloat(element.lastChild.lastChild.innerHTML);
         }
     });
-    produtosSomados.innerHTML = 0;
     totalProdutos.innerHTML = 0;
 
-    produtosSomados.innerHTML = totalProdutosCarrinho.toFixed(2);
-    totalProdutos.innerHTML = (totalProdutosCarrinho + 12.99).toFixed(2);
+    totalProdutos.innerHTML = (totalProdutosCarrinho).toFixed(2);
 
     //produtos-somados
 }

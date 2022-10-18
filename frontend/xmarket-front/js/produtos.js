@@ -1,14 +1,12 @@
 import request_API from "./services/service.js";
+import adicionar_funcionalidades from "./shared/navbar.js"
 
 let idUsuario;
 
 idUsuario = "2";
 popular_produtos(); //cart-button
 
-let cartButton = document.getElementById("cart-button");
-cartButton.addEventListener("click", ()=>{
-    window.location.href = "carrinho.html";
-})
+adicionar_funcionalidades();
 
 function cardItem() {
     let element = document.createElement("div");
@@ -81,14 +79,15 @@ async function popular_produtos() {
     let dados;
     let endPoint = "http://localhost:8080/produtos";
 
-    dados = await request_API("GET", endPoint);
+    let response = await request_API("GET", endPoint);
+    dados = await response.json()
 
     dados.forEach((element, id) => {
         let nome = element["nome"];
         let marca = element["marca"];
         let price = element["preco"];
         let imagePath = element["imagemUrl"];
-
+        console.log(element["imagemUrl"])
         product_element(nome, marca, price, imagePath, id)
 
         let btnEvent = document.getElementById(`submit-${id}`);
