@@ -65,7 +65,7 @@ public class CarrinhoServico {
 		RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO();
 		ProdutoDTO produtoDTO = new ProdutoDTO();
 
-		List<Carrinho> carrinho = carrinhoRepositorio.findByUsuario(usuario);
+		List<Carrinho> carrinho = carrinhoRepositorio.findByUsuario(id);
 		
 		for (Carrinho c : carrinho) {
 			usuarioDTO = c.toRetornoUsuarioDTO();

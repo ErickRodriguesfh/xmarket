@@ -6,6 +6,8 @@ import br.com.seguranca.dto.VendaDTO;
 import br.com.seguranca.model.Venda;
 import br.com.seguranca.services.VendaServico;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,9 +18,20 @@ public class VendaController {
     @Autowired
     private VendaServico vendaServico;
 
+
     @PostMapping("/{idCliente}")
-    public void criarVenda(@PathVariable("idCliente") Long idCliente, @RequestBody VendaDTO vendaDTO){
-        vendaServico.criarVenda(idCliente, vendaDTO);
+    public ResponseEntity<String> criarVenda (@PathVariable("idCliente") Long idCliente, @RequestBody VendaDTO vendaDTO){
+
+        String mensagemErro =   vendaServico.criarVenda(idCliente, vendaDTO);
+
+
+
+        if(mensagemErro != ""){
+
+            return ResponseEntity.ok(mensagemErro);
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
 }

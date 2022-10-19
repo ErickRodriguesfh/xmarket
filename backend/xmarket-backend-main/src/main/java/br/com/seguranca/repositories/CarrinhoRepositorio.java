@@ -19,7 +19,8 @@ public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
     public Carrinho findByUsuarioAndProduto(Cliente usuario, Produto produto);
 
     // buscar o carrinho do usuario pelo id do mesmo
-    public List<Carrinho> findByUsuario(Cliente usuario);
+    @Query(value = "SELECT * FROM tabela_carrinho WHERE id_usuario =?1", nativeQuery = true)
+    public List<Carrinho> findByUsuario(Long idUsuario);
 
     @Query(value = "SELECT * FROM tabela_carrinho WHERE id_usuario = ?1", nativeQuery = true)
     public List<Carrinho> buscarPeloId(Long idUsuario);
