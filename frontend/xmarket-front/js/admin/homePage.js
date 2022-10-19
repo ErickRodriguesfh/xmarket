@@ -18,6 +18,7 @@ let panel = document.getElementById("panel");
 var cadastroCliente = document.querySelector(".cadastrar-cliente");
 var modificarCliente = document.querySelector(".modificar-cliente");
 var removerCliente = document.querySelector(".remover-cliente");
+
 // Formularios de Produto
 var cadastroProduto = document.querySelector(".cadastrar-produto");
 var modificarProduto = document.querySelector(".modificar-produto");
@@ -33,6 +34,8 @@ function fecharTudo() {
 
     cadastroCliente.style.display = "none";
     modificarCliente.style.display = "none";
+    removerCliente.style.display = "none";
+
 
     cadastroProduto.style.display = "none";
     modificarProduto.style.display = "none";
@@ -42,7 +45,8 @@ function fecharTudo() {
     listContent.innerHTML = null;
     headerTable.innerHTML = null;
 
-    console.log(camposModificarProduto)
+    manipuladorDosCampos.limparCampos(camposModificarCliente);
+    manipuladorDosCampos.limparCampos(camposRemoverCliente);
     unblockInputs(false, camposModificarProduto);
 }
 closeBtn.addEventListener("click", fecharTudo);
@@ -140,6 +144,7 @@ function listarProdutos(dados) {
 
     });
 }
+
 function listarClientes(dados) {
     let th1 = document.createElement("th");
     let th2 = document.createElement("th");
@@ -179,6 +184,7 @@ function listarClientes(dados) {
 
     });
 }
+
 /*
 let canvaMensagemValidacao = document.querySelector(".canva-mensagem");
 
@@ -199,30 +205,6 @@ fecharCanva.addEventListener("click", function () {
 
 
 
-
-let botaoCadastrarCliente = document.getElementById("botao-cadastrar-cliente");
-botaoCadastrarCliente.addEventListener("click", async function () {
-    const camposCadastrarCliente = manipuladorDosCampos.cadastrarCliente().todosValores();
-    let cliente = new Cliente(camposCadastrarCliente);
-    let endereco = "";
-
-    // Concatenar o endereco em uma string
-    for (let key in camposCadastrarCliente.endereco) {
-        endereco = endereco + camposCadastrarCliente.endereco[key] + ", ";
-    }
-
-    cliente.endereco = endereco;
-
-
-    const endPoint = "http://localhost:8080/admin/clientes/cadastrar";
-    const response = await request_API("POST", endPoint, cliente.cadastrar());
-
-    if (response.status == 200 || response.status == 201) {
-        mostrarMensagem("Cliente Cadastrado com Sucesso");
-    }
-
-})
-
 let canvaMensagemValidacao = document.querySelector(".canva-mensagem");
 let mensagemValidacao = document.querySelector(".mensagem");
 
@@ -239,15 +221,15 @@ function mostrarMensagem(dialog) {
 
 //-----------------------ID - modificar -----------------------
 
-
-let idProduto = camposModificarProduto.id;
-idProduto.addEventListener("keydown", async function (evt) {
-    if (evt.key == "Enter" && Number(idProduto.value)) {
-        var endPoint = `http://localhost:8080/admin/estoque/busca/${idProduto.value}`;
+let idModificarProduto = camposModificarProduto.id;
+idModificarProduto.addEventListener("keydown", async function (evt) {
+    if (evt.key == "Enter" && Number(idModificarProduto.value)) {
+        var endPoint = `http://localhost:8080/admin/estoque/busca/${idModificarProduto.value}`;
         var response = await request_API("GET", endPoint);
 
         if (response.status == 200 || response.status == 201) {
             const dados = await response.json();
+            console.log("🚀 ~ file: homePage.js ~ line 232 ~ dados", dados)
 
             var produto = new Produto(dados);
 
@@ -255,17 +237,14 @@ idProduto.addEventListener("keydown", async function (evt) {
             camposModificarProduto.marca.value = produto.marca;
             camposModificarProduto.preco.value = produto.preco;
             camposModificarProduto.quantidade.value = produto.quantidade;
+            //camposModificarProduto.imagemUrl.name = produto.imageUrl;
+ 
+            let preview = document.getElementById("imagem-modificar-produto-preview");
+            preview.src = `http://127.0.0.1:5500/${produto.imageUrl}`;
+            preview.name = `${produto.imageUrl}`;
 
-            console.log(produto)
-            const img = document.createElement("img");
-            img.src = "http://127.0.0.1:5500/" + produto.imageUrl;
-            img.style.width = "100%";
-            img.style.height = "100%";
-
-            //console.log("../../../../imagens-produtos/" + produto.imageUrl)
-            let preview = document.getElementById("imagem-preview");
-
-            preview.appendChild(img);
+            //console.log(camposModificarProduto.imagemUrl.files)
+            console.log("🚀 ~ file: homePage.js ~ line 253 ~ preview.files[0]", preview)
             //Fazer mecanismo para receber imagem para definir
 
             //console.log(camposModificarProduto.image.files[0].name);
@@ -276,13 +255,13 @@ idProduto.addEventListener("keydown", async function (evt) {
         } else {
             mostrarMensagem("Erro: produto nao encontrado")
         }
-
     }
 })
 
 let idRemoverProduto = manipuladorDosCampos.removerProduto().id;
 idRemoverProduto.addEventListener("keydown", async function (evt) {
     if (evt.key == "Enter" && Number(idRemoverProduto.value)) {
+
         var endPoint = `http://localhost:8080/admin/estoque/busca/${idRemoverProduto.value}`;
 
         var response = await request_API("GET", endPoint);
@@ -312,61 +291,157 @@ idRemoverProduto.addEventListener("keydown", async function (evt) {
 
     }
 })
+/*
+imagem-cadastrar-preview
+imagem-modificar-preview
+*/
+// input de cadastrar imagem
+const cadastrarImagem = document.getElementById("imagem-cadastrar-produto")
+var imagemUpada = "";
+cadastrarImagem.addEventListener("change", function(){
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+        imagemUpada = reader.result;
+        document.getElementById("imagem-cadastrar-produto-preview").src = imagemUpada;
+
+    })
+    reader.readAsDataURL(this.files[0]);
+})
+
+const modificarImagem = document.getElementById("modificar-produto-imagem")
+var imagemUpada = "";
+modificarImagem.addEventListener("change", function(){
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+        imagemUpada = reader.result;
+        document.getElementById("imagem-modificar-produto-preview").src = imagemUpada;
+        document.getElementById("imagem-modificar-produto-preview").name = this.files[0].name;
+
+        console.log('----------------')
+        console.log(this.files[0].name)
+    })
+    reader.readAsDataURL(this.files[0]);
+})
+
 const camposModificarCliente = manipuladorDosCampos.modificarCliente();
 
-let idCliente = camposModificarCliente.id;
-idCliente.addEventListener("keydown", async function (evt) {
-    if (evt.key == "Enter" && Number(idCliente.value)) {
-        var endPoint = `http://localhost:8080/admin/estoque/busca/${idCliente.value}`; // trocar end point
-        var response = await request_API("GET", endPoint);
-
-        if (response.status == 200 || response.status == 201) {
-            const dados = await response.json();
-
-            var cliente = new Cliente(dados);
-
-            camposModificarCliente.nome = cliente.nome;
-            camposModificarCliente.cpf = cliente.cpf;
-            camposModificarCliente.rg = cliente.rg;
-            camposModificarCliente.email = cliente.email;
-            camposModificarCliente.telefone = cliente.telefone;
-
-            var enderecoSeparado = cliente.enderecoSeparado();
-
-            camposModificarCliente.endereco.rua = enderecoSeparado.rua;
-            camposModificarCliente.endereco.numero = enderecoSeparado.numero;
-            camposModificarCliente.endereco.bairro = enderecoSeparado.bairro;
-            camposModificarCliente.endereco.municipio = enderecoSeparado.municipio;
-            camposModificarCliente.endereco.estado = enderecoSeparado.estado;
-        } else {
-            mostrarMensagem("Erro: Cliente inexistente");
-        }
-
+let idModificarCliente = camposModificarCliente.id;
+idModificarCliente.addEventListener("keydown", async function (evt) {
+    if (evt.key == "Enter" && Number(idModificarCliente.value)) {
+        preencherInformacoesCliente(idModificarCliente, camposModificarCliente);
     }
 })
 
+const camposRemoverCliente = manipuladorDosCampos.removerCliente();
+let idRemoverCliente = camposRemoverCliente.id;
+idRemoverCliente.addEventListener("keydown", async function (evt) {
+    if (evt.key == "Enter" && Number(idRemoverCliente.value)) {
+        preencherInformacoesCliente(idRemoverCliente, camposRemoverCliente);
+    }
+})
+
+
+async function preencherInformacoesCliente(idCliente, campos){
+    var endPoint = `http://localhost:8080/admin/clientes/buscar/${idCliente.value}`; // trocar end point
+    var response = await request_API("GET", endPoint);
+
+    if (response.status == 200 || response.status == 201) {
+        const dados = await response.json();   
+        var cliente = new Cliente(dados);
+
+        campos.preencherCampos(cliente);
+    } else {
+        mostrarMensagem("Erro: Cliente inexistente");
+    }
+
+}
 //-----------------------------------------------------------------------
 
-
 //-------------------------Area de botoes submit --------------------------
+
+// -------------------------CLIENTES----------------------
+
+let botaoCadastrarCliente = document.getElementById("botao-cadastrar-cliente");
+botaoCadastrarCliente.addEventListener("click", async function () {
+    const valoresCamposCadastrarCliente = manipuladorDosCampos.cadastrarCliente().todosValores();
+    let cliente = new Cliente(valoresCamposCadastrarCliente);
+
+    console.log("🚀 ~ file: homePage.js ~ line 332 ~ cliente.cadastrar()", cliente.cadastrar())
+
+    const endPoint = "http://localhost:8080/admin/clientes/cadastrar";
+    const response = await request_API("POST", endPoint, cliente.cadastrar());
+    
+    console.log(response)
+    if (response.status == 200 || response.status == 201) {
+        mostrarMensagem("Cliente Cadastrado com Sucesso");
+        fecharTudo();
+    }else{
+        mostrarMensagem("Erro: sistema incapaz de finalizar cadastro!");
+    }
+
+})
+
+let botaoModificarCliente = document.getElementById("botao-modificar-cliente");
+botaoModificarCliente.addEventListener("click", async function () {
+    const cliente = new Cliente(camposModificarCliente.todosValores());
+    const endPoint = "http://localhost:8080/admin/clientes/alterar";
+    const response = await request_API("PUT", endPoint, cliente.modificar());
+
+    if (response.status == 200 || response.status == 201) {
+        mostrarMensagem(`Cliente ${cliente.id} \nmodificado com sucesso!`);
+        fecharTudo();
+    } else {
+        mostrarMensagem("Erro: Incapaz de modificar cliente!");
+    }
+
+
+    manipuladorDosCampos.limparCampos(camposModificarCliente);
+})
+
+let botaoRemoverCliente = document.getElementById("botao-remover-cliente");
+botaoRemoverCliente.addEventListener("click", async function () {
+    const idCliente = camposRemoverCliente.todosValores().id;
+    console.log("🚀 ~ file: homePage.js ~ line 373 ~ idCliente", idCliente)
+
+    const endPoint = `http://localhost:8080/admin/clientes/deletar/${idCliente}`;
+    const response = await request_API("DELETE", endPoint);
+
+    if (response.status == 200 || response.status == 201) {
+        mostrarMensagem(`Cliente ${idCliente} \nremovido do sistema!`);
+        fecharTudo();
+    } else {
+        mostrarMensagem("Erro: Incapaz de Remover cliente!");
+    }
+
+    manipuladorDosCampos.limparCampos(camposRemoverCliente);
+})
+
+
+
+
+
+
+
+
+
+
+// ---------------------------PRODUTOS----------------------------------
 let botaoCadastrarProduto = document.getElementById("botao-cadastrar-produto");
 botaoCadastrarProduto.addEventListener("click", async function () {
-    console.log("TESTE")
     const camposCadastroProduto = manipuladorDosCampos.cadastrarProduto().todosValores();
 
     const produto = new Produto(camposCadastroProduto);
     const formData = new FormData();
 
+
     produto.imageUrl = camposCadastroProduto.imagemUrl.name;
-
     formData.append("arquivoImagem", manipuladorDosCampos.cadastrarProduto().todosValores().imagemUrl);
-    console.log(manipuladorDosCampos.cadastrarProduto().todosValores().imagemUrl);
 
+    
     const endPoint = "http://localhost:8080/admin/estoque/inserir/imagem";
     let response = await request_API_imagem(endPoint, formData);
 
-    console.log("in btn")
-    console.log(response)
+
     if (response.status == 201) {
         const endPoint = "http://localhost:8080/admin/estoque/inserir";
         let response = await request_API("POST", endPoint, produto.cadastrar());
@@ -385,13 +460,20 @@ botaoCadastrarProduto.addEventListener("click", async function () {
 });
 
 let botaoModificarProduto = document.getElementById("botao-modificar-produto");
-
 botaoModificarProduto.addEventListener("click", async function () {
-    const produto = new Produto(camposModificarProduto.todosValores());
+    let campos = camposModificarProduto.todosValores();
+    campos.imagemUrl = document.getElementById("imagem-modificar-produto-preview").name;
+    console.log("🚀 ~ file: homePage.js ~ line 461 ~ document.getElementById('imagem-modificar-produto-preview').name", document.getElementById("imagem-modificar-produto-preview").name)
+    console.log("🚀 ~ file: homePage.js ~ line 461 ~ campos.imagemUrl", campos.imagemUrl)
+    
+    const produto = new Produto(campos);
+    console.log("🚀 ~ file: homePage.js ~ line 438 ~ camposModificarProduto.todosValores()", camposModificarProduto.todosValores())
     const endPoint = "http://localhost:8080/admin/estoque/alterar";
     const response = await request_API("PUT", endPoint, produto.modificar());
+    console.log("🚀 ~ file: homePage.js ~ line 461 ~ produto.modificar()", produto.modificar())
 
-    if (response.status == 201 || response.status == 201) {
+    console.log(response)
+    if (response.status == 200 || response.status == 201) {
         mostrarMensagem(`Produto ${produto.id} \nmodificado com sucesso!`);
         fecharTudo();
     } else {
@@ -419,14 +501,18 @@ botaoRemoverProduto.addEventListener("click", async function () {
     manipuladorDosCampos.limparCampos(manipuladorDosCampos.removerProduto());
 });
 
+
+
+
+
+
 function unblockInputs(confirm, formulario) {
     for (let key in formulario) {
         if (typeof formulario[key] == "object") {
             if (confirm) {
-                console.log("removendo readonly")
+                
                 formulario[key].removeAttribute('readonly');
             } else {
-                console.log("setando readonly")
                 if (formulario[key].id != "modificar-produto-id") {
                     formulario[key].setAttribute('readonly', true);
                 }

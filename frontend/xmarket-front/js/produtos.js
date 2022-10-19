@@ -3,7 +3,7 @@ import adicionar_funcionalidades from "./shared/navbar.js"
 
 let idUsuario;
 
-idUsuario = "2";
+idUsuario = "1";
 popular_produtos(); //cart-button
 
 adicionar_funcionalidades();
@@ -79,20 +79,25 @@ async function popular_produtos() {
     let dados;
     let endPoint = "http://localhost:8080/produtos";
 
+    let areaProdutos = document.getElementById("product-container");
+    areaProdutos.innerHTML = "";
+
     let response = await request_API("GET", endPoint);
     dados = await response.json()
+
+    console.log(dados)
 
     dados.forEach((element, id) => {
         let nome = element["nome"];
         let marca = element["marca"];
         let price = element["preco"];
-        let imagePath = element["imagemUrl"];
+        let imagePath = "http://127.0.0.1:5500/" + element["imagemUrl"];
         console.log(element["imagemUrl"])
         product_element(nome, marca, price, imagePath, id)
 
         let btnEvent = document.getElementById(`submit-${id}`);
         btnEvent.addEventListener('click', () => {
-            adicionar_produto_carrinho(element["id"], 2, 1)
+            adicionar_produto_carrinho(element["id"], idUsuario, 1)
 
         });
     });

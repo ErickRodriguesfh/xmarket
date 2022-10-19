@@ -42,7 +42,6 @@ const manipuladorDosCampos = {
             rg: document.getElementById("modificar-cliente-rg"),
             email: document.getElementById("modificar-cliente-email"),
             telefone: document.getElementById("modificar-cliente-telefone"),
-            senha: document.getElementById("modificar-cliente-senha"),
             endereco: {
                 rua: document.getElementById("modificar-cliente-endereco-rua"),
                 numero: document.getElementById("modificar-cliente-endereco-numero"),
@@ -50,7 +49,21 @@ const manipuladorDosCampos = {
                 municipio: document.getElementById("modificar-cliente-endereco-municipio"),
                 estado: document.getElementById("modificar-cliente-endereco-estado")
             },
+            preencherCampos(cliente){
+                const enderecoSeparado = cliente.enderecoSeparado();
 
+                this.nome.value = cliente.nome;
+                this.cpf.value = cliente.cpf;
+                this.rg.value = cliente.rg;
+                this.email.value = cliente.email;
+                this.telefone.value = cliente.telefone
+                this.endereco.rua.value = enderecoSeparado.rua;
+                this.endereco.numero.value = enderecoSeparado.numero;
+                this.endereco.bairro.value = enderecoSeparado.bairro;
+                this.endereco.municipio.value = enderecoSeparado.municipio;
+                this.endereco.estado.value = enderecoSeparado.estado;
+         
+            },
             todosValores() {
                 return {
                     id: this.id.value,
@@ -59,7 +72,7 @@ const manipuladorDosCampos = {
                     rg: this.rg.value,
                     email: this.email.value,
                     telefone: this.telefone.value,
-                    senha: this.senha.value,
+                    //senha: this.senha.value,
                     endereco: {
                         rua: this.endereco.rua.value,
                         numero: this.endereco.numero.value,
@@ -79,7 +92,6 @@ const manipuladorDosCampos = {
             rg: document.getElementById("remover-cliente-rg"),
             email: document.getElementById("remover-cliente-email"),
             telefone: document.getElementById("remover-cliente-telefone"),
-            senha: document.getElementById("remover-cliente-senha"),
             endereco: {
                 rua: document.getElementById("remover-cliente-endereco-rua"),
                 numero: document.getElementById("remover-cliente-endereco-numero"),
@@ -87,7 +99,21 @@ const manipuladorDosCampos = {
                 municipio: document.getElementById("remover-cliente-endereco-municipio"),
                 estado: document.getElementById("remover-cliente-endereco-estado")
             },
+            preencherCampos(cliente){
+                const enderecoSeparado = cliente.enderecoSeparado();
 
+                this.nome.value = cliente.nome;
+                this.cpf.value = cliente.cpf;
+                this.rg.value = cliente.rg;
+                this.email.value = cliente.email;
+                this.telefone.value = cliente.telefone
+                this.endereco.rua.value = enderecoSeparado.rua;
+                this.endereco.numero.value = enderecoSeparado.numero;
+                this.endereco.bairro.value = enderecoSeparado.bairro;
+                this.endereco.municipio.value = enderecoSeparado.municipio;
+                this.endereco.estado.value = enderecoSeparado.estado;
+         
+            },
             todosValores() {
                 return {
                     id: this.id.value,
@@ -96,7 +122,6 @@ const manipuladorDosCampos = {
                     rg: this.rg.value,
                     email: this.email.value,
                     telefone: this.telefone.value,
-                    senha: this.senha.value,
                     endereco: {
                         rua: this.endereco.rua.value,
                         numero: this.endereco.numero.value,
@@ -115,7 +140,7 @@ const manipuladorDosCampos = {
             marca: document.getElementById("marcaProduto"),
             preco: document.getElementById("precoProduto"),
             quantidade: document.getElementById("quantidadeProduto"),
-            imagemUrl: document.getElementById("fotoProduto"),
+            imagemUrl: document.getElementById("imagem-cadastrar-produto"),
 
             todosValores(){
                 return {
@@ -146,7 +171,7 @@ const manipuladorDosCampos = {
                     marca: this.marca.value,
                     preco: this.preco.value,
                     quantidade: this.quantidade.value,
-                    imagemUrl: this.imagemUrl.value
+                    imagemUrl: this.imagemUrl
                 }
             }
         }

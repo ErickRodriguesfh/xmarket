@@ -9,35 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/venda")
 public class VendaController {
-
-
     @Autowired
     private VendaServico vendaServico;
-
-
 
     @PostMapping("/{idCliente}")
     public void criarVenda(@PathVariable("idCliente") Long idCliente, @RequestBody VendaDTO vendaDTO){
         vendaServico.criarVenda(idCliente, vendaDTO);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

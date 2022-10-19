@@ -3,7 +3,7 @@
 //let dados = await login_service();
 
 
-let endPoint = "http://localhost:8080/registrar";
+let endPoint = "http://localhost:8080/cadastrar";
 
 let btnProceguir = document.getElementById("submit");
 
@@ -35,11 +35,11 @@ const newCadastro =  async () =>{
     }
 
     let usuario2 = {
-        "username": "lucas",
-        "password": "12345678",
+        "nome": "lucas",
+        "senha": "12345678",
         "email": "lucas@gmail.com",
-        "cpf": "09234044940",
-        "rg": "2109605544",
+        "cpf": "84768427405",
+        "rg": "355683192",
         "telefone": "31998544856",
         "endereco": "rua teste 123"
     }
@@ -54,13 +54,11 @@ const newCadastro =  async () =>{
         },
 
         referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(usuario)
+        body: JSON.stringify(usuario2)
     }
 
     let response = await fetch(endPoint, init);
     
-    let dados = await response.json();
-
     if(response.status == 200){
         alert("Usuario cadastrado com sucesso")
     }

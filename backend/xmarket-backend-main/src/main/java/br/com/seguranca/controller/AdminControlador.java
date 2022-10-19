@@ -26,6 +26,7 @@ import br.com.seguranca.services.ClienteServico;
 import br.com.seguranca.services.ProdutoServico;
 import org.springframework.web.multipart.MultipartFile;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
 public class AdminControlador {
@@ -98,7 +99,7 @@ public class AdminControlador {
 	}
 
 	@GetMapping("/estoque/busca/{id}")
-	public ResponseEntity<Produto> buscarPorId(@Valid @RequestBody Long id, String lodas) {
+	public ResponseEntity<Produto> buscarPorId(@Valid @PathVariable Long id, String lodas) {
 		return ResponseEntity.status(200).body(produtoServico.findById(id));
 	}
 

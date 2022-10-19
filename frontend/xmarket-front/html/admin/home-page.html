@@ -217,7 +217,7 @@
                                 </div>
                                 <div class="mb-3" style="width: 39%;">
                                     <label for="cadastrar-cliente-endereco-bairro" class="form-label">Bairro</label>
-                                    <input type="email" class="form-control" id="cadastrar-cliente-endereco-bairro"
+                                    <input type="text" class="form-control" id="cadastrar-cliente-endereco-bairro"
                                     >
                                     <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                                 </div>
@@ -264,7 +264,7 @@
                             </div>
                         </div>
 
-                        <button id="botao-cadastrar-cliente" type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+                        <div id="botao-cadastrar-cliente" type="submit" class="btn btn-primary" style="width: 100%;">Submit</div>
                     </form>
                     <form class="modificar-cliente" >
                         <div class="mb-3">
@@ -344,7 +344,7 @@
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                         </div>
-                        <button id="botao-modificar-cliente" type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+                        <div id="botao-modificar-cliente" type="submit" class="btn btn-primary" style="width: 100%;">Submit</div>
                     </form>
                     <form class="remover-cliente" >
                         <div class="mb-3">
@@ -424,7 +424,7 @@
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                         </div>
-                        <button id="botao-remover-cliente" type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+                        <div id="botao-remover-cliente" type="submit" class="btn btn-primary" style="width: 100%;">Enviar</div>
                     </form>
 
                     <form class="cadastrar-produto" style="display: none;">
@@ -455,13 +455,15 @@
                         </div>
 
                         <div class="mb-3" style="width: 100%;">
-                            <label for="fotoProduto" class="form-label">Imagem</label >
-                            <input type="file" class="form-control foto-produto" id="fotoProduto" required>
+                            <label for="imagem-cadastrar-produto" class="form-label">Imagem</label >
+                            <input id="imagem-cadastrar-produto" type="file" class="form-control foto-produto" required>
                         </div>
-                        <div class="foto-produto">
-
+                        <div style="width: 100%; height: 200px; display: flex; justify-content: center; margin-top: 20px;"> 
+                            <div  style="width: 200px; height: 200px; border-radius: 5px; background-color: rgb(255, 255, 255);">
+                                <img id="imagem-cadastrar-produto-preview" src="http://127.0.0.1:5500/default.png" alt="" style="width: 100%; height: 100%">
+                            </div>
                         </div>
-                        <button id="botao-cadastrar-produto" type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+                        <div id="botao-cadastrar-produto" type="submit" class="btn btn-primary" style="width: 100%;">Submit</div>
                     </form>
                     <form class="modificar-produto">
                         <div class="mb-3" style="width: 100%;">
@@ -493,8 +495,8 @@
                             <label for="modificar-produto-imagem" class="form-label">Imagem</label >
                             <input type="file" class="form-control foto-Modificarproduto" id="modificar-produto-imagem" readonly>
                             <div style="width: 100%; height: 200px; display: flex; justify-content: center; margin-top: 20px;"> 
-                                <div id="imagem-preview" style="width: 200px; height: 200px; border-radius: 5px; background-color: aquamarine;">
-                                    <!-- <img src="http://127.0.0.1:5500/chocolate-70.webp" alt=""> -->
+                                <div  style="width: 200px; height: 200px; border-radius: 5px; background-color: rgb(255, 255, 255);">
+                                    <img id="imagem-modificar-produto-preview" src="http://127.0.0.1:5500/default.png" alt="" style="width: 100%; height: 100%">
                                 </div>
                             </div>
                         </div>
@@ -560,7 +562,7 @@
 
         <div class="canva-mensagem" style="display: none;">
             <div class="mensagem">
-                <button id="fechar-mensagem" type="submit" class="btn btn-primary" style="width: 30%;">OK</button>
+                <div id="fechar-mensagem" type="submit" class="btn btn-primary" style="width: 30%;">OK</div>
             </div>
         </div>
     </div>

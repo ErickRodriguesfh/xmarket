@@ -10,18 +10,19 @@ export default class Cliente {
             this._telefone = cliente["telefone"];
             this._endereco = cliente["endereco"];
             this._senha = cliente["senha"];
+
+            
         }
     }
 
     cadastrar(){
-        console.log("endereco: " + this._endereco)
         const body = {
             "nome": this._nome,
             "cpf": this._cpf,
             "rg": this._rg,
             "email": this._email,
             "telefone": this._telefone,
-            "endereco": this._endereco,
+            "endereco": this._enderecoJunto(this._endereco),
             "senha": this._senha
         }
         return body;
@@ -35,7 +36,7 @@ export default class Cliente {
             "rg": this._rg,
             "email": this._email,
             "telefone": this._telefone,
-            "endereco": this._endereco,
+            "endereco": this._enderecoJunto(this._endereco),
             "senha": this._senha
         }
         return body;
@@ -61,7 +62,19 @@ export default class Cliente {
 
         return row;
     }
+    _enderecoJunto(valoresCampos){
+        console.log("🚀 ~ file: Cliente.js ~ line 64 ~ Cliente ~ enderecoJunto ~ valoresCampos", valoresCampos)
+        
+        let endereco = "";
 
+        // Concatenar o endereco em uma string
+        for (let key in valoresCampos) {
+            endereco = endereco + valoresCampos[key] + ", ";
+            
+        }
+        console.log(endereco)
+        return endereco;
+    }
     enderecoSeparado(){
         var split = this._endereco.split(',');
 

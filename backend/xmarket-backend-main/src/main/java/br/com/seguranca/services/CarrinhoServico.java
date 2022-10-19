@@ -84,16 +84,15 @@ public class CarrinhoServico {
 
 	//Função para fechar venda
 
+	public void aumentarItemCarrinho( Long idProduto, Long idUsuario){
 
-	public void aumentarItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
-
-		carrinhoRepositorio.incrementarUmItemCarrinho(valorDigitado, idProduto, idUsuario);
+		carrinhoRepositorio.incrementarUmItemCarrinho(idProduto, idUsuario);
 
    }
 
-   public void diminuirItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario){
+   public void diminuirItemCarrinho( Long idProduto, Long idUsuario){
 
-	   carrinhoRepositorio.diminuirUmItemCarrinho(valorDigitado, idProduto, idUsuario);
+	   carrinhoRepositorio.diminuirUmItemCarrinho(idProduto, idUsuario);
 
    }
 

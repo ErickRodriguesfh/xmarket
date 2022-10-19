@@ -15,28 +15,22 @@ import br.com.seguranca.model.Produto;
 @Repository
 public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
 
-
-    //buscar carrinho pelo usuario e produto
+    // buscar carrinho pelo usuario e produto
     public Carrinho findByUsuarioAndProduto(Cliente usuario, Produto produto);
 
-
-    //buscar o carrinho do usuario pelo id do mesmo
+    // buscar o carrinho do usuario pelo id do mesmo
     public List<Carrinho> findByUsuario(Cliente usuario);
-
 
     @Query(value = "SELECT * FROM tabela_carrinho WHERE id_usuario = ?1", nativeQuery = true)
     public List<Carrinho> buscarPeloId(Long idUsuario);
-
 
     // deletar produto pelo id do cliente e id do produto
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM tabela_carrinho WHERE id_produto =?1 AND id_usuario = ?2", nativeQuery = true)
-    public void deletarProduto(Long idProduto , Long idUsuario);
+    public void deletarProduto(Long idProduto, Long idUsuario);
 
-
-    //Método para incrementar um item no carrinho
-
+    // Método para incrementar um item no carrinho
 
     @Query(value = "SELECT quantidade from tabela_produtos WHERE id= ?1", nativeQuery = true)
     public int buscarQuantidade(Long id);
@@ -51,18 +45,16 @@ public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
     @Query(value = "DELETE FROM tabela_carrinho WHERE id_usuario = ?1", nativeQuery = true)
     public void limparCarrinho(Long idUsuario);
 
-
     // Método para incrementar um item no carrinho
     @Modifying
     @Transactional
-    @Query(value = "UPDATE tabela_carrinho SET valor_digitado = ?1, quantidade=(quantidade+valor_digitado) WHERE id_produto=?2 AND id_usuario=?3", nativeQuery = true)
-    public void incrementarUmItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario);
+    @Query(value = "UPDATE tabela_carrinho SET quantidade=(quantidade+1) WHERE id_produto=?1 AND id_usuario=?2", nativeQuery = true)
+    public void incrementarUmItemCarrinho(Long idProduto, Long idUsuario);
 
     // Método para diminuir um item no carrinho
     @Modifying
     @Transactional
-    @Query(value = "UPDATE tabela_carrinho SET valor_digitado = ?1, quantidade=(quantidade-valor_digitado) WHERE id_produto=?2 AND id_usuario=?3", nativeQuery = true)
-    public void diminuirUmItemCarrinho(Integer valorDigitado, Long idProduto, Long idUsuario);
-
+    @Query(value = "UPDATE tabela_carrinho SET  quantidade=(quantidade-1) WHERE id_produto=?1 AND id_usuario=?2", nativeQuery = true)
+    public void diminuirUmItemCarrinho(Long idProduto, Long idUsuario);
 
 }

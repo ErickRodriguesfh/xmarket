@@ -4,13 +4,16 @@ import request_API from "./services/service.js";
 let idUsuario;
 let dados;
 
-idUsuario = "2";
+idUsuario = "1";
 popular_carrinho();
 
 let finalizarCompra = document.getElementById("finalizar-compra");
 let cleanCart = document.getElementById("button-clean-cart");
 let returnToProduto = document.getElementById("button-return");
 
+//
+let totalProdutos = document.getElementById("total-somado");
+//
 
 finalizarCompra.addEventListener('click', finalizar_compra);
 cleanCart.addEventListener('click', clean_cart);
@@ -139,13 +142,14 @@ function second_infos(quantidade, id) {
 }
 
 async function popular_carrinho() {
-    dados = await request_API("GET", `http://localhost:8080/carrinho/exibirCarrinho/2`);
+    const respose = await request_API("GET", `http://localhost:8080/carrinho/exibirCarrinho/${idUsuario}`);
+    dados = await respose.json();
 
     dados.forEach(element => {
         let nome = element["produtoDTO"]["nome"];
         let marca = element["produtoDTO"]["marca"];
         let preco = element["produtoDTO"]["preco"];
-        let imagePath = element["produtoDTO"]["imagemUrl"];
+        let imagePath = "http://127.0.0.1:5500/" + element["produtoDTO"]["imagemUrl"];
         let quantidade = element["quantidade"];
         let id = element["produtoDTO"]["id"];
 
@@ -172,7 +176,7 @@ async function popular_carrinho() {
 
                 precoProduto.innerHTML = (preco * inputQuantidade.value).toFixed(2);
                 quantidadeProduto.innerHTML = inputQuantidade.value;
-                let endPoint = `http://localhost:8080/carrinho/alterar/DIMINUIR/${idUsuario}/${id}/${1}`;
+                let endPoint = `http://localhost:8080/carrinho/alterar/DIMINUIR/${idUsuario}/${id}`;
                 request_API("PUT", endPoint);
 
                 calcular_soma()
@@ -189,7 +193,7 @@ async function popular_carrinho() {
                 precoProduto.innerHTML = (preco * inputQuantidade.value).toFixed(2);
                 quantidadeProduto.innerHTML = inputQuantidade.value;
 
-                let endPoint = `http://localhost:8080/carrinho/alterar/AUMENTAR/${idUsuario}/${id}/${1}`;
+                let endPoint = `http://localhost:8080/carrinho/alterar/AUMENTAR/${idUsuario}/${id}`;
                 request_API("PUT", endPoint);
 
                 calcular_soma()
@@ -210,19 +214,31 @@ async function popular_carrinho() {
 }
 
 function finalizar_compra() {
-    let listVendas = [];
-    let produtosDTO = Object.assign(dados);
+    // let listVendas = [];
+    // let produtosDTO = Object.assign(dados);
 
-    produtosDTO.forEach(element => {
-        let qtdProduto = document.getElementById(`input-qtd-${element["produtoDTO"]["id"]}`).value;
-        element["produtoDTO"]["quantidade"] = qtdProduto;
+    // produtosDTO.forEach(element => {
+    //     let qtdProduto = document.getElementById(`input-qtd-${element["produtoDTO"]["id"]}`).value;
+    //     element["produtoDTO"]["quantidade"] = qtdProduto;
 
-        listVendas.push(element["produtoDTO"]);
-    });
+    //     listVendas.push(element["produtoDTO"]);
+    // });
 
-    let endPoint = `http://localhost:8080/carrinho/fecharVenda/2`;
+    
 
-    request_API("POST", endPoint, listVendas);
+
+    const venda = {
+        "enumPagamento": "PIX",
+        "valorTotal": totalProdutos.innerHTML
+    }
+    console.log(venda)
+    let endPoint = `http://localhost:8080/venda/${idUsuario}`;
+
+    let response = async function(){
+        const response = await request_API("POST", endPoint, venda);
+        console.log(await response)
+    } 
+    response()
 }
 
 async function clean_cart() {
@@ -287,7 +303,7 @@ second
 function calcular_soma(){
     let totalProdutosCarrinho = 0;
     let maninContainer = document.getElementById("payment-products");
-    let totalProdutos = document.getElementById("total-somado");
+    
 
     maninContainer.childNodes.forEach((element) => {
         if(element.lastChild !== null){
