@@ -48,23 +48,13 @@ public class VendaServico {
 
         List<ItemVenda> itens = new ArrayList<>();
 
-        //ValidarEstoque estoqueValidado = validarEstoque(carrinho);
-        boolean flag = true;
-        //estoqueValidado.setQuantidadeDisponível(estoqueValidado.getQuantidadeDisponível());
+        Boolean todosItensDisponivel = true;
 
-        if (flag == true) {
-            for (Carrinho c : carrinho) {
-            System.out.println(c.getProduto().getId());
-                int quantidadeNoBanco = carrinhoRepositorio.buscarQuantidade(c.getProduto().getId());
-                int novaQuantidade = quantidadeNoBanco - c.getProduto().getQuantidade();
+        for (Carrinho c : carrinho) {
 
-                
-                System.out.println(c);
-                System.out.println("----------------------------");
-                System.out.println("quantidade no banco: " + quantidadeNoBanco);
-                System.out.println("novaQuantidade : " + novaQuantidade);
-                System.out.println("quantidade c: " + c.getQuantidade());
-                carrinhoRepositorio.atualizarQuantidade(novaQuantidade, c.getProduto().getId());
+            int quantidadeNoBanco = produtoServico.buscarQuantidade(c.getProduto().getId());
+
+            if (quantidadeNoBanco >= c.getQuantidade()) {
 
                 ItemVenda itemVenda = new ItemVenda();
 
@@ -72,23 +62,38 @@ public class VendaServico {
                 itemVenda.setVenda(venda);
                 itemVenda.setPrecoUnitario(c.getProduto().getPreco());
                 itemVenda.setQuantidade(c.getQuantidade());
+
                 itens.add(itemVenda);
+            } else {
+                mensagemErro = mensagemErro + ", " + c.getProduto().getId();
+                todosItensDisponivel = false;
+            }
+        }
+
+        if(todosItensDisponivel == false){
+            itens.clear();
+        }
+
+        venda.setDataVenda(LocalDateTime.now());
+        venda.setItens(itens);
+        venda.setUsuario(cliente);
+        venda.setValorTotal(vendaDTO.getValorTotal());
+        venda.setFormaPagamento(vendaDTO.getEnumPagamento());
+        vendaRepositorio.save(venda);
+
+        if(itens.size() > 0){
+            // Atualizar itens no estoque
+            for (Carrinho c : carrinho) {
+                int quantidadeNoBanco = produtoServico.buscarQuantidade(c.getProduto().getId());
+                if (quantidadeNoBanco >= c.getQuantidade()) {
+                    int novaQuantidade = quantidadeNoBanco - c.getQuantidade();
+                    carrinhoRepositorio.atualizarQuantidade(novaQuantidade, c.getProduto().getId());
+                }
             }
 
-            venda.setDataVenda(LocalDateTime.now());
-            venda.setItens(itens);
-            venda.setUsuario(cliente);
-            venda.setValorTotal(vendaDTO.getValorTotal());
-            venda.setFormaPagamento(vendaDTO.getEnumPagamento());
-            vendaRepositorio.save(venda);
             carrinhoRepositorio.limparCarrinho(idCliente);
-        } else {
-            // mensagemErro = mensagemErro + " Quantidade do produto " + estoqueValidado.getNomeProduto()
-            //         + " Indisponivél " +
-            //         "Há somente " + estoqueValidado.getQuantidadeDisponível() + " disponíveis no estoque";
         }
-        // System.out.println("Mensagem de erro aqui");
-        // System.out.println(mensagemErro);
+        
         return mensagemErro;
     }
 
@@ -114,21 +119,18 @@ public class VendaServico {
 
         // itera a lista de produtos
         for (Produto p : produtos) {
-            
-            System.out.println("************************************//////////////////////////////////************************************///////////////////////////******************");
-            System.out.println(buscarQuantidadeProduto(p.getId()));
-            validarEstoque.setFlag(true);
+
             // compara a quantidade com a quantidade no banco
-            // if (p.getQuantidade() > buscarQuantidadeProduto(p.getId())) {
+            if (p.getQuantidade() > buscarQuantidadeProduto(p.getId())) {
 
-            //     validarEstoque.setFlag(false);
-            //     validarEstoque.setNomeProduto(p.getNome());
-            //     //validarEstoque.setQuantidadeDisponível(buscarQuantidadeProduto(p.getId()));
+                validarEstoque.setFlag(false);
+                validarEstoque.setNomeProduto(p.getNome());
+                validarEstoque.setQuantidadeDisponível(buscarQuantidadeProduto(p.getId()));
 
-            // } else {
-            //     validarEstoque.setFlag(true);
+            } else {
+                validarEstoque.setFlag(true);
 
-            // }
+            }
 
         }
 
@@ -137,12 +139,8 @@ public class VendaServico {
     }
 
     public int buscarQuantidadeProduto(Long id) {
-        int resultado = carrinhoRepositorio.buscarQuantidade(id);
-        System.out.println("Dentro da função -----------------------------");
-        System.out.println("id do produto: " + id);
-        System.out.println("resultado: " + resultado);
-        
-        return resultado;
+
+        return carrinhoRepositorio.buscarQuantidade(id);
 
     }
 

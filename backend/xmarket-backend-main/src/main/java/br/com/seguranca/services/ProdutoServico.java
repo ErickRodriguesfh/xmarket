@@ -32,6 +32,10 @@ public class ProdutoServico {
 		return produtoRepository.save(produto);
 	}
 	
+	public Integer buscarQuantidade(Long id){
+		return produtoRepository.buscarQuantidade(id);
+
+	}
 	
 	public List<ProdutoDTO> listarProdutos (){
 		List <Produto> produtos = new ArrayList<>();
@@ -70,6 +74,7 @@ public class ProdutoServico {
 		produtoRepository.deleteById(id);
 		return true;
 	}
+	
 	
 	public boolean editarProduto(Produto produto) {
 		if(quantidadeValida(produto)) {

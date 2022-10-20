@@ -27,7 +27,8 @@ public class VendaController {
 
 
         if(mensagemErro != ""){
-
+            System.out.println("----------------MENSAGEM ERRO----------------");
+            System.out.println(mensagemErro);
             return ResponseEntity.ok(mensagemErro);
         }
         return ResponseEntity.status(HttpStatus.OK).build();
