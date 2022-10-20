@@ -1,15 +1,11 @@
 package br.com.seguranca.services;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.seguranca.dto.ClienteDTO;
 import br.com.seguranca.model.Administrador;
-import br.com.seguranca.model.Cliente;
 import br.com.seguranca.model.LoginAdmin;
 import br.com.seguranca.repositories.AdminRepositorio;
 import br.com.seguranca.repositories.ClienteRepositorio;

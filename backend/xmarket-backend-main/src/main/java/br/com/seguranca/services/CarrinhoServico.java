@@ -1,6 +1,5 @@
 package br.com.seguranca.services;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +9,9 @@ import org.springframework.stereotype.Service;
 import br.com.seguranca.dto.CarrinhoDTO;
 import br.com.seguranca.dto.ProdutoDTO;
 import br.com.seguranca.dto.RetornoUsuarioDTO;
-import br.com.seguranca.enums.EnumPagamento;
 import br.com.seguranca.model.Carrinho;
 import br.com.seguranca.model.Cliente;
 import br.com.seguranca.model.Produto;
-import br.com.seguranca.model.Venda;
 import br.com.seguranca.repositories.CarrinhoRepositorio;
 
 

@@ -3,6 +3,7 @@ package br.com.seguranca.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.seguranca.dto.ClienteDTO;
+import br.com.seguranca.model.Email;
 import br.com.seguranca.model.Login;
+import br.com.seguranca.model.MensagemEmail;
 import br.com.seguranca.services.ClienteServico;
+import br.com.seguranca.services.EmailServico;
 
 @CrossOrigin("*")
 @RestController
@@ -27,13 +31,22 @@ public class ClienteControlador {
 
 	@Autowired
 	private ClienteServico usuarioService;
-
-
+	
+	
+	@Autowired
+	private EmailServico emailService;
+	
+	MensagemEmail msg = new MensagemEmail();
 	// END POINT para cadastrar cliente
 	@PostMapping("/cadastrar")
-	public ResponseEntity cadastroCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
+	public ResponseEntity<?> cadastroCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws MessagingException {
 		if (usuarioService.validacaoGeral(clienteDTO)) {
 			usuarioService.cadastrarCliente(clienteDTO);
+			Email email = new Email();
+			email.setRemetente(clienteDTO.getEmail());
+			email.setTitulo("XMarket - Seja bem vindo!");
+			email.setMensagem(msg.msgCadastro(clienteDTO.getNome()));
+			emailService.enviarEmail(email);	
 			return ResponseEntity.status(201).build();
 		}
 		return ResponseEntity.status(422).body("Usuario já existe!");

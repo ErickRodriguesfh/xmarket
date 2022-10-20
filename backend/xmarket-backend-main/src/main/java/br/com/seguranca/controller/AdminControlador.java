@@ -13,7 +13,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.seguranca.dto.ClienteDTO;
 import br.com.seguranca.dto.ProdutoDTO;
@@ -24,7 +36,6 @@ import br.com.seguranca.model.Produto;
 import br.com.seguranca.services.AdminServico;
 import br.com.seguranca.services.ClienteServico;
 import br.com.seguranca.services.ProdutoServico;
-import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin("*")
 @RestController
@@ -65,31 +76,37 @@ public class AdminControlador {
 
 	@GetMapping("/estoque")
 	public ResponseEntity<List<ProdutoDTO>> listaDeProdutos() {
-		return ResponseEntity.status(200).body(produtoServico.listarProdutos());
+		List<ProdutoDTO> estoque = produtoServico.listarProdutos();
+		if (!estoque.isEmpty()) {
+			return ResponseEntity.status(200).body(estoque);
+		}
+		return ResponseEntity.status(204).build();
 	}
 
 	@PostMapping("/estoque/inserir")
 	public ResponseEntity<ProdutoDTO> inserirProduto(@RequestBody ProdutoDTO produto) {
-
-		produtoServico.inserirSomenteProduto(produto);
-		return ResponseEntity.status(201).body(produto);
+		if (produtoServico.inserirSomenteProduto(produto)) {
+			return ResponseEntity.status(201).build();
+		}
+		return ResponseEntity.status(400).build();
 	}
-	
+
 	@PostMapping("/estoque/inserir/imagem")
 	public ResponseEntity<?> teste(@RequestParam("arquivoImagem") MultipartFile arquivoImagem) {
 		String path = produtoServico.inserirSomenteImagem(arquivoImagem);
-
 		return ResponseEntity.status(201).body(path);
 	}
 
 	@DeleteMapping("/estoque/excluir/{id}")
 	public ResponseEntity<ProdutoDTO> excluir(@PathVariable Long id) {
-		produtoServico.excluirProduto(id);
-		return ResponseEntity.status(200).build();
+		if (produtoServico.excluirProduto(id)) {
+			return ResponseEntity.status(200).build();
+		}
+		return ResponseEntity.status(404).build();
 	}
 
 	@PutMapping("/estoque/alterar")
-	public ResponseEntity<?> editarProduto(@Valid @RequestBody Produto produto) { // Não pode colocar quantidade
+	public ResponseEntity<?> editarProduto(@Valid @RequestBody Produto produto) { // Não pode colocar quantidade //
 																					// negativa
 		boolean edicaoValida = produtoServico.editarProduto(produto);
 		if (edicaoValida) {
@@ -99,15 +116,23 @@ public class AdminControlador {
 	}
 
 	@GetMapping("/estoque/busca/{id}")
-	public ResponseEntity<Produto> buscarPorId(@Valid @PathVariable Long id, String lodas) {
-		return ResponseEntity.status(200).body(produtoServico.findById(id));
+	public ResponseEntity<Produto> buscarPorId(@Valid @PathVariable Long id) {
+		Produto produto = produtoServico.findById(id);
+		if (produto != null) {
+			return ResponseEntity.status(200).body(produto);
+		}
+		return ResponseEntity.status(204).build();
 	}
 
 	// Controle de Clientes
 
 	@GetMapping("/clientes")
 	public ResponseEntity<List<Cliente>> listaDeClientes() {
-		return ResponseEntity.status(200).body(clienteServico.listarClientes());
+		List<Cliente> clientes = clienteServico.listarClientes();
+		if (!clientes.isEmpty()) {
+			return ResponseEntity.status(200).body(clientes);
+		}
+		return ResponseEntity.status(204).build();
 	}
 
 	@PutMapping("/clientes/alterar")
@@ -117,7 +142,7 @@ public class AdminControlador {
 	}
 
 	@PostMapping("/clientes/cadastrar")
-	public ResponseEntity cadastroCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
+	public ResponseEntity<?> cadastroCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
 		if (clienteServico.validacaoGeral(clienteDTO)) {
 			clienteServico.cadastrarCliente(clienteDTO);
 			return ResponseEntity.status(201).build();
