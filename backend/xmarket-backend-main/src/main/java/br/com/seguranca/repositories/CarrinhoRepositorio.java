@@ -28,12 +28,12 @@ public interface CarrinhoRepositorio extends JpaRepository<Carrinho, Long> {
     // deletar produto pelo id do cliente e id do produto
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM tabela_carrinho WHERE id_produto =?1 AND id_usuario = ?2", nativeQuery = true)
+    @Query(value = "DELETE FROM tabela_carrinho WHERE id_produto =?1 AND id_usuario =?2", nativeQuery = true)
     public void deletarProduto(Long idProduto, Long idUsuario);
 
     // Método para incrementar um item no carrinho
 
-    @Query(value = "SELECT quantidade from tabela_produtos WHERE id= ?1", nativeQuery = true)
+    @Query(value = "SELECT quantidade from tabela_produtos WHERE id=?1", nativeQuery = true)
     public int buscarQuantidade(Long id);
 
     @Modifying

@@ -146,6 +146,7 @@ async function popular_carrinho() {
     dados = await respose.json();
 
     dados.forEach(element => {
+        console.log("🚀 ~ file: carrinho.js ~ line 149 ~ popular_carrinho ~ element", element)
         let nome = element["produtoDTO"]["nome"];
         let marca = element["produtoDTO"]["marca"];
         let preco = element["produtoDTO"]["preco"];
@@ -224,9 +225,6 @@ function finalizar_compra() {
     //     listVendas.push(element["produtoDTO"]);
     // });
 
-    
-
-
     const venda = {
         "enumPagamento": "PIX",
         "valorTotal": totalProdutos.innerHTML
@@ -235,8 +233,10 @@ function finalizar_compra() {
     let endPoint = `http://localhost:8080/venda/${idUsuario}`;
 
     let response = async function(){
-        const response = await request_API("POST", endPoint, venda);
-        console.log(await response)
+        const response =  await request_API("POST", endPoint, venda);
+        const result = await response.text()
+        
+        console.log(result)
     } 
     response()
 }
@@ -307,6 +307,7 @@ function calcular_soma(){
 
     maninContainer.childNodes.forEach((element) => {
         if(element.lastChild !== null){
+            console.log(element[0])
             totalProdutosCarrinho = totalProdutosCarrinho + parseFloat(element.lastChild.lastChild.innerHTML);
         }
     });

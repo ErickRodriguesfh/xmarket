@@ -71,7 +71,6 @@ public class ProdutoServico {
 		return true;
 	}
 	
-	
 	public boolean editarProduto(Produto produto) {
 		if(quantidadeValida(produto)) {
 			Produto produtoEditado = produtoRepository.save(produto);

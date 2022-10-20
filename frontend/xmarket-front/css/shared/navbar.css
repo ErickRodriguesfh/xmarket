@@ -3,7 +3,7 @@
     height: 45px;
     width: 200px;
     padding: 0;
-    
+
 }
 
 .navbar-toggler {
@@ -21,7 +21,47 @@ nav {
     width: 100px;
 }
 
-.primary-color{
+.primary-color {
     fill: #194283;
     color: #194283;
+}
+
+#cart-button,
+#setting-button {
+    cursor: pointer;
+}
+
+#area-configuracoes {
+    display: none;
+    position: absolute;
+    right: 0;
+    margin-right: 2%;
+
+    width: 150px;
+    height: 150px;
+
+    background-color: white;
+    border: 1px solid #194283;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #194283;
+}
+
+#area-configuracoes ul {
+    margin: auto;
+    background-color: #194283;
+    height: 80%;
+    width: 80%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }

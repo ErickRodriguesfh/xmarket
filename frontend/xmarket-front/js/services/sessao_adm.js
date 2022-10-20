@@ -1,10 +1,10 @@
 var isValidate = localStorage.getItem("logado");
-console.log("Puxando")
+
 if(isValidate == "false"){
     window.location.href="login.html";
 }
 
-setTimeout(sair, 86400000)//86400
+setTimeout(sair, 5000)//86400
 
 function sair(){
     localStorage.setItem("logado", "false")

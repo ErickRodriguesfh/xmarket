@@ -55,8 +55,12 @@ export default function adicionandoEventos() {
         //fecharTudo();
 
         //limpar mensagem
-        let mensagem = document.getElementById("mensagem-validacao");
-        mensagemValidacao.removeChild(mensagem);
+        let mensagens = document.querySelectorAll("#mensagem-validacao");
+        
+        mensagens.forEach(mensagem => {
+            mensagemValidacao.removeChild(mensagem);
+        })
+        
 
     })
 
@@ -109,20 +113,4 @@ export default function adicionandoEventos() {
             element.style.display = "flex";
         }
     }
-    
-    // function unblockInputs(confirm) {
-    //     if (confirm) {
-    //         camposModificarProduto.nome.removeAttribute('readonly');
-    //         camposModificarProduto.marca.removeAttribute('readonly');
-    //         camposModificarProduto.preco.removeAttribute('readonly');
-    //         camposModificarProduto.quantidade.removeAttribute('readonly');
-    //         camposModificarProduto.imagemUrl.removeAttribute('readonly');
-    //     } else {
-    //         camposModificarProduto.nome.setAttribute('readonly', true);
-    //         camposModificarProduto.marca.setAttribute('readonly', true);
-    //         camposModificarProduto.preco.setAttribute('readonly', true);
-    //         camposModificarProduto.quantidade.setAttribute('readonly', true);
-    //         camposModificarProduto.imagemUrl.setAttribute('readonly', true);
-    //     }
-    // }
 }

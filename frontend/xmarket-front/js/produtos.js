@@ -1,12 +1,11 @@
 import request_API from "./services/service.js";
-import adicionar_funcionalidades from "./shared/navbar.js"
 
 let idUsuario;
 
 idUsuario = "1";
 popular_produtos(); //cart-button
 
-adicionar_funcionalidades();
+//adicionar_funcionalidades();
 
 function cardItem() {
     let element = document.createElement("div");
@@ -88,18 +87,21 @@ async function popular_produtos() {
     console.log(dados)
 
     dados.forEach((element, id) => {
-        let nome = element["nome"];
-        let marca = element["marca"];
-        let price = element["preco"];
-        let imagePath = "http://127.0.0.1:5500/" + element["imagemUrl"];
-        console.log(element["imagemUrl"])
-        product_element(nome, marca, price, imagePath, id)
-
-        let btnEvent = document.getElementById(`submit-${id}`);
-        btnEvent.addEventListener('click', () => {
-            adicionar_produto_carrinho(element["id"], idUsuario, 1)
-
-        });
+        if(element.quantidade > 0){
+            console.log(element)
+            let nome = element["nome"];
+            let marca = element["marca"];
+            let price = element["preco"];
+            let imagePath = "http://127.0.0.1:5500/" + element["imagemUrl"];
+           
+            product_element(nome, marca, price, imagePath, id)
+    
+            let btnEvent = document.getElementById(`submit-${id}`);
+            btnEvent.addEventListener('click', () => {
+                adicionar_produto_carrinho(element["id"], idUsuario, 1)
+    
+            });
+        }
     });
 }
 

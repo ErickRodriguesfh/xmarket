@@ -7,8 +7,10 @@ import manipuladorDosCampos from "./controladores/manipuladorDosCampos.js";
 import request_API from "../services/service.js";
 import request_API_imagem from "../services/service_imagem.js";
 
+
 // opção selecionada por padrão é a home
 localStorage.setItem("option", "home");
+
 manipuladorDasFuncionalidades();
 
 // Painel onde as informações entrarão
@@ -26,7 +28,16 @@ var removerProduto = document.querySelector(".remover-produto");
 
 var listar = document.querySelector(".listar");
 
+//const camposModificarProduto = manipuladorDosCampos.modificarProduto();
+const camposCadastrarCliente = manipuladorDosCampos.cadastrarCliente();
+const camposModificarCliente = manipuladorDosCampos.modificarCliente();
+const camposRemoverCliente = manipuladorDosCampos.removerCliente();
+
+const camposCadastrarProduto = manipuladorDosCampos.cadastrarProduto();
 const camposModificarProduto = manipuladorDosCampos.modificarProduto();
+const camposRemoverProduto = manipuladorDosCampos.removerProduto();
+
+
 
 let closeBtn = document.getElementById("close");
 function fecharTudo() {
@@ -45,9 +56,19 @@ function fecharTudo() {
     listContent.innerHTML = null;
     headerTable.innerHTML = null;
 
+    manipuladorDosCampos.limparCampos(camposCadastrarCliente);
     manipuladorDosCampos.limparCampos(camposModificarCliente);
     manipuladorDosCampos.limparCampos(camposRemoverCliente);
+
+
+    manipuladorDosCampos.limparCampos(camposCadastrarProduto);
+    manipuladorDosCampos.limparCampos(camposModificarProduto);
+    manipuladorDosCampos.limparCampos(camposRemoverProduto);
+    
     unblockInputs(false, camposModificarProduto);
+
+    document.getElementById("imagem-modificar-produto-preview").src = "http://127.0.0.1:5500/default.png";
+    document.getElementById("imagem-modificar-produto-preview").name = "default.png";
 }
 closeBtn.addEventListener("click", fecharTudo);
 //
@@ -209,14 +230,19 @@ let canvaMensagemValidacao = document.querySelector(".canva-mensagem");
 let mensagemValidacao = document.querySelector(".mensagem");
 
 function mostrarMensagem(dialog) {
-    let mensagem = document.createElement("h4");
+    let mensagens = document.querySelectorAll("#mensagem-validacao");
 
-    mensagem.setAttribute("id", "mensagem-validacao");
-    mensagem.appendChild(document.createTextNode(dialog));
+    if( mensagens.length == 0){
+        let mensagem = document.createElement("h4");
+        mensagem.setAttribute("id", "mensagem-validacao");
+        mensagem.appendChild(document.createTextNode(dialog));
+    
+        mensagemValidacao.appendChild(mensagem);
+    
+        canvaMensagemValidacao.style.display = "inline";
+    }
+    
 
-    mensagemValidacao.appendChild(mensagem);
-
-    canvaMensagemValidacao.style.display = "inline";
 }
 
 //-----------------------ID - modificar -----------------------
@@ -295,6 +321,8 @@ idRemoverProduto.addEventListener("keydown", async function (evt) {
 imagem-cadastrar-preview
 imagem-modificar-preview
 */
+
+
 // input de cadastrar imagem
 const cadastrarImagem = document.getElementById("imagem-cadastrar-produto")
 var imagemUpada = "";
@@ -307,6 +335,7 @@ cadastrarImagem.addEventListener("change", function(){
     })
     reader.readAsDataURL(this.files[0]);
 })
+
 
 const modificarImagem = document.getElementById("modificar-produto-imagem")
 var imagemUpada = "";
@@ -323,7 +352,7 @@ modificarImagem.addEventListener("change", function(){
     reader.readAsDataURL(this.files[0]);
 })
 
-const camposModificarCliente = manipuladorDosCampos.modificarCliente();
+//const camposModificarCliente = manipuladorDosCampos.modificarCliente();
 
 let idModificarCliente = camposModificarCliente.id;
 idModificarCliente.addEventListener("keydown", async function (evt) {
@@ -332,7 +361,7 @@ idModificarCliente.addEventListener("keydown", async function (evt) {
     }
 })
 
-const camposRemoverCliente = manipuladorDosCampos.removerCliente();
+//const camposRemoverCliente = manipuladorDosCampos.removerCliente();
 let idRemoverCliente = camposRemoverCliente.id;
 idRemoverCliente.addEventListener("keydown", async function (evt) {
     if (evt.key == "Enter" && Number(idRemoverCliente.value)) {
@@ -400,8 +429,11 @@ botaoModificarCliente.addEventListener("click", async function () {
 
 let botaoRemoverCliente = document.getElementById("botao-remover-cliente");
 botaoRemoverCliente.addEventListener("click", async function () {
+    confirmarOperacao(removaCliente)
+})
+
+async function removaCliente(){
     const idCliente = camposRemoverCliente.todosValores().id;
-    console.log("🚀 ~ file: homePage.js ~ line 373 ~ idCliente", idCliente)
 
     const endPoint = `http://localhost:8080/admin/clientes/deletar/${idCliente}`;
     const response = await request_API("DELETE", endPoint);
@@ -414,28 +446,20 @@ botaoRemoverCliente.addEventListener("click", async function () {
     }
 
     manipuladorDosCampos.limparCampos(camposRemoverCliente);
-})
+}
 
 
-
-
-
-
-
-
-
-
+//const camposCadastrarProduto = manipuladorDosCampos.cadastrarProduto().todosValores();
 // ---------------------------PRODUTOS----------------------------------
 let botaoCadastrarProduto = document.getElementById("botao-cadastrar-produto");
 botaoCadastrarProduto.addEventListener("click", async function () {
-    const camposCadastroProduto = manipuladorDosCampos.cadastrarProduto().todosValores();
-
-    const produto = new Produto(camposCadastroProduto);
+    const valoresCamposCadastrarCliente = camposCadastrarProduto.todosValores();
+    const produto = new Produto(valoresCamposCadastrarCliente);
     const formData = new FormData();
 
 
-    produto.imageUrl = camposCadastroProduto.imagemUrl.name;
-    formData.append("arquivoImagem", manipuladorDosCampos.cadastrarProduto().todosValores().imagemUrl);
+    produto.imageUrl = valoresCamposCadastrarCliente.imagemUrl.name;
+    formData.append("arquivoImagem", valoresCamposCadastrarCliente.imagemUrl);
 
     
     const endPoint = "http://localhost:8080/admin/estoque/inserir/imagem";
@@ -456,23 +480,20 @@ botaoCadastrarProduto.addEventListener("click", async function () {
         mostrarMensagem("Erro: Imagem incapaz de ser enviada!");
     }
     console.log("Cadastrado")
-    manipuladorDosCampos.limparCampos(manipuladorDosCampos.cadastrarProduto());
+    manipuladorDosCampos.limparCampos(camposCadastrarProduto);
 });
 
+//const camposModificarProduto = manipuladorDosCampos.modificarProduto().todosValores();
 let botaoModificarProduto = document.getElementById("botao-modificar-produto");
 botaoModificarProduto.addEventListener("click", async function () {
-    let campos = camposModificarProduto.todosValores();
-    campos.imagemUrl = document.getElementById("imagem-modificar-produto-preview").name;
-    console.log("🚀 ~ file: homePage.js ~ line 461 ~ document.getElementById('imagem-modificar-produto-preview').name", document.getElementById("imagem-modificar-produto-preview").name)
-    console.log("🚀 ~ file: homePage.js ~ line 461 ~ campos.imagemUrl", campos.imagemUrl)
+    const valoresCamposModificarProduto = camposModificarProduto.todosValores();
+
+    valoresCamposModificarProduto.imagemUrl = document.getElementById("imagem-modificar-produto-preview").name;
     
-    const produto = new Produto(campos);
-    console.log("🚀 ~ file: homePage.js ~ line 438 ~ camposModificarProduto.todosValores()", camposModificarProduto.todosValores())
+    const produto = new Produto(valoresCamposModificarProduto);
     const endPoint = "http://localhost:8080/admin/estoque/alterar";
     const response = await request_API("PUT", endPoint, produto.modificar());
-    console.log("🚀 ~ file: homePage.js ~ line 461 ~ produto.modificar()", produto.modificar())
 
-    console.log(response)
     if (response.status == 200 || response.status == 201) {
         mostrarMensagem(`Produto ${produto.id} \nmodificado com sucesso!`);
         fecharTudo();
@@ -485,9 +506,14 @@ botaoModificarProduto.addEventListener("click", async function () {
 })
 
 let botaoRemoverProduto = document.getElementById("botao-remover-produto");
-botaoRemoverProduto.addEventListener("click", async function () {
-    const idProduto = manipuladorDosCampos.removerProduto().id.value;
+botaoRemoverProduto.addEventListener("click", function(){
+    confirmarOperacao(removaProduto)
+});
 
+async function removaProduto(){
+    const idProduto = camposRemoverProduto.id.value;
+      
+      
     const endPoint = `http://localhost:8080/admin/estoque/excluir/${idProduto}`;
     const response = await request_API("DELETE", endPoint);
 
@@ -496,15 +522,40 @@ botaoRemoverProduto.addEventListener("click", async function () {
         fecharTudo();
     } else {
         mostrarMensagem("Erro: Produto inexistente!");
+        //fecharTudo();
     }
 
-    manipuladorDosCampos.limparCampos(manipuladorDosCampos.removerProduto());
-});
+    manipuladorDosCampos.limparCampos(camposRemoverProduto);
+}
+const canva = document.querySelector(".canva-validacao");
+const confirmar = document.getElementById("confirmar-operacao");
+const cancelar = document.getElementById("cancelar-operacao");
 
+async function confirmarOperacao(funcaoRemover){
+    
+    canva.style.display = "inline";
 
+    confirmar.addEventListener("click", ()=>{
 
+        funcaoRemover();
+        canva.style.display = "none";
 
+    })
+    cancelar.addEventListener("click", () => {
+        canva.style.display = "none";
+    
+    })
+    
 
+}
+const deslogar = document.getElementById("deslogar");
+
+deslogar.addEventListener("click", logout)
+
+function logout(){
+    localStorage.setItem("logado", "false")
+    window.location.href="login.html";
+}
 
 function unblockInputs(confirm, formulario) {
     for (let key in formulario) {
@@ -521,30 +572,3 @@ function unblockInputs(confirm, formulario) {
         }
     }
 }
-
-
-    // if (confirm) {
-    //     for(let key in camposModificarProduto){
-    //         if(typeof camposModificarProduto[key] == Object){
-    //             camposModificarProduto[key].removeAttribute('readonly');
-    //         }
-    //     }
-    //     // camposModificarProduto.nome.removeAttribute('readonly');
-    //     // camposModificarProduto.marca.removeAttribute('readonly');
-    //     // camposModificarProduto.preco.removeAttribute('readonly');
-    //     // camposModificarProduto.quantidade.removeAttribute('readonly');
-    //     // camposModificarProduto.imagemUrl.removeAttribute('readonly');
-    // } else {
-    //     for(let key in formulario){
-    //         if(typeof formulario[key] == Object){
-    //             formulario[key].setAttribute('readonly', true);
-    //         }
-    //     }
-
-        // camposModificarProduto.nome.setAttribute('readonly', true);
-        // camposModificarProduto.marca.setAttribute('readonly', true);
-        // camposModificarProduto.preco.setAttribute('readonly', true);
-        // camposModificarProduto.quantidade.setAttribute('readonly', true);
-        // camposModificarProduto.imagemUrl.setAttribute('readonly', true);
-
-

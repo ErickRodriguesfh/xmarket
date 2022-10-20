@@ -25,11 +25,11 @@ const newCadastro =  async () =>{
     console.log(field_telefone.value)
 
     let usuario = {
-        "username" : field_nome.value,
+        "nome" : field_nome.value,
         "email": field_email.value,
         "cpf": field_cpf.value,
         "rg": field_rg.value,
-        "password": field_senha.value,
+        "senha": field_senha.value,
         "telefone": field_telefone.value,
         "endereco": field_endereco.value
     }
@@ -43,7 +43,7 @@ const newCadastro =  async () =>{
         "telefone": "31998544856",
         "endereco": "rua teste 123"
     }
-
+    console.log(usuario)
     let init = {
         method: "POST",
         mode: 'cors', // no-cors, *cors, same-origin
@@ -54,13 +54,14 @@ const newCadastro =  async () =>{
         },
 
         referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(usuario2)
+        body: JSON.stringify(usuario)
     }
 
     let response = await fetch(endPoint, init);
     
-    if(response.status == 200){
-        alert("Usuario cadastrado com sucesso")
+    if(response.status == 200 || response.status == 201){
+        alert("Usuario cadastrado com sucesso");
+        window.location.href = "login.html";
     }
 
 }

@@ -7,6 +7,7 @@ const manipuladorDosCampos = {
             email: document.getElementById("cadastrar-cliente-email"),
             telefone: document.getElementById("cadastrar-cliente-telefone"),
             senha: document.getElementById("cadastrar-cliente-senha"),
+            confirmarSenha: document.getElementById("cadastrar-cliente-confirmarSenha"),
             endereco: {
                 rua: document.getElementById("cadastrar-cliente-endereco-rua"),
                 numero: document.getElementById("cadastrar-cliente-endereco-numero"),
@@ -190,9 +191,17 @@ const manipuladorDosCampos = {
 
     limparCampos(objetoCampos) {
         for (let key in objetoCampos){
+            console.log(objetoCampos[key].length)
+            if(key == "endereco"){
+                for (let parteEndereco in objetoCampos[key]){
+                    objetoCampos[key][parteEndereco].value = "";
+                }
+            }
             if(objetoCampos[key].value != undefined){
                 objetoCampos[key].value = "";
             }
+            
+            //console.log("objetoCampos[key")
         }
     }
 }
