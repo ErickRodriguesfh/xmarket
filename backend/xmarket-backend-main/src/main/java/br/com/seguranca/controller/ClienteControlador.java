@@ -34,19 +34,29 @@ public class ClienteControlador {
 	
 	
 	@Autowired
-	private EmailServico emailService;
+	private EmailServico emailServico;
 	
 	MensagemEmail msg = new MensagemEmail();
+
 	// END POINT para cadastrar cliente
 	@PostMapping("/cadastrar")
 	public ResponseEntity<?> cadastroCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws MessagingException {
 		if (usuarioService.validacaoGeral(clienteDTO)) {
+			new Thread() {
+				public void run() {
+					Email email = new Email();
+					email.setRemetente(clienteDTO.getEmail());
+					email.setTitulo("XMarket - Seja bem vindo!");
+					email.setMensagem(msg.msgCadastro(clienteDTO.getNome()));
+					try {
+						emailServico.enviarEmail(email);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}.start();
 			usuarioService.cadastrarCliente(clienteDTO);
-			Email email = new Email();
-			email.setRemetente(clienteDTO.getEmail());
-			email.setTitulo("XMarket - Seja bem vindo!");
-			email.setMensagem(msg.msgCadastro(clienteDTO.getNome()));
-			emailService.enviarEmail(email);	
 			return ResponseEntity.status(201).build();
 		}
 		return ResponseEntity.status(422).body("Usuario já existe!");

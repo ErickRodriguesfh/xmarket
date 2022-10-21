@@ -159,7 +159,7 @@ public class AdminControlador {
 		return ResponseEntity.noContent().build();
 	}
 
-	@DeleteMapping("/clientes/deletar/{id}")
+	@PutMapping("/clientes/deletar/{id}")
 	public ResponseEntity<?> deletarCliente(@PathVariable Long id) {
 		if (clienteServico.deletarCliente(id)) {
 			return ResponseEntity.status(200).body("Excluído");

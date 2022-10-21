@@ -39,25 +39,30 @@ public class VendaController {
     MensagemEmail msg = new MensagemEmail();
     
     @PostMapping("/{idCliente}")
-    public ResponseEntity<String> criarVenda (@PathVariable("idCliente") Long idCliente, @RequestBody VendaDTO vendaDTO) throws MessagingException{
-
-        String mensagemErro =   vendaServico.criarVenda(idCliente, vendaDTO);
-
-        if(mensagemErro != ""){
-            System.out.println("----------------MENSAGEM ERRO----------------");
-            System.out.println(mensagemErro);
-            return ResponseEntity.ok(mensagemErro);
-        }
-        
-        Cliente cliente = clienteServico.buscarPeloId(idCliente);
-        Email email = new Email();
-		email.setRemetente(cliente.getEmail());
-		email.setTitulo("XMarket - Compra Finalizada!");
-		email.setMensagem(msg.msgVenda(cliente.getNome()));
-		emailServico.enviarEmail(email);	
-		
-        return ResponseEntity.status(HttpStatus.OK).build();
-
-    }
+	public ResponseEntity<String> criarVenda(@PathVariable("idCliente") Long idCliente, @RequestBody VendaDTO vendaDTO)
+			throws MessagingException {
+		String mensagemErro = vendaServico.criarVenda(idCliente, vendaDTO);
+		if (mensagemErro != "") {
+			System.out.println("----------------MENSAGEM ERRO----------------");
+			System.out.println(mensagemErro);
+			return ResponseEntity.ok(mensagemErro);
+		}
+		// Thread de envio de email
+		new Thread() {
+			public void run() {
+				Cliente cliente = clienteServico.buscarPeloId(idCliente);
+				Email email = new Email();
+				email.setRemetente(cliente.getEmail());
+				email.setTitulo("XMarket - Compra Finalizada!😀");
+				email.setMensagem(msg.msgVenda(cliente.getNome()));
+				try {
+					emailServico.enviarEmail(email);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
 
 }

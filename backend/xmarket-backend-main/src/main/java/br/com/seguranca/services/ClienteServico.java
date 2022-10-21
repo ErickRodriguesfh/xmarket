@@ -60,15 +60,23 @@ public class ClienteServico {
 		return clienteAlterado;
 	}
 
-	public boolean deletarCliente(Long id) {
-		Cliente cliente = buscarPeloId(id);
-		if (cliente != null) {
-			usuarioRepository.deleteById(id);
-			return true;
+	//Criptografa os dados do cliente //
+		public boolean deletarCliente(Long id) {
+			Cliente cliente = buscarPeloId(id);
+			if (cliente != null) {
+				String cpfCriptografado = this.passwordEncoder.encode(cliente.getCpf());
+				cliente.setCpf(cpfCriptografado);
+				String rgCriptografado = this.passwordEncoder.encode(cliente.getRg());
+				cliente.setRg(rgCriptografado);
+				String enderecoCriptografado = this.passwordEncoder.encode(cliente.getEndereco());
+				cliente.setEndereco(enderecoCriptografado);
+				String emailCriptografado = this.passwordEncoder.encode(cliente.getCpf());
+				cliente.setEmail(emailCriptografado);
+				usuarioRepository.save(cliente);
+				return true;
+			}
+			return false;
 		}
-		return false;
-	}
-    
     
     
     
