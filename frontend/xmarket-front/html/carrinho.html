@@ -20,7 +20,6 @@
     <script src="https://kit.fontawesome.com/c6a43d1a54.js" crossorigin="anonymous"></script>
 
 
-
     <link rel="stylesheet" href="../css/shared/navbar.css">
     <link rel="stylesheet" href="../css/carrinho/carrinho.css">
 </head>
@@ -28,7 +27,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid">
+            <div class="container-fluid" style="align-items: normal !important;">
                 <svg class="img-logo" version="1.0" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 320.000000 79.000000" preserveAspectRatio="xMidYMid meet">
 
@@ -88,9 +87,9 @@
                     </ul>
                 </div>
                 <div class="secondary-navigator">
-                    <div class="cart-logo">
-                        <svg id="cart-button" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px"
-                            viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                    <div class="cart-logo" style="">
+                        <svg id="cart-button" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px"
+                            height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
                             <g class="primary-color"
                                 transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
@@ -126,10 +125,14 @@
                        71 24 121 81 170 59 51 118 65 194 46z" />
                             </g>
                         </svg>
+                        <div id="canva-quantidade-carrinho" style="cursor: pointer;">
+                            <p id="quantidade-carrinho">
+                            </p>
+                        </div>
                     </div>
                     <div class="cart-logo">
-                        <svg id="setting-button" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px"
-                            viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                        <svg id="setting-button" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px"
+                            height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
                             <g class="primary-color"
                                 transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
                                 stroke="none">
@@ -151,10 +154,15 @@
                                 297 125 433 120 185 307 310 525 353 85 16 257 12 335 -10z" />
                             </g>
                         </svg>
+
                         <div id="area-configuracoes">
                             <ul>
-                                <li>
-                                    
+                                <li id="deslogar">
+                                    <span><i style="margin: auto;"
+                                            class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                                    <span style="display: flex">
+                                        <p style="color: red; margin-top: -2px; height: 100%;">Sair</p>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -215,7 +223,7 @@
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script src="../js/shared/navbar.js"></script>
+    <script type="module" src="../js/shared/navbar.js"></script>
     <script type="module" src="../js/carrinho.js"></script>
 
 </body>

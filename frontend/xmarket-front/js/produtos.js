@@ -5,6 +5,7 @@ let idUsuario;
 idUsuario = "1";
 popular_produtos(); //cart-button
 
+const quantidadeCarrinho = document.getElementById("quantidade-carrinho");
 //adicionar_funcionalidades();
 
 function cardItem() {
@@ -104,9 +105,17 @@ async function popular_produtos() {
         }
     });
 }
-
+let mensagemConfirmacao = document.getElementById("mensagem-confirmacao");
 async function adicionar_produto_carrinho(id_produto, id_usuario, quantidade) {
     let endPoint = `http://localhost:8080/carrinho/adicionar/${id_produto}/${id_usuario}/${quantidade}`;
 
     await request_API("POST", endPoint);
+
+    quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
+    mensagemConfirmacao.style.display = "flex";
+    setTimeout(removerMensagem, 1000);
+
+}
+function removerMensagem(){
+    mensagemConfirmacao.style.display = "none";
 }

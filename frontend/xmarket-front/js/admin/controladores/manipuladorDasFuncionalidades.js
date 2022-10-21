@@ -107,10 +107,18 @@ export default function adicionandoEventos() {
     }
     function visualizarFuncionalidades() {
         let element = document.getElementById("main-content");
-        if (localStorage.getItem("option") == "home" || localStorage.getItem("option") == "relatorios") {
+        let relatorio = document.querySelector(".panel-relatorio");
+
+        if (localStorage.getItem("option") == "home") {
             element.style.display = "none";
-        } else {
+            relatorio.style.display = "none";
+        } else if(localStorage.getItem("option") == "relatorios"){ //panel-relatorio
+            relatorio.style.display = "flex";
+            element.style.display = "none"
+        }
+        else {
             element.style.display = "flex";
+            relatorio.style.display = "none";
         }
     }
 }

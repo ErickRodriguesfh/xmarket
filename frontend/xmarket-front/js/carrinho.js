@@ -15,6 +15,9 @@ let returnToProduto = document.getElementById("button-return");
 let totalProdutos = document.getElementById("total-somado");
 //
 
+const quantidadeCarrinho = document.getElementById("quantidade-carrinho");
+
+
 finalizarCompra.addEventListener('click', finalizar_compra);
 cleanCart.addEventListener('click', clean_cart);
 
@@ -144,8 +147,9 @@ function second_infos(quantidade, id) {
 async function popular_carrinho() {
     const respose = await request_API("GET", `http://localhost:8080/carrinho/exibirCarrinho/${idUsuario}`);
     dados = await respose.json();
-
     dados.forEach(element => {
+        
+        
         console.log("🚀 ~ file: carrinho.js ~ line 149 ~ popular_carrinho ~ element", element)
         let nome = element["produtoDTO"]["nome"];
         let marca = element["produtoDTO"]["marca"];
@@ -180,6 +184,8 @@ async function popular_carrinho() {
                 let endPoint = `http://localhost:8080/carrinho/alterar/DIMINUIR/${idUsuario}/${id}`;
                 request_API("PUT", endPoint);
 
+                quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) - 1;
+                localStorage.setItem("quantidade-carrinho", quantidadeCarrinho.innerHTML);
                 calcular_soma()
             }
         });
@@ -197,6 +203,8 @@ async function popular_carrinho() {
                 let endPoint = `http://localhost:8080/carrinho/alterar/AUMENTAR/${idUsuario}/${id}`;
                 request_API("PUT", endPoint);
 
+                quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
+                localStorage.setItem("quantidade-carrinho", quantidadeCarrinho.innerHTML);
                 calcular_soma()
                 //window.location.href = "carrinho.html";
             }
@@ -303,14 +311,15 @@ second
 function calcular_soma(){
     let totalProdutosCarrinho = 0;
     let maninContainer = document.getElementById("payment-products");
-    
 
     maninContainer.childNodes.forEach((element) => {
+        console.log(element)
         if(element.lastChild !== null){
             console.log(element[0])
             totalProdutosCarrinho = totalProdutosCarrinho + parseFloat(element.lastChild.lastChild.innerHTML);
         }
     });
+
     totalProdutos.innerHTML = 0;
 
     totalProdutos.innerHTML = (totalProdutosCarrinho).toFixed(2);
