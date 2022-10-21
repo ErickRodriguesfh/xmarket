@@ -30,7 +30,9 @@ public class JasperServico {
     //Metodos para os parametros
     private Map<String, Object> params = new HashMap<>();
 
-
+    public JasperServico() {                    //MEtodo construtor para puxar a imagem,quando houver neste caso!
+        this.params.put("IMAGEM_DIRETORIO",JASPER_DIRETORIO);
+    }
 
     public void addParams(String key,Object value) {
         this.params.put(key, value);

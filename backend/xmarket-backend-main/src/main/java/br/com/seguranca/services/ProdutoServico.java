@@ -94,4 +94,10 @@ public class ProdutoServico {
 
 	}
 
+	public List<Produto> buscarTodos(){
+		return produtoRepository.findAll();
+	}
+
 }
+
+
