@@ -46,6 +46,12 @@ public class ClienteServico {
 
     }
 
+    public Cliente buscarCliente(Login login){
+        Cliente usuario = usuarioRepository.getByEmail(login.getEmail());
+
+        return usuario;
+    }
+
     public Cliente buscarPeloId(Long id) {
 		return usuarioRepository.findById(id).orElse(null);
 	}

@@ -49,7 +49,18 @@ public class CarrinhoControlador {
 
     }
 
-    
+       
+    @DeleteMapping("remover/{idCliente}")
+    public ResponseEntity<?> removerCarrinho(@PathVariable("idCliente") Long idCliente){
+        try {
+            carrinhoServico.removerCarrinho(idCliente);
+
+            return ResponseEntity.status(204).body("Carrinho removido!");
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.status(400).build();
+        }
+    }
 
 
     //Diogo Implementou no Banco!!!! ///

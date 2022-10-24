@@ -1,3 +1,4 @@
+@import url(../css/shared/mensagemValidacao.css);
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -9,12 +10,12 @@
 
 
 .card-item {
-    width: 300px;
-    height: 400px;
-
+    max-width: 300px;
+    max-height: 500px;
+    width: 44%;
+    height: 60%;
     margin: 0.5%;
-
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
     border-radius: 10px;
     position: relative;
 
@@ -91,7 +92,7 @@
     display: flex;
     -webkit-flex-flow: row wrap;
 
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 @media (max-width: 992px) {

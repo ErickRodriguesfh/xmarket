@@ -100,5 +100,8 @@ public class CarrinhoServico {
 
 	}
 
+	public void removerCarrinho(Long idCliente){
+		carrinhoRepositorio.limparCarrinho(idCliente);
+	}
 
 }

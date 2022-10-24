@@ -64,7 +64,7 @@ function fecharTudo() {
     manipuladorDosCampos.limparCampos(camposCadastrarProduto);
     manipuladorDosCampos.limparCampos(camposModificarProduto);
     manipuladorDosCampos.limparCampos(camposRemoverProduto);
-    
+
     unblockInputs(false, camposModificarProduto);
 
     document.getElementById("imagem-modificar-produto-preview").src = "http://127.0.0.1:5500/default.png";
@@ -206,6 +206,7 @@ function listarClientes(dados) {
 
     dados.forEach((element) => {
         let cliente = new Cliente(element);
+        if(cliente.id == 1) return;
         let row = cliente.listarParaTabela();
         listContent.appendChild(row);
 
@@ -238,16 +239,16 @@ let mensagemValidacao = document.querySelector(".mensagem");
 function mostrarMensagem(dialog) {
     let mensagens = document.querySelectorAll("#mensagem-validacao");
 
-    if( mensagens.length == 0){
+    if (mensagens.length == 0) {
         let mensagem = document.createElement("h4");
         mensagem.setAttribute("id", "mensagem-validacao");
         mensagem.appendChild(document.createTextNode(dialog));
-    
+
         mensagemValidacao.appendChild(mensagem);
-    
+
         canvaMensagemValidacao.style.display = "inline";
     }
-    
+
 
 }
 
@@ -269,11 +270,11 @@ idModificarProduto.addEventListener("keydown", async function (evt) {
             camposModificarProduto.marca.value = produto.marca;
             camposModificarProduto.preco.value = produto.preco;
             camposModificarProduto.quantidade.value = produto.quantidade;
-            //camposModificarProduto.imagemUrl.name = produto.imageUrl;
- 
+            //camposModificarProduto.imagemUrl.name = produto.imagemUrl;
+
             let preview = document.getElementById("imagem-modificar-produto-preview");
-            preview.src = `http://127.0.0.1:5500/${produto.imageUrl}`;
-            preview.name = `${produto.imageUrl}`;
+            preview.src = `http://127.0.0.1:5500/${produto.imagemUrl}`;
+            preview.name = `${produto.imagemUrl}`;
 
             unblockInputs(true, camposModificarProduto);
         } else {
@@ -301,8 +302,8 @@ idRemoverProduto.addEventListener("keydown", async function (evt) {
             manipuladorDosCampos.removerProduto().quantidade.value = produto.quantidade;
 
             let preview = document.getElementById("imagem-remover-produto-preview");
-            preview.src = `http://127.0.0.1:5500/${produto.imageUrl}`;
-            preview.name = `${produto.imageUrl}`;
+            preview.src = `http://127.0.0.1:5500/${produto.imagemUrl}`;
+            preview.name = `${produto.imagemUrl}`;
 
             unblockInputs(true, camposModificarProduto);
         } else {
@@ -322,14 +323,14 @@ imagem-modificar-preview
 // input de cadastrar imagem
 const cadastrarImagem = document.getElementById("imagem-cadastrar-produto")
 var imagemUpada = "";
-cadastrarImagem.addEventListener("change", function(){
+cadastrarImagem.addEventListener("change", function () {
     const reader = new FileReader();
     reader.addEventListener("load", () => {
         imagemUpada = reader.result;
         document.getElementById("imagem-cadastrar-produto-preview").src = imagemUpada;
 
     })
-    
+
     reader.readAsDataURL(this.files[0]);
     console.log("🚀 ~ file: homePage.js ~ line 334 ~ cadastrarImagem.addEventListener ~ this.files[0]", this.files[0])
 })
@@ -337,7 +338,7 @@ cadastrarImagem.addEventListener("change", function(){
 
 const modificarImagem = document.getElementById("modificar-produto-imagem")
 var imagemUpada = "";
-modificarImagem.addEventListener("change", function(){
+modificarImagem.addEventListener("change", function () {
     const reader = new FileReader();
     reader.addEventListener("load", () => {
         imagemUpada = reader.result;
@@ -366,12 +367,12 @@ idRemoverCliente.addEventListener("keydown", async function (evt) {
 })
 
 
-async function preencherInformacoesCliente(idCliente, campos){
+async function preencherInformacoesCliente(idCliente, campos) {
     var endPoint = `http://localhost:8080/admin/clientes/buscar/${idCliente.value}`; // trocar end point
     var response = await request_API("GET", endPoint);
 
     if (response.status == 200 || response.status == 201) {
-        const dados = await response.json();   
+        const dados = await response.json();
         var cliente = new Cliente(dados);
 
         campos.preencherCampos(cliente);
@@ -395,12 +396,12 @@ botaoCadastrarCliente.addEventListener("click", async function () {
 
     const endPoint = "http://localhost:8080/admin/clientes/cadastrar";
     const response = await request_API("POST", endPoint, cliente.cadastrar());
-    
+
     console.log(response)
     if (response.status == 200 || response.status == 201) {
         mostrarMensagem("Cliente Cadastrado com Sucesso");
         fecharTudo();
-    }else{
+    } else {
         mostrarMensagem("Erro: sistema incapaz de finalizar cadastro!");
     }
 
@@ -428,11 +429,11 @@ botaoRemoverCliente.addEventListener("click", async function () {
     confirmarOperacao(removaCliente)
 })
 
-async function removaCliente(){
+async function removaCliente() {
     const idCliente = camposRemoverCliente.todosValores().id;
 
     const endPoint = `http://localhost:8080/admin/clientes/deletar/${idCliente}`;
-    const response = await request_API("DELETE", endPoint);
+    const response = await request_API("PUT", endPoint);
 
     if (response.status == 200 || response.status == 201) {
         mostrarMensagem(`Cliente ${idCliente} \nremovido do sistema!`);
@@ -453,11 +454,11 @@ botaoCadastrarProduto.addEventListener("click", async function () {
     const produto = new Produto(valoresCamposCadastrarCliente);
     const formData = new FormData();
 
-    
-    produto.imageUrl = valoresCamposCadastrarCliente.imagemUrl.name;
+
+    produto.imagemUrl = valoresCamposCadastrarCliente.imagemUrl.name;
     formData.append("arquivoImagem", valoresCamposCadastrarCliente.imagemUrl);
 
-    
+
     const endPoint = "http://localhost:8080/admin/estoque/inserir/imagem";
     let response = await request_API_imagem(endPoint, formData);
 
@@ -469,10 +470,10 @@ botaoCadastrarProduto.addEventListener("click", async function () {
         if (response.status == 200 || response.status == 201) {
             mostrarMensagem("Produto cadastrado com sucesso!");
             fecharTudo();
-        }else{
+        } else {
             mostrarMensagem("Erro: Sistema incapaz cadastrar produto!");
         }
-    }else{
+    } else {
         mostrarMensagem("Erro: Imagem incapaz de ser enviada!");
     }
     console.log("Cadastrado")
@@ -485,7 +486,7 @@ botaoModificarProduto.addEventListener("click", async function () {
     const valoresCamposModificarProduto = camposModificarProduto.todosValores();
 
     valoresCamposModificarProduto.imagemUrl = document.getElementById("imagem-modificar-produto-preview").name;
-    
+
     const produto = new Produto(valoresCamposModificarProduto);
     const endPoint = "http://localhost:8080/admin/estoque/alterar";
     const response = await request_API("PUT", endPoint, produto.modificar());
@@ -493,7 +494,7 @@ botaoModificarProduto.addEventListener("click", async function () {
 
     if (response.status == 200 || response.status == 201) {
         const formData = new FormData();
-        
+
         formData.append("arquivoImagem", camposModificarProduto.imagemUrl.files[0]);
 
         const endPoint = "http://localhost:8080/admin/estoque/inserir/imagem";
@@ -510,14 +511,14 @@ botaoModificarProduto.addEventListener("click", async function () {
 })
 
 let botaoRemoverProduto = document.getElementById("botao-remover-produto");
-botaoRemoverProduto.addEventListener("click", function(){
+botaoRemoverProduto.addEventListener("click", function () {
     confirmarOperacao(removaProduto)
 });
 
-async function removaProduto(){
+async function removaProduto() {
     const idProduto = camposRemoverProduto.id.value;
-      
-      
+
+
     const endPoint = `http://localhost:8080/admin/estoque/excluir/${idProduto}`;
     const response = await request_API("DELETE", endPoint);
 
@@ -535,11 +536,11 @@ const canva = document.querySelector(".canva-validacao");
 const confirmar = document.getElementById("confirmar-operacao");
 const cancelar = document.getElementById("cancelar-operacao");
 
-async function confirmarOperacao(funcaoRemover){
-    
+async function confirmarOperacao(funcaoRemover) {
+
     canva.style.display = "inline";
 
-    confirmar.addEventListener("click", ()=>{
+    confirmar.addEventListener("click", () => {
 
         funcaoRemover();
         canva.style.display = "none";
@@ -547,7 +548,7 @@ async function confirmarOperacao(funcaoRemover){
     })
     cancelar.addEventListener("click", () => {
         canva.style.display = "none";
-    
+
     })
 }
 
@@ -555,16 +556,16 @@ const deslogar = document.getElementById("deslogar");
 
 deslogar.addEventListener("click", logout)
 
-function logout(){
+function logout() {
     localStorage.setItem("logado", "false")
-    window.location.href="login.html";
+    window.location.href = "login.html";
 }
 
 function unblockInputs(confirm, formulario) {
     for (let key in formulario) {
         if (typeof formulario[key] == "object") {
             if (confirm) {
-                
+
                 formulario[key].removeAttribute('readonly');
             } else {
                 if (formulario[key].id != "modificar-produto-id") {
@@ -577,45 +578,191 @@ function unblockInputs(confirm, formulario) {
 }
 
 
-let gerarRelatorio = document.getElementById("botao-gerar-relatorio");
-gerarRelatorio.addEventListener("click", async function () {
-    let endPoint = "http://localhost:8080/xmarket/pdf/jr1?code=01&acao=d";
+let gerarRelatorioPdf = document.getElementById("botao-gerar-relatorio-pdf");
+gerarRelatorioPdf.addEventListener("click", async function () {
+    let endPoint = "http://localhost:8080/xmarket/pdf/jr2/01";
 
     let response = request_API("GET", endPoint)
-    
+
     response
         .then(r => r.blob())
         .then(showFile)
 
 })
-/*
+
+let gerarRelatorioVendaExcel = document.getElementById("botao-gerar-relatorio-excel-venda");
+gerarRelatorioVendaExcel.addEventListener("click", async function () {
+    let endPoint = "http://localhost:8080/exportar-excel-vendas";
+
+    let response = request_API("GET", endPoint)
+
+    response
+        .then(r => r.blob())
+        .then(showFileExcelVendas)
+
+})
+
+let gerarRelatorioProdutoExcel = document.getElementById("botao-gerar-relatorio-excel-produto");
+gerarRelatorioProdutoExcel.addEventListener("click", async function () {
+    let endPoint = "http://localhost:8080/exportar-excel-produtos";
+
+    let response = request_API("GET", endPoint)
+
+    response
+        .then(r => r.blob())
+        .then(showFileExcel)
+
+})
 
 
-*/
 
-function showFile(blob){
+let gerarRelatorioData = document.getElementById("botao-gerar-relatorio-data");
+gerarRelatorioData.addEventListener("click", function(){
+    const dataInicio = document.getElementById("data-inicio");
+    const dataFim = document.getElementById("data-fim");
+
+
+    console.log(dataInicio.value)
+    console.log(dataFim.value)
+    console.log("click")
+    if(dataInicio && dataFim){
+        const endPoint = `http://localhost:8080/xmarket/pdf/jr2/02?data_inicio=${dataInicio.value}&data_final=${dataFim.value}`;
+        const response = request_API("GET", endPoint)
+
+        response
+        .then(r => r.blob())
+        .then(showFileDate)
+    }else{
+        console.log("nao deu")
+    }
+})
+
+function showFileDate(blob) {
+
     // It is necessary to create a new blob object with mime-type explicitly set
     // otherwise only Chrome works like it should
-    var newBlob = new Blob([blob], {type: "application/pdf"})
-  
+    var newBlob = new Blob([blob], { type: "application/octec-stream" })
+
     // IE doesn't allow using a blob object directly as link href
     // instead it is necessary to use msSaveOrOpenBlob
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveOrOpenBlob(newBlob);
-      return;
-    } 
-  
+        window.navigator.msSaveOrOpenBlob(newBlob);
+        return;
+    }
+
     // For other browsers: 
     // Create a link pointing to the ObjectURL containing the blob.
     const data = window.URL.createObjectURL(newBlob);
     var link = document.createElement('a');
     link.href = data;
-    link.download="file.pdf";
-    link.click();
-    setTimeout(function(){
-      // For Firefox it is necessary to delay revoking the ObjectURL
-      window.URL.revokeObjectURL(data);
-    }, 100);
-  }
 
-  
+   
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    
+    
+
+    link.download=`relatorio-produtos-${today.toLocaleDateString()}.pdf`;
+    link.click();
+    setTimeout(function () {
+        // For Firefox it is necessary to delay revoking the ObjectURL
+        window.URL.revokeObjectURL(data);
+    }, 100);
+}
+
+
+
+function showFile(blob) {
+    // It is necessary to create a new blob object with mime-type explicitly set
+    // otherwise only Chrome works like it should
+    var newBlob = new Blob([blob], { type: "application/octec-stream" })
+
+    // IE doesn't allow using a blob object directly as link href
+    // instead it is necessary to use msSaveOrOpenBlob
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(newBlob);
+        return;
+    }
+
+    // For other browsers: 
+    // Create a link pointing to the ObjectURL containing the blob.
+    const data = window.URL.createObjectURL(newBlob);
+    var link = document.createElement('a');
+    link.href = data;
+
+   
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    
+    
+
+    link.download=`relatorio-produtos-${today.toLocaleDateString()}.pdf`;
+    link.click();
+    setTimeout(function () {
+        // For Firefox it is necessary to delay revoking the ObjectURL
+        window.URL.revokeObjectURL(data);
+    }, 100);
+}
+
+
+
+function showFileExcel(blob) {
+    // It is necessary to create a new blob object with mime-type explicitly set
+    // otherwise only Chrome works like it should
+    var newBlob = new Blob([blob], { type: "application/octec-stream" })
+
+    // IE doesn't allow using a blob object directly as link href
+    // instead it is necessary to use msSaveOrOpenBlob
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(newBlob);
+        return;
+    }
+
+    // For other browsers: 
+    // Create a link pointing to the ObjectURL containing the blob.
+    const data = window.URL.createObjectURL(newBlob);
+    var link = document.createElement('a');
+    link.href = data;
+    
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    today.toLocaleDateString()
+    
+    link.download = `relatorio-Produtos-${today.toLocaleDateString()}.xlsx`
+    link.click();
+    setTimeout(function () {
+        // For Firefox it is necessary to delay revoking the ObjectURL
+        window.URL.revokeObjectURL(data);
+    }, 100);
+}
+
+function showFileExcelVendas(blob) {
+    // It is necessary to create a new blob object with mime-type explicitly set
+    // otherwise only Chrome works like it should
+    var newBlob = new Blob([blob], { type: "application/octec-stream" })
+
+    // IE doesn't allow using a blob object directly as link href
+    // instead it is necessary to use msSaveOrOpenBlob
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(newBlob);
+        return;
+    }
+
+    // For other browsers: 
+    // Create a link pointing to the ObjectURL containing the blob.
+    const data = window.URL.createObjectURL(newBlob);
+    var link = document.createElement('a');
+    link.href = data;
+    
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    today.toLocaleDateString()
+    
+    link.download = `relatorio-Vendas-${today.toLocaleDateString()}.xlsx`
+    link.click();
+    setTimeout(function () {
+        // For Firefox it is necessary to delay revoking the ObjectURL
+        window.URL.revokeObjectURL(data);
+    }, 100);
+}
+

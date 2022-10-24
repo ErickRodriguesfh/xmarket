@@ -80,13 +80,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="produtos.html">Produtos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
                     </ul>
                 </div>
                 <div class="secondary-navigator">
-                    <div class="cart-logo" style="">
+                    <div class="cart-logo no-selectable" style="">
                         <svg id="cart-button" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px"
                             height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
@@ -129,8 +126,11 @@
                             </p>
                         </div>
                     </div>
-                    <div class="cart-logo">
-                        <svg id="setting-button" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px"
+                    <div class="cart-logo" >
+              
+                        <h6 class="no-selectable" id="botao-logar" style="color: rgb(25, 68, 131); margin: auto; display: none; cursor: pointer;">Entrar</h6>
+                        <div id="botao-logado" style="display: flex;">
+                            <svg id="setting-button" style="display: none;" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px"
                             height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
                             <g class="primary-color"
                                 transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
@@ -153,7 +153,7 @@
                                 297 125 433 120 185 307 310 525 353 85 16 257 12 335 -10z" />
                             </g>
                         </svg>
-
+                        </div>
                         <div id="area-configuracoes">
                             <ul>
                                 <li id="deslogar">
@@ -193,9 +193,7 @@
                 </div>
                 <div class="col-lg-10 col-md-10 col-sm-10">
                     <div class="product-container" id="product-container">
-                        <div>
-                            
-                        </div>
+                 
                     </div>
                 </div>
             </div>
@@ -203,9 +201,10 @@
 
     </main>
 
-    <div id="mensagem-confirmacao">
-        <h1 style="margin: auto;">Produto Adicionado!</h1>
-    </div>
+    <!-- <div id="mensagem-confirmacao" style="display: inline-grid;">
+        <h3 style="margin: auto;">Produto Adicionado!</h3>
+        <h4 style="margin: auto;">Confira no seu carrinho</h4>
+    </div> -->
 
     <script type="module" src="../js/shared/navbar.js"></script>
     <script type="module" src="../js/produtos.js"></script>

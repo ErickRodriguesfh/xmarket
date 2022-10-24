@@ -57,8 +57,15 @@
 
         .card {
             margin: 10px;
+            border: none;
+            border-radius: 4px;
         }
-
+        .card-body{
+            border-radius: 4px;
+        }
+        .card-body figure{
+            height: 110px;
+        }
         .secoes-produtos {
             width: 100%;
             height: 180px;
@@ -71,21 +78,30 @@
         .categorias {
             width: 200px;
             height: 100px;
-            background-color: rgb(25,68,131);
+            background-color: rgb(25, 68, 131);
 
             margin: 20px 10px;
 
             border-radius: 5px;
             text-align: center;
         }
+
         .categorias img {
             width: 100%;
             height: 100%;
             border-radius: 5px;
         }
-        .categorias figcaption h5{
-            color: rgb(25,68,131);
+
+        .categorias figcaption h5 {
+            color: rgb(25, 68, 131);
             font-weight: bold;
+        }
+
+        .produto-promocao {
+            border-radius: 5px;
+            /* box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%); */
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 20px 0 rgb(0 0 0 / 10%);
+            background-color: white;
         }
     </style>
 
@@ -148,13 +164,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="produtos.html">Produtos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
+                        
                     </ul>
                 </div>
                 <div class="secondary-navigator">
-                    <div class="cart-logo" style="">
+                    <div class="cart-logo no-selectable" style="">
                         <svg id="cart-button" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px"
                             height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
@@ -198,12 +212,17 @@
                         </div>
                     </div>
                     <div class="cart-logo">
-                        <svg id="setting-button" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px"
-                            height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
-                            <g class="primary-color"
-                                transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
-                                stroke="none">
-                                <path d="M1720 4806 c-214 -75 -544 -265 -665 -383 -91 -88 -110 -203 -60
+
+                        <h6 class="no-selectable" id="botao-logar"
+                            style="color: rgb(25, 68, 131); margin: auto; display: none; cursor: pointer;">Entrar</h6>
+                        <div id="botao-logado" style="display: flex;">
+                            <svg id="setting-button" style="display: none;" version="1.0"
+                                xmlns="http://www.w3.org/2000/svg" width="30px" height="30px"
+                                viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                                <g class="primary-color"
+                                    transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
+                                    stroke="none">
+                                    <path d="M1720 4806 c-214 -75 -544 -265 -665 -383 -91 -88 -110 -203 -60
                                 -353 39 -114 42 -277 8 -385 -74 -232 -269 -397 -513 -434 -128 -20 -210 -73
                                 -259 -169 -45 -88 -77 -380 -67 -612 12 -286 39 -386 124 -461 51 -45 94 -61
                                 217 -84 137 -25 222 -70 325 -174 132 -134 184 -260 183 -446 0 -90 -4 -111
@@ -219,9 +238,9 @@
                                 -1470 c208 -56 368 -170 480 -343 240 -366 133 -862 -237 -1103 -136 -89 -259
                                 -125 -433 -125 -226 0 -408 75 -564 231 -156 156 -231 338 -231 564 0 174 36
                                 297 125 433 120 185 307 310 525 353 85 16 257 12 335 -10z" />
-                            </g>
-                        </svg>
-
+                                </g>
+                            </svg>
+                        </div>
                         <div id="area-configuracoes">
                             <ul>
                                 <li id="deslogar">
@@ -254,7 +273,7 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="../assets/images/carousel/banner-1.png" class="d-block w-100" alt="...">
+                    <img src="../assets/images/carousel/banner-1.jpg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
 
                     </div>
@@ -292,102 +311,239 @@
 
         <div class="mega-promos">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
+                <header style="height: 50px; width: 100%; background: rgb(25,68,131);     border: none;
+                border-radius: .25rem .25rem 0 0; display: flex;">
+                    <h2 style="color: white; margin: auto;">Promoção</h2>
+                </header>
+                <div class="card-body" style="background: rgb(243, 243, 243)">
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
+                <header style="height: 50px; width: 100%; background: rgb(25,68,131);     border: none;
+                border-radius: .25rem .25rem 0 0; display: flex;">
+                    <h2 style="color: white; margin: auto;">Medicamentos</h2>
+                </header>
+                <div class="card-body" style="background: rgb(243, 243, 243)">
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
+                <header style="height: 50px; width: 100%; background: rgb(25,68,131);     border: none;
+                border-radius: .25rem .25rem 0 0; display: flex;">
+                    <h2 style="color: white; margin: auto;">Higiene</h2>
+                </header>
+                <div class="card-body" style="background: rgb(243, 243, 243)">
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    <figure class="produto-promocao" style="width: 100%; display: flex;">
+                        <img src="http://127.0.0.1:5500/capsula.webp"
+                            style="max-width: 128px; max-height: 128px; border-radius: 5px;" alt="">
+                        <figcaption style="width: 100%; margin: auto; color: rgb(25, 68, 131);">
+                            <h5>Capsula</h5>
+                            <h6 style="display: flex; justify-content: space-around"><span style="margin-left: -10px;">mio</span> <del style="color: gray;">R$ <span>3.99</span></del></h6>
+                            <h3 style="color: red; font-weight: bold;">R$ <span>2.99</span></h3>
+
+                        </figcaption>
+                    </figure>
+                    
                 </div>
-            </div>
+            </div> 
+   
         </div>
 
 
         <div
-            style="background-color: white; height: 100%; display: flex;     -webkit-flex-flow: row wrap; padding: 10px;justify-content: space-evenly; border-radius: 5px;">
+            style="background-color: white; height: 100%; display: flex; -webkit-flex-flow: row wrap; padding: 10px;justify-content: space-evenly; border-radius: 5px;">
             <figure class="categorias">
                 <img src="https://cdn.pixabay.com/photo/2016/02/03/12/43/percent-1176979_960_720.jpg">
-                <figcaption><h5>Descontos</h5></figcaption>
+                <figcaption>
+                    <h5>Descontos</h5>
+                </figcaption>
             </figure>
             <figure class="categorias">
                 <img src="https://cdn.pixabay.com/photo/2020/04/24/15/44/medicine-5087413_960_720.jpg">
-                <figcaption><h5>Medicamentos</h5></figcaption>
+                <figcaption>
+                    <h5>Medicamentos</h5>
+                </figcaption>
             </figure>
             <figure class="categorias">
                 <img src="https://cdn.pixabay.com/photo/2017/08/14/14/56/crisp-2640743_960_720.jpg">
-                <figcaption><h5>Alimentos</h5></figcaption>
+                <figcaption>
+                    <h5>Alimentos</h5>
+                </figcaption>
             </figure>
             <figure class="categorias">
-                <img src="https://cdn.pixabay.com/photo/2016/07/20/23/31/girl-1531575_960_720.jpg">
-                <figcaption><h5>Higiene</h5></figcaption>
+                <img src="https://cdn.pixabay.com/photo/2017/02/27/13/09/brushing-teeth-2103219_960_720.jpg">
+                <figcaption>
+                    <h5>Higiene</h5>
+                </figcaption>
             </figure>
         </div>
 
-        
+
     </main>
     <footer
-        style="width: 100%; min-height: 300px; background-color: rgba(66, 64, 64, 0.286); padding: 2%; display: flex; justify-content: space-between;">
-        <div style="min-height: 240px; width: 30%; margin: auto; border-right:1px solid black;">
-            <h4 style="margin-bottom: 20px ;">Redes Sociais</h4>
-            <div style="display: flex;     width: 90%;     -webkit-flex-flow: row wrap; justify-content: center;">
-                <div
-                    style="width: 60px; height: 60px; background: black; border-radius: 50%; display: flex; margin: 0 0.5%;">
-                    <svg style="fill: white; width: 75%; height: 75%; margin: auto" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 320 512">
-                        <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                        <path
-                            d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
-                    </svg>
+        style="width: 100%; min-height: 300px; background-color: rgba(66, 64, 64, 0.05); padding: 2%; display: flex; justify-content: space-between;">
+        <div class="container-fluid">
+            <div class="row" style="width: 100%; height: 100%; margin: auto;">
+                <div style=" border-right: 1px solid black; height: 240px; " class="col-lg-3 col-md-4 col-sm-12">
+                    <h4 style="margin-bottom: 20px ;">Redes Sociais</h4>
+                    <div
+                        style="display: flex;     width: 90%;     -webkit-flex-flow: row wrap; justify-content: center;">
+                        <div
+                            style="width: 60px; height: 60px; background: rgb(25, 68, 131); border-radius: 50%; display: flex; margin: 0 0.5%;">
+                            <svg style="fill: white; width: 75%; height: 75%; margin: auto"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+                            </svg>
+                        </div>
+                        <div
+                            style="width: 60px; height: 60px; background: rgb(25, 68, 131); border-radius: 50%; display: flex; margin: 0 0.5%;">
+                            <svg style="fill: white; width: 80%; height: 80%; margin: auto"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+                            </svg>
+                        </div>
+                        <div
+                            style="width: 60px; height: 60px; background: rgb(25, 68, 131); border-radius: 50%; display: flex; margin: 0 0.5%;">
+                            <svg style="fill: white; width: 75%; height: 70%; margin: auto"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z" />
+                            </svg>
+                        </div>
+                        <div
+                            style="width: 60px; height: 60px; background: rgb(25, 68, 131); border-radius: 50%; display: flex; margin: 0 0.5%;">
+                            <svg style="fill: white; width: 72%; height: 72%; margin: auto"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path
+                                    d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-                <div
-                    style="width: 60px; height: 60px; background: black; border-radius: 50%; display: flex; margin: 0 0.5%;">
-                    <svg style="fill: white; width: 80%; height: 80%; margin: auto" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 448 512">
-                        <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                        <path
-                            d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
-                    </svg>
+                <div style=" height: 240px; position: relative;" class="col-lg-6 col-md-4 col-sm-12">
+                    <h4 style="margin-bottom: 20px;">Formas de pagamento</h4>
+                    <div style="display: flex; width: 90%;">
+
+                    </div>
+                    <div
+                        style="position: absolute; width: calc(100% - 24px); height: 10%;  bottom: 80px; text-align: center;">
+                        <small>Razão Social: Xmarket S.A | CNPJ: 64.895.523.0001-26 | Endereço: Rua Belo Horizonte -
+                            Centro - CEP: 30.668-080 - Belo Horizonte - MG </small>
+                    </div>
                 </div>
-                <div
-                    style="width: 60px; height: 60px; background: black; border-radius: 50%; display: flex; margin: 0 0.5%;">
-                    <svg style="fill: white; width: 75%; height: 70%; margin: auto" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 576 512">
-                        <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                        <path
-                            d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z" />
-                    </svg>
-                </div>
-                <div
-                    style="width: 60px; height: 60px; background: black; border-radius: 50%; display: flex; margin: 0 0.5%;">
-                    <svg style="fill: white; width: 72%; height: 72%; margin: auto" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 448 512">
-                        <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                        <path
-                            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
-                    </svg>
+                <div style="border-left: 1px solid black; height: 240px; " class="col-lg-3 col-md-4 col-sm-12">
+                    <h4 style="margin-bottom: 20px;">Ajuda</h4>
+                    <ul style="    margin-left: 10%;
+                    height: 140px;
+                    display: inline-grid; ">
+                        <li>Fale conosco</li>
+                        <li>Termos e condições de uso</li>
+                        <li>Privacidade</li>
+                        <li>Acessibilidade</li>
+                    </ul>
                 </div>
             </div>
-            <!-- style="fill: white; width: 80%; height: 80%; margin: auto"  -->
         </div>
-        <div style="height: 90%; width: 40%; margin: auto;"></div>
-        <div style="height: 90%; width: 30%; margin: auto; border-left:1px solid black;"></div>
-
     </footer>
 
     <script type="module" src="../js/shared/navbar.js"></script>
+    <script type="module" src="../js/home-page.js"></script>
 
 </body>
 
 </html>
+
+
+<!-- 
+
+
+
+    
+ -->

@@ -27,7 +27,19 @@ export default class Cliente {
         }
         return body;
     }
-
+    
+    cadastrarPeloCliente(){
+        const body = {
+            "nome": this._nome,
+            "cpf": this._cpf,
+            "rg": this._rg,
+            "email": this._email,
+            "telefone": this._telefone,
+            "endereco": this._endereco,
+            "senha": this._senha
+        }
+        return body;
+    }
     modificar(){
         const body = {
             "id": this._id,

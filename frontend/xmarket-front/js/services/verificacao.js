@@ -1,7 +1,8 @@
 var isValidate = localStorage.getItem("logado");
 console.log("Puxando")
 if(isValidate == "false"){
-    window.location.href="login.html";
+    //window.location.href="login.html";
+   // alert("teste")
 }
 
 setTimeout(sair, 86400000)//86400

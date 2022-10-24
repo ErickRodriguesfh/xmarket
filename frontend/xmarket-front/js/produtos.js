@@ -1,20 +1,24 @@
 import request_API from "./services/service.js";
+import Produto from "./Produto.js";
+import mensagemValidacao from "./services/mensagemValidacao.js"
+
+
+localStorage.ultimaPagina = "produtos.html";
 
 let idUsuario;
 
-idUsuario = "1";
+if(localStorage.cliente) idUsuario = JSON.parse(localStorage.cliente).id;
+
+console.log("id" + idUsuario)
 popular_produtos(); //cart-button
 
+const logado = localStorage.logado;
+
 const quantidadeCarrinho = document.getElementById("quantidade-carrinho");
+const canvaQuantidadeCarrinho = document.getElementById("canva-quantidade-carrinho");
 //adicionar_funcionalidades();
 
-function cardItem() {
-    let element = document.createElement("div");
 
-    element.setAttribute("class", "card-item");
-
-    return element;
-}
 function imageItem(path) {
     let image_item = document.createElement("div");
     let image = document.createElement("img");
@@ -60,11 +64,11 @@ function buttonItem(id) {
 
     return button_item;
 }
-function product_element(nameProduct, brand, price, path, id) {
+function product_element(produto, id) {
     let card_item = cardItem();
     let image_item = imageItem(path);
-    let title_item = titleItem(`${nameProduct} - ${brand} `);
-    let description_item = descriptionItem(price);
+    let title_item = titleItem(`${produto.nome} - ${produto.marca} `);
+    let description_item = descriptionItem(produto.preco);
     let button_item = buttonItem(id);
 
     card_item.appendChild(image_item);
@@ -83,39 +87,90 @@ async function popular_produtos() {
     areaProdutos.innerHTML = "";
 
     let response = await request_API("GET", endPoint);
+    console.log(response)
     dados = await response.json()
 
     console.log(dados)
 
-    dados.forEach((element, id) => {
-        if(element.quantidade > 0){
-            console.log(element)
+    dados.forEach((element) => {
+        if (element.quantidade > 0) {
+
+            let produto = new Produto(element);
+            let id = produto.id;
             let nome = element["nome"];
             let marca = element["marca"];
             let price = element["preco"];
             let imagePath = "http://127.0.0.1:5500/" + element["imagemUrl"];
-           
-            product_element(nome, marca, price, imagePath, id)
-    
+
+            produto.criarCardProduto(id);
+
+            //product_element(produto, id)
+
             let btnEvent = document.getElementById(`submit-${id}`);
             btnEvent.addEventListener('click', () => {
-                adicionar_produto_carrinho(element["id"], idUsuario, 1)
-    
+                if (logado == "true") {
+                    console.log("logado " + idUsuario)
+                    adicionar_produto_carrinho(element["id"], idUsuario, 1)
+
+                } else if (logado == "false" || logado == "" || logado == undefined) {
+                    let carrinhoLocal = localStorage.getItem("carrinho");
+
+
+                    if (carrinhoLocal == undefined || carrinhoLocal == "") {
+                        let carrinho = {};
+                        carrinho[`${id}`] = {
+                            "produto": produto.salvarCarrinho(),
+                            "quantidade": 1
+                        };
+                        console.log("Criando carrinho")
+                        localStorage.setItem("carrinho", JSON.stringify(carrinho))
+                        canvaQuantidadeCarrinho.style.display = "flex";
+                        quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
+     
+                        document.body.appendChild(mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", false))
+
+                    } else {
+
+                        if (carrinhoLocal != "") {
+                            var carrinho = JSON.parse(carrinhoLocal);                            
+                     
+                            if (carrinho[`${id}`]) {                                
+                                carrinho[`${id}`] = {
+                                    "produto": produto.salvarCarrinho(),
+                                    "quantidade": carrinho[`${id}`].quantidade + 1
+                                };
+                                
+                            }else{
+                                carrinho[`${id}`] = {
+                                    "produto": produto.salvarCarrinho(),
+                                    "quantidade": 1
+                                };
+                            }
+                            
+                            localStorage.setItem("carrinho", JSON.stringify(carrinho))
+                            
+                            canvaQuantidadeCarrinho.style.display = "flex";
+                            quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
+     
+                            document.body.appendChild(mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", false))
+                
+                        }
+                    }
+                }
+
+
             });
         }
     });
 }
-let mensagemConfirmacao = document.getElementById("mensagem-confirmacao");
+
 async function adicionar_produto_carrinho(id_produto, id_usuario, quantidade) {
     let endPoint = `http://localhost:8080/carrinho/adicionar/${id_produto}/${id_usuario}/${quantidade}`;
 
     await request_API("POST", endPoint);
 
     quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
-    mensagemConfirmacao.style.display = "flex";
-    setTimeout(removerMensagem, 1000);
 
-}
-function removerMensagem(){
-    mensagemConfirmacao.style.display = "none";
+    document.body.appendChild(mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", false))
+
 }

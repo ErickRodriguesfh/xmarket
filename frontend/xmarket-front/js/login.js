@@ -1,25 +1,72 @@
-import reques_API from "./services/service.js"
+import request_API from "./services/service.js"
 
-async function getCredentials(){
+let idUsuario;
+async function getCredentials() {
     let endPoint = "http://localhost:8080/login";
 
     let usuario = {
-        "email": document.getElementById("inputEmail").value,
-        "senha": document.getElementById("inputPassword").value
+        "email": document.getElementById("email").value,
+        "senha": document.getElementById("senha").value
     }
 
-    let response = await reques_API("POST", endPoint, usuario)
+    let response = await request_API("POST", endPoint, usuario)
 
-    console.log(response);
-    
-    if(response.status == 200 || response.status == 201){
+    if (response.status == 200 || response.status == 201) {
+        const cliente = await response.json();
+        const redirecionamento = localStorage.redirecionamento;
+        idUsuario = cliente.id;
+
         localStorage.setItem("logado", true);
-        window.location.href="home-page.html";
+        localStorage.setItem("cliente", JSON.stringify(cliente));
+
+
+        await adicionar_no_carrinho(cliente.id);
+        window.location.href = redirecionar(redirecionamento);
+        //window.location.href="home-page.html";
         //window.open("home-page.html")
     }
 }
-localStorage.setItem("logado", false);
-let btnEvent = document.getElementById("submit");
+
+function redirecionar(pagina) {
+    switch (pagina) {
+        case "finalizar-compra.html":
+            return pagina;
+        default:
+            if(localStorage.ultimaPagina){
+                return localStorage.ultimaPagina
+            }
+            return "home-page.html";
+    }
+}
 
 
-btnEvent.addEventListener('click', getCredentials);
+
+async function adicionar_no_carrinho(idUsuario) {
+    if (localStorage.carrinho) {
+        let carrinhoLocal = JSON.parse(localStorage.carrinho);
+    
+        for (let id in carrinhoLocal) {
+            const item = carrinhoLocal[id]
+            const produto = item.produto;
+            const quantidade = item.quantidade;
+
+            const endPoint = `http://localhost:8080/carrinho/adicionar/${produto.id}/${idUsuario}/${quantidade}`;
+            let response = await request_API("POST", endPoint);
+        }
+
+        localStorage.removeItem("carrinho");
+
+    } else {
+
+    }
+
+}
+//localStorage.setItem("logado", false);
+let login = document.getElementById("login");
+let cadastrar = document.getElementById("cadastrar");
+
+
+login.addEventListener('click', getCredentials);
+cadastrar.addEventListener('click', function(){
+    window.location.href = "cadastro.html"
+})

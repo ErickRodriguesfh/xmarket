@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.seguranca.dto.ClienteDTO;
+import br.com.seguranca.model.Cliente;
 import br.com.seguranca.model.Email;
 import br.com.seguranca.model.Login;
 import br.com.seguranca.model.MensagemEmail;
@@ -66,8 +67,10 @@ public class ClienteControlador {
 	@PostMapping("/login") 
 	public ResponseEntity<?> login(@Valid @RequestBody Login login) { 
 		boolean valid = usuarioService.validarLogin(login); 
-		if (valid) { 
-			return ResponseEntity.status(200).build();
+		if (valid) {
+			Cliente cliente = usuarioService.buscarCliente(login);
+
+			return ResponseEntity.status(200).body(cliente);
 		}
 		return ResponseEntity.status(401).build(); 
 	}

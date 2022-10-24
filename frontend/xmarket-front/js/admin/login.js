@@ -6,7 +6,7 @@ const email = document.getElementById("inputEmail");
 const senha = document.getElementById("inputPassword");
 
 const baotaoEntrar = document.getElementById("submit");
-
+const botaoCadastrar = document.getElementById("cadastrar");
 baotaoEntrar.addEventListener("click", function(){
     const dadosLogin = {
         email: "sleepado",
@@ -23,4 +23,8 @@ baotaoEntrar.addEventListener("click", function(){
     }else{
         alert("Login não encontrado!!")
     }
+})
+
+botaoCadastrar.addEventListener("click", function(){
+    window.location.href = "cadastro.html"
 })

@@ -1,69 +1,56 @@
-//import login_service from './login_service.js'
+import mensagemValidacao from "./services/mensagemValidacao.js";
+import request_API from "./services/service.js";
+import Cliente from "./Cliente.js"
 
-//let dados = await login_service();
+const btnProceguir = document.getElementById("botao-cadastrar-cliente");
+const btnVoltar = document.getElementById("botao-retornar");
 
-
-let endPoint = "http://localhost:8080/cadastrar";
-
-let btnProceguir = document.getElementById("submit");
 
 const newCadastro =  async () =>{
+    const nome = document.getElementById("cadastrar-cliente-nome");
+    const cpf = document.getElementById("cadastrar-cliente-cpf");
+    const rg = document.getElementById("cadastrar-cliente-rg");
+    const rua = document.getElementById("cadastrar-cliente-endereco-rua");
+    const numero = document.getElementById("cadastrar-cliente-endereco-numero");
+    const bairro = document.getElementById("cadastrar-cliente-endereco-bairro");
+    const municipio = document.getElementById("cadastrar-cliente-endereco-municipio");
+    const estado = document.getElementById("cadastrar-cliente-endereco-estado");
+    const email = document.getElementById("cadastrar-cliente-email");
+    const telefone = document.getElementById("cadastrar-cliente-telefone");
+    let senha = document.getElementById("cadastrar-cliente-senha");
+    let confirmarSenha = document.getElementById("cadastrar-cliente-confirmarSenha");
 
-    let field_nome = document.getElementById("inputNome");
-    let field_email = document.getElementById("inputEmail");
-    let field_cpf = document.getElementById("inputCpf");
-    let field_rg = document.getElementById("inputRg");
-    let field_senha = document.getElementById("inputPassword");
-    let field_telefone = document.getElementById("inputTelefone");
-    let field_endereco = document.getElementById("inputEndereco");
+    if(senha.value == confirmarSenha.value){
+        const endPoint = "http://localhost:8080/cadastrar"
+        const dados = {
+            "nome" : nome.value,
+            "email": email.value,
+            "cpf": cpf.value,
+            "rg": rg.value,
+            "senha": senha.value,
+            "telefone": telefone.value,
+            "endereco": `${rua.value}, ${numero.value}, ${bairro.value}, ${municipio.value}, ${estado.value}`,
+        }
+        const response = await request_API("POST", endPoint, dados);
+        console.log(response)
+        if(response.ok == true){
+            window.location.href = "login.html";
+        }
+        if(response.status == 422){
+            document.body.appendChild(mensagemValidacao("Usuario ja cadastrado no sistema!", "Por favor digite outras credenciais", true)) ;
+        }
 
-    console.log(field_nome.value)
-    console.log(field_email.value)
-    console.log(field_cpf.value)
-    console.log(field_rg.value)
-    console.log(field_senha.value)
-    console.log(field_telefone.value)
 
-    let usuario = {
-        "nome" : field_nome.value,
-        "email": field_email.value,
-        "cpf": field_cpf.value,
-        "rg": field_rg.value,
-        "senha": field_senha.value,
-        "telefone": field_telefone.value,
-        "endereco": field_endereco.value
+        confirmarSenha.classList.remove("erro")
+    }else{
+        confirmarSenha.classList.add("class", "erro")
+        confirmarSenha.focus();
+        document.body.appendChild(mensagemValidacao("Senhas imcopativeis", "Por favor digite senhas iguais", true)) ;
+        //alert("senhas nao compativeis")
     }
-
-    let usuario2 = {
-        "nome": "lucas",
-        "senha": "12345678",
-        "email": "lucas@gmail.com",
-        "cpf": "84768427405",
-        "rg": "355683192",
-        "telefone": "31998544856",
-        "endereco": "rua teste 123"
-    }
-    console.log(usuario)
-    let init = {
-        method: "POST",
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json',
-        },
-
-        referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(usuario)
-    }
-
-    let response = await fetch(endPoint, init);
-    
-    if(response.status == 200 || response.status == 201){
-        alert("Usuario cadastrado com sucesso");
-        window.location.href = "login.html";
-    }
-
 }
 
 btnProceguir.addEventListener('click', newCadastro)
+btnVoltar.addEventListener("click", function(){
+    window.location.href = "login.html"
+})
