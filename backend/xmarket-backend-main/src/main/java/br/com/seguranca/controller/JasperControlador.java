@@ -64,7 +64,7 @@ public class JasperControlador {
                                   @RequestParam(name="data_inicio",required =false) Date data_inicio,    //coloco required false, porque não é obrigatório para fazer busca no 09
                                   @RequestParam(name="data_final",required =false) Date data_final,
                                   HttpServletResponse response) throws IOException { //resposta em relaçao a nossa requisição, não retornando nada
-        
+
 
 
         service.addParams("DATA_INICIO", data_inicio);  //como é string deve mandar essa condição para a string não chegar vazio
