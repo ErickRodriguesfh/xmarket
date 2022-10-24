@@ -50,7 +50,7 @@ public class Carrinho {
 
         ProdutoDTO produtoDTO = new ProdutoDTO(
                 produto.getId(), produto.getNome(), produto.getPreco(), produto.getMarca(), produto.getQuantidade(),
-                produto.getImagemUrl()
+                produto.getImagemUrl(), produto.getCategoria()
         );
 
         return produtoDTO;

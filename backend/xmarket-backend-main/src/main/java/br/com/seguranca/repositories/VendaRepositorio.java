@@ -24,4 +24,6 @@ public interface VendaRepositorio extends JpaRepository<Venda, Long> {
 
 
 
+
+
 }

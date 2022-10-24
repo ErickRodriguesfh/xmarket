@@ -103,4 +103,22 @@ public class VendaServico {
 
     }
 
+
+    public List<ItemVenda> buscarItemVenda(){
+        return itemVendaRepository.findAll();
+    }
+
+
+    public Venda buscarPeloId(Long idVenda){
+      return  vendaRepositorio.findById(idVenda).get();
+    }
+
+
+
+
+
+
+
+
+
 }

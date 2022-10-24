@@ -98,6 +98,17 @@ public class ProdutoServico {
 		return produtoRepository.findAll();
 	}
 
+
+	public List<ProdutoDTO> buscarPorCategoria(String categoria){
+		List<Produto> produtos = new ArrayList<>();
+		List<ProdutoDTO> produtoDTOS = new ArrayList<>();
+		produtos = produtoRepository.buscarPorCategoria(categoria);
+		for (Produto p : produtos) {
+			produtoDTOS.add(p.toProdutoDTO());
+		}
+		return produtoDTOS;
+	}
+
 }
 
 

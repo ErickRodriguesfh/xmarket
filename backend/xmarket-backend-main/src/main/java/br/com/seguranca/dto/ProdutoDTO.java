@@ -19,6 +19,8 @@ public class ProdutoDTO {
     private Integer quantidade;
     private String imagemUrl;
 
+    private String categoria;
+
 
 
     public ProdutoDTO(Produto produto){
@@ -37,9 +39,11 @@ public class ProdutoDTO {
                 this.id,
                 this.nome,
                 this.preco,
+                this.categoria,
                 this.marca,
                 this.imagemUrl,
                 this.quantidade
+
 
 
 

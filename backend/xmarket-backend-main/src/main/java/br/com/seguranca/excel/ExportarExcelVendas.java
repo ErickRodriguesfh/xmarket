@@ -1,7 +1,6 @@
 package br.com.seguranca.excel;
 
 import br.com.seguranca.model.ItemVenda;
-import br.com.seguranca.model.Produto;
 import br.com.seguranca.services.VendaServico;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.*;
@@ -12,9 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static org.apache.poi.ss.util.CellUtil.createCell;
+public class ExportarExcelVendas extends ExportadorAbstrato {
 
-public class ExportarExcelProdutos extends ExportadorAbstrato {
 
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
@@ -22,7 +20,7 @@ public class ExportarExcelProdutos extends ExportadorAbstrato {
     @Autowired
     private VendaServico vendaServico;
 
-    public ExportarExcelProdutos() {
+    public ExportarExcelVendas() {
         workbook = new XSSFWorkbook();
     }
 
@@ -37,11 +35,16 @@ public class ExportarExcelProdutos extends ExportadorAbstrato {
         cellStyle.setFont(font);
 
 
-        createCell(row, 0, "Código", cellStyle);
-        createCell(row, 1, "Produto", cellStyle);
-        createCell(row, 2, "Marca", cellStyle);
-        createCell(row, 3, "Preço", cellStyle);
-        createCell(row, 4, "Quantidade", cellStyle);
+        createCell(row, 0, "Produto", cellStyle);
+        createCell(row, 1, "Quantidade", cellStyle);
+        createCell(row, 2, "Preço Unitário", cellStyle);
+        createCell(row, 3, "Código Venda", cellStyle);
+        createCell(row, 4, "Cliente", cellStyle);
+        createCell(row, 5, "Data Venda", cellStyle);
+        createCell(row, 6, "Pagamento", cellStyle);
+        createCell(row, 7, "Total", cellStyle);
+        createCell(row, 8, "Categoria", cellStyle);
+
     }
 
     private void createCell(XSSFRow row, int columnIndex, Object value, CellStyle style) {
@@ -61,11 +64,11 @@ public class ExportarExcelProdutos extends ExportadorAbstrato {
     }
 
 
-    public void exportar(List<Produto> listaProdutos, HttpServletResponse response) throws IOException {
-        super.setResponseHeader(response, "application/octet-stream", ".xlsx", "Produtos");
+    public void exportar(List<ItemVenda> itens, HttpServletResponse response) throws IOException {
+        super.setResponseHeader(response, "application/octet-stream", ".xlsx", "Vendas");
 
         escreverLinhaHeader();
-        escreverLinhasProdutos(listaProdutos );
+        escreverLinhasProdutos(itens);
 
         ServletOutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);
@@ -74,34 +77,36 @@ public class ExportarExcelProdutos extends ExportadorAbstrato {
 
     }
 
-    private void escreverLinhasProdutos(List<Produto> produtos) {
-
-
+    private void escreverLinhasProdutos(List<ItemVenda> itens) {
 
         int rowIndex = 1;
 
 
         XSSFCellStyle cellStyle = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
-        // font.setBold(true);
         font.setFontHeight(16);
         cellStyle.setFont(font);
 
-        for (Produto p : produtos) {
+
+        for (ItemVenda i : itens) {
 
             XSSFRow row = sheet.createRow(rowIndex++);
             int columnIndex = 0;
 
-            createCell(row, columnIndex++, String.valueOf(p.getId()), cellStyle);
-            createCell(row, columnIndex++, (p.getNome()), cellStyle);
-            createCell(row, columnIndex++, (p.getMarca()), cellStyle);
-            createCell(row, columnIndex++, String.valueOf(p.getPreco()), cellStyle);
-            createCell(row, columnIndex++, String.valueOf(p.getQuantidade()), cellStyle);
+
+            createCell(row, columnIndex++, String.valueOf(i.getProduto().getNome()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(i.getQuantidade()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(i.getProduto().getPreco()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(i.getVenda().getIdVenda()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(i.getVenda().getUsuario().getNome()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(i.getVenda().getDataVenda()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(i.getVenda().getFormaPagamento()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(i.getVenda().getValorTotal()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(i.getProduto().getCategoria()), cellStyle);
 
 
 
         }
-
 
 
 

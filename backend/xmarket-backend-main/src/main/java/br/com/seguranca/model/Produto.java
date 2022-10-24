@@ -25,6 +25,8 @@ public class Produto {
 	private Long id;
 	private String nome;
 	private Double preco;
+
+	private String categoria;
 	private String marca;
 	private String imagemUrl;
 	private Integer quantidade;
@@ -41,7 +43,9 @@ public class Produto {
 				this.preco,
 				this.marca,
 				this.quantidade,
-				this.imagemUrl
+				this.imagemUrl,
+				this.categoria
+
 
 
 

@@ -9,12 +9,12 @@ import java.util.Date;
 public class ExportadorAbstrato {
 
 
-    public void setResponseHeader(HttpServletResponse response, String contentType, String extension)
+    public void setResponseHeader(HttpServletResponse response, String contentType, String extension, String name)
             throws IOException{
 
         DateFormat dateFormatter = new SimpleDateFormat(("yyyy-MM-dd"));
         String timeStamp = dateFormatter.format(new Date());
-        String fileName = "produtos_" + timeStamp + extension;
+        String fileName = name + timeStamp + extension;
 
         response.setContentType(contentType);
 
