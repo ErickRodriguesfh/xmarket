@@ -46,21 +46,7 @@ public class VendaController {
 			System.out.println(mensagemErro);
 			return ResponseEntity.ok(mensagemErro);
 		}
-		// Thread de envio de email
-		new Thread() {
-			public void run() {
-				Cliente cliente = clienteServico.buscarPeloId(idCliente);
-				Email email = new Email();
-				email.setRemetente(cliente.getEmail());
-				email.setTitulo("XMarket - Compra Finalizada!😀");
-				email.setMensagem(msg.msgVenda(cliente.getNome()));
-				try {
-					emailServico.enviarEmail(email);
-				} catch (MessagingException e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
+
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 

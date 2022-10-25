@@ -20,6 +20,9 @@ import br.com.seguranca.repositories.VendaRepositorio;
 public class VendaServico {
 
     @Autowired
+    EmailServico emailServico;
+
+    @Autowired
     private VendaRepositorio vendaRepositorio;
 
     @Autowired
@@ -78,6 +81,12 @@ public class VendaServico {
         venda.setValorTotal(vendaDTO.getValorTotal());
         venda.setFormaPagamento(vendaDTO.getEnumPagamento());
         vendaRepositorio.save(venda);
+
+        try {
+            emailServico.enviarEmailNotaFiscal(venda.getIdVenda(), venda.getUsuario().getEmail(), venda.getUsuario().getNome());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         if(itens.size() > 0){
             // Atualizar itens no estoque

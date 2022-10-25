@@ -6,13 +6,16 @@ import br.com.seguranca.model.ItemVenda;
 import br.com.seguranca.model.Produto;
 import br.com.seguranca.model.Venda;
 import br.com.seguranca.repositories.VendaRepositorio;
+import br.com.seguranca.services.EmailServico;
 import br.com.seguranca.services.JasperServico;
 import br.com.seguranca.services.ProdutoServico;
 import br.com.seguranca.services.VendaServico;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
@@ -30,6 +33,8 @@ public class JasperControlador {
     @Autowired
     private VendaServico vendaServico;
 
+    @Autowired
+    private EmailServico emailServico;
 
     @Autowired
     private VendaRepositorio vendaRepositorio;
@@ -112,6 +117,23 @@ public class JasperControlador {
 
 
 
+    @GetMapping("/xmarket/pdf/jr5/{code}")
+    public void exibirRelatorio02(@PathVariable("code") String code,     //pathvariable recebe o parametro a partir da url
+                                  @RequestParam(name="id_venda",required =false) long id_venda,    //coloco required false, porque não é obrigatório para fazer busca no 05
+                                  HttpServletResponse response) throws IOException { //resposta em relaçao a nossa requisição, não retornando nada
+
+        service.addParams("ID_VENDA", id_venda);  //como é string deve mandar essa condição para a string não chegar vazio
+        byte[] bytes = service.exportarPDF(code);  // meu relatorio sera transformado em uma array e sera retornado para bytes
+        response.setHeader("Content-disposition","inline;filename=relatorio-"+code+".pdf");
+        response.setContentType(MediaType.APPLICATION_PDF_VALUE); //vai receber o tipo de midia, nesse caso o PDF
+        response.getOutputStream().write(bytes);
+    }
+
+
+    @ModelAttribute("id_venda")
+    public List<String> getIdVenda(){
+        return vendaRepositorio.findIdVenda();
+    }
 
 
 

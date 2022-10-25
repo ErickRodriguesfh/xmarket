@@ -22,7 +22,10 @@ public interface VendaRepositorio extends JpaRepository<Venda, Long> {
     @Query(value ="select v.data_venda from tabela_venda v", nativeQuery = true)
     List<String> findDataFinal();
 
-
+    @Modifying
+    @Transactional
+    @Query(value ="select v.id_venda from tabela_venda v", nativeQuery = true)
+    List<String> findIdVenda();
 
 
 

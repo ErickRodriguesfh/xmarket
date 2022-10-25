@@ -50,7 +50,7 @@ public class ClienteControlador {
 					email.setTitulo("XMarket - Seja bem vindo!");
 					email.setMensagem(msg.msgCadastro(clienteDTO.getNome()));
 					try {
-						emailServico.enviarEmail(email);
+						emailServico.enviarEmailCadastro(email);
 					} catch (MessagingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
