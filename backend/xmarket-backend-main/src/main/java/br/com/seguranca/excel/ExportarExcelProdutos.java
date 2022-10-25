@@ -1,26 +1,26 @@
 package br.com.seguranca.excel;
 
-import br.com.seguranca.model.ItemVenda;
-import br.com.seguranca.model.Produto;
-import br.com.seguranca.services.VendaServico;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.xssf.usermodel.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static org.apache.poi.ss.util.CellUtil.createCell;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import br.com.seguranca.model.Produto;
 
 public class ExportarExcelProdutos extends ExportadorAbstrato {
 
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
 
-    @Autowired
-    private VendaServico vendaServico;
 
     public ExportarExcelProdutos() {
         workbook = new XSSFWorkbook();

@@ -27,9 +27,6 @@ public class CarrinhoServico {
     @Autowired
     private ClienteServico usuarioServico;
 
-	@Autowired
-	private VendaServico vendaServico;
-
     public Carrinho adicionarCarrinho(Long idProduto, Long idUsuario, Integer quantidade) {
 
 		Produto produto = produtoServico.findById(idProduto);
@@ -57,7 +54,6 @@ public class CarrinhoServico {
 	}
 
 	public List<CarrinhoDTO> buscarCarrinho(Long id) {
-		Cliente usuario = usuarioServico.buscarPeloId(id);
 		List<CarrinhoDTO> carrinhos = new ArrayList<>();
 		RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO();
 		ProdutoDTO produtoDTO = new ProdutoDTO();

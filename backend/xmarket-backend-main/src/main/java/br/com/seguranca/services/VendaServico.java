@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import br.com.seguranca.dto.VendaDTO;
 import br.com.seguranca.model.Carrinho;
 import br.com.seguranca.model.Cliente;
+import br.com.seguranca.model.Email;
 import br.com.seguranca.model.ItemVenda;
+import br.com.seguranca.model.MensagemEmail;
 import br.com.seguranca.model.Venda;
 import br.com.seguranca.repositories.CarrinhoRepositorio;
 import br.com.seguranca.repositories.ItemVendaRepository;
@@ -81,9 +83,16 @@ public class VendaServico {
         venda.setValorTotal(vendaDTO.getValorTotal());
         venda.setFormaPagamento(vendaDTO.getEnumPagamento());
         vendaRepositorio.save(venda);
-
+        ///
+        Email email = new Email();
+        MensagemEmail msg = new MensagemEmail();
+        
+        email.setRemetente(venda.getUsuario().getEmail());
+        
+        email.setMensagem(msg.msgVenda(venda.getUsuario().getNome()));
+        ///
         try {
-            emailServico.enviarEmailNotaFiscal(venda.getIdVenda(), venda.getUsuario().getEmail(), venda.getUsuario().getNome());
+            emailServico.enviarEmailNotaFiscal(venda.getIdVenda(),email);
         }catch (Exception e){
             e.printStackTrace();
         }

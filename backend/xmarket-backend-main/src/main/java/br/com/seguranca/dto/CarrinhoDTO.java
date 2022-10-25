@@ -1,21 +1,19 @@
 package br.com.seguranca.dto;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 @AllArgsConstructor
 @Setter
 @Getter
 public class CarrinhoDTO implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 
-
-
-    private ProdutoDTO produtoDTO;
+	private ProdutoDTO produtoDTO;
 
     private RetornoUsuarioDTO retornoUsuarioDTO;
 

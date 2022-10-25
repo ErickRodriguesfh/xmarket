@@ -52,7 +52,6 @@ public class ClienteControlador {
 					try {
 						emailServico.enviarEmailCadastro(email);
 					} catch (MessagingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

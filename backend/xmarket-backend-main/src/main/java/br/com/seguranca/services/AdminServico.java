@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import br.com.seguranca.model.Administrador;
 import br.com.seguranca.model.LoginAdmin;
 import br.com.seguranca.repositories.AdminRepositorio;
-import br.com.seguranca.repositories.ClienteRepositorio;
 
 @Service
 public class AdminServico {
@@ -16,8 +15,6 @@ public class AdminServico {
 	@Autowired
 	private AdminRepositorio adminRepositorio;
 	
-	@Autowired
-	private ClienteRepositorio clienteRepositorio;
 	
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.seguranca.dto.CarrinhoDTO;
 import br.com.seguranca.model.Carrinho;
+import br.com.seguranca.model.Produto;
 import br.com.seguranca.services.CarrinhoServico;
 
 @CrossOrigin("*")
@@ -76,17 +77,14 @@ public class CarrinhoControlador {
     }
 
     @PutMapping("/alterar/{ordem}/{id-usuario}/{id-produto}") // ("/alterar/{ordem}/{id-usuario}/{id-produto}/{nova-quantidade}")
-    public ResponseEntity alterarQuantidadeProduto(@PathVariable("ordem") String ordem, @PathVariable("id-usuario") Long idUsuario, @PathVariable("id-produto") Long idProduto ){
-
-        int quantidade = carrinhoServico.buscarQuantidadeProduto(idProduto);
-
+    public ResponseEntity<Produto> alterarQuantidadeProduto(@PathVariable("ordem") String ordem, @PathVariable("id-usuario") Long idUsuario, @PathVariable("id-produto") Long idProduto ){
+       
         if(ordem.equals("AUMENTAR")){
             carrinhoServico.aumentarItemCarrinho(idProduto, idUsuario);
         }
         if(ordem.equals("DIMINUIR")){
             carrinhoServico.diminuirItemCarrinho(idProduto, idUsuario);
         }
-
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }

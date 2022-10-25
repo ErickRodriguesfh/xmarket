@@ -1,15 +1,20 @@
 package br.com.seguranca.excel;
 
-import br.com.seguranca.model.ItemVenda;
-import br.com.seguranca.services.VendaServico;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.xssf.usermodel.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
+
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import br.com.seguranca.model.ItemVenda;
 
 public class ExportarExcelVendas extends ExportadorAbstrato {
 
@@ -17,8 +22,6 @@ public class ExportarExcelVendas extends ExportadorAbstrato {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
 
-    @Autowired
-    private VendaServico vendaServico;
 
     public ExportarExcelVendas() {
         workbook = new XSSFWorkbook();
@@ -33,7 +36,6 @@ public class ExportarExcelVendas extends ExportadorAbstrato {
         font.setBold(true);
         font.setFontHeight(16);
         cellStyle.setFont(font);
-
 
         createCell(row, 0, "Produto", cellStyle);
         createCell(row, 1, "Quantidade", cellStyle);

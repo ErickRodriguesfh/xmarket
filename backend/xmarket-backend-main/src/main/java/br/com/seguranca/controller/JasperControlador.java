@@ -1,25 +1,28 @@
 package br.com.seguranca.controller;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.seguranca.excel.ExportarExcelProdutos;
 import br.com.seguranca.excel.ExportarExcelVendas;
 import br.com.seguranca.model.ItemVenda;
 import br.com.seguranca.model.Produto;
-import br.com.seguranca.model.Venda;
 import br.com.seguranca.repositories.VendaRepositorio;
-import br.com.seguranca.services.EmailServico;
 import br.com.seguranca.services.JasperServico;
 import br.com.seguranca.services.ProdutoServico;
 import br.com.seguranca.services.VendaServico;
-import net.sf.jasperreports.engine.JRException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.Date;
-import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -32,9 +35,6 @@ public class JasperControlador {
 
     @Autowired
     private VendaServico vendaServico;
-
-    @Autowired
-    private EmailServico emailServico;
 
     @Autowired
     private VendaRepositorio vendaRepositorio;
@@ -70,8 +70,6 @@ public class JasperControlador {
                                   @RequestParam(name="data_final",required =false) Date data_final,
                                   HttpServletResponse response) throws IOException { //resposta em relaçao a nossa requisição, não retornando nada
 
-
-
         service.addParams("DATA_INICIO", data_inicio);  //como é string deve mandar essa condição para a string não chegar vazio
         service.addParams("DATA_FIM", data_final);
         byte[] bytes = service.exportarPDF(code);  // meu relatorio sera transformado em uma array e sera retornado para bytes
@@ -106,10 +104,7 @@ public class JasperControlador {
 
     @GetMapping("/exportar-excel-vendas")
     public void exportarParaExcelVendas(HttpServletResponse response) throws  IOException{
-
       List<ItemVenda> itensVendas =  vendaServico.buscarItemVenda();
-      List<Venda> vendas = vendaRepositorio.findAll();
-
       ExportarExcelVendas exportarVendas = new ExportarExcelVendas();
       exportarVendas.exportar(itensVendas,  response);
 

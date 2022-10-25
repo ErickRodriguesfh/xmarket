@@ -4,22 +4,19 @@ package br.com.seguranca.controller;
 
 import javax.mail.MessagingException;
 
-import br.com.seguranca.model.ItemVenda;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.seguranca.dto.VendaDTO;
-import br.com.seguranca.model.Cliente;
-import br.com.seguranca.model.Email;
 import br.com.seguranca.model.MensagemEmail;
-import br.com.seguranca.services.ClienteServico;
-import br.com.seguranca.services.EmailServico;
 import br.com.seguranca.services.VendaServico;
-
-import java.util.List;
 
 
 @CrossOrigin("*")
@@ -29,12 +26,6 @@ public class VendaController {
     @Autowired
     private VendaServico vendaServico;
 
-    @Autowired
-    private EmailServico emailServico;
-
-    @Autowired
-    private ClienteServico clienteServico;
-    
     MensagemEmail msg = new MensagemEmail();
     
     @PostMapping("/{idCliente}")
