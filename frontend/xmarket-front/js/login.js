@@ -67,6 +67,9 @@ let cadastrar = document.getElementById("cadastrar");
 
 
 login.addEventListener('click', getCredentials);
+
+
 cadastrar.addEventListener('click', function(){
-    window.location.href = "cadastro.html"
+    alert("cadastro")
+    window.location.href = "cadastro.html";
 })

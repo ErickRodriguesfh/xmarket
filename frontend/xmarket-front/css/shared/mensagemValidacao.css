@@ -11,7 +11,7 @@
   }
   
 .canva-mensagem {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -20,24 +20,24 @@
   }
   
   .mensagem {
-    position: absolute;
+    position: fixed;
     padding: 2%;
-    top: 0;
+    top: 5%;
     left: 0;
     right: 0;
     margin: auto;
-  
     width: 70%;
     height: 200px;
     background: white;
-  
-    border: 1px solid rgb(78, 78, 78);
-    border-radius: 5px;
-  
-    display: flex;
-    justify-content: center;
-  
+    border: 1px solid rgb(25 38 131);
+    border-radius: 3px;
     display: inline-grid;
-    justify-content: space-evenly;
-    align-items: baseline;
+    color: #272525;
+    justify-content: center;
+  }
+  .mensagem-erro{
+    color: red;
+  }
+  .mensagem-sucesso{
+    color: green;
   }

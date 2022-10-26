@@ -97,10 +97,6 @@ async function popular_produtos() {
 
             let produto = new Produto(element);
             let id = produto.id;
-            let nome = element["nome"];
-            let marca = element["marca"];
-            let price = element["preco"];
-            let imagePath = "http://127.0.0.1:5500/" + element["imagemUrl"];
 
             produto.criarCardProduto(id);
 
@@ -127,7 +123,7 @@ async function popular_produtos() {
                         canvaQuantidadeCarrinho.style.display = "flex";
                         quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
      
-                        document.body.appendChild(mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", false))
+                        mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", "sucesso", false)
 
                     } else {
 
@@ -152,7 +148,7 @@ async function popular_produtos() {
                             canvaQuantidadeCarrinho.style.display = "flex";
                             quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
      
-                            document.body.appendChild(mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", false))
+                            mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", "sucesso", false)
                 
                         }
                     }
@@ -171,6 +167,6 @@ async function adicionar_produto_carrinho(id_produto, id_usuario, quantidade) {
 
     quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
 
-    document.body.appendChild(mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", false))
+    mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", "sucesso", false)
 
 }

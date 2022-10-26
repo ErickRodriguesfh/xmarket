@@ -1,11 +1,12 @@
 import Produto from "./Produto.js";
 import request_API from "./services/service.js";
+import mensagemValidacao from "./services/mensagemValidacao.js"
 
 localStorage.ultimaPagina = "carrinho.html"
 let idUsuario;
 let dados;
 
-if(localStorage.cliente) idUsuario = JSON.parse(localStorage.cliente).id;
+if (localStorage.cliente) idUsuario = JSON.parse(localStorage.cliente).id;
 
 
 let finalizarCompra = document.getElementById("finalizar-compra");
@@ -36,18 +37,18 @@ returnToProduto.addEventListener('click', () => {
     window.location.href = "produtos.html";
 });
 
-function card_item(produto, quantidade) {
-    let id = produto.id;
-    let nome = produto.nome;
-    let path = produto.imagemUrl;
-    let marca = produto.marca;
-    let preco = produto.preco;
+function card_item(quantidade, produtoDTO) {
+    let id = produtoDTO.id;
+    let nome = produtoDTO.nome;
+    let path = produtoDTO.imagemUrl;
+    let marca = produtoDTO.marca;
+    let preco = produtoDTO.preco;
 
     let product_item = document.createElement("div");
     product_item.setAttribute("class", "products-item");
 
     let f_infos = first_infos(path, nome, marca, preco);
-    let s_infos = second_infos(quantidade, id);
+    let s_infos = second_infos(quantidade, id, produtoDTO);
 
     product_item.appendChild(f_infos);
     product_item.appendChild(s_infos);
@@ -75,7 +76,7 @@ function first_infos(path, nome, marca, preco) {
     let _nome = document.createElement("h4");
 
     let _marca = document.createElement("h6");
-    let _preco = document.createElement("h4");
+    let _preco = document.createElement("h3");
 
     description_item.setAttribute("class", "description-item");
     container_nomes.setAttribute("class", "container-description");
@@ -86,16 +87,16 @@ function first_infos(path, nome, marca, preco) {
     let conteudo_marca = document.createTextNode(marca);
     let conteudo_preco = document.createTextNode("R$" + preco);
 
-
     _nome.appendChild(conteudo_nome);
     _marca.appendChild(conteudo_marca);
     _preco.appendChild(conteudo_preco);
 
     second_description.appendChild(_marca);
-    second_description.appendChild(_preco);
+    //second_description.appendChild(_preco);
     second_description.setAttribute("class", "second-description");
     container_nomes.appendChild(_nome);
     container_nomes.appendChild(second_description);
+    container_nomes.appendChild(_preco);
 
     description_item.appendChild(container_nomes);
     description_item.appendChild(container_nomes);
@@ -107,7 +108,7 @@ function first_infos(path, nome, marca, preco) {
     return first_infos;
 }
 
-function second_infos(quantidade, id) {
+function second_infos(quantidade, id, produto) {
     let second_infos = document.createElement("div");
     second_infos.setAttribute("class", "second-infos");
 
@@ -153,7 +154,16 @@ function second_infos(quantidade, id) {
 
     delete_button.appendChild(trash_icon);
     delete_button.appendChild(text_remover);
+    let blocoQuantidade = document.createElement("div")
+    blocoQuantidade.setAttribute("class", "quantidade-estoque")
+    let quantidadeNumero = document.createElement("h6");
+    quantidadeNumero.appendChild(document.createTextNode(`${produto.quantidade}`))
+    let textoEmEstoque = document.createTextNode("Em estoque")
 
+    blocoQuantidade.appendChild(quantidadeNumero);
+    blocoQuantidade.appendChild(textoEmEstoque)
+
+    second_infos.appendChild(blocoQuantidade);
     second_infos.appendChild(control_quantidade);
     second_infos.appendChild(delete_button);
 
@@ -161,7 +171,13 @@ function second_infos(quantidade, id) {
     return second_infos;
 }
 function popular_carrinho_deslogado() {
-    if (localStorage.carrinho == undefined || localStorage.carrinho == "") return;
+    if (localStorage.carrinho == undefined || localStorage.carrinho == ""){
+        mensagemValidacao("Carrinho vazio!", "voce será redirecionado para pagina princiapal", "erro", true);
+        setTimeout(function () {
+            window.location.href = "home-page.html"
+        }, 3000)
+        return;
+    }
     let carrinhoLocal = JSON.parse(localStorage.carrinho);
 
     if (carrinhoLocal != undefined && carrinhoLocal != "") {
@@ -169,11 +185,21 @@ function popular_carrinho_deslogado() {
         for (let id in carrinhoLocal) {
             const item = carrinhoLocal[id];
 
+            if(item.quantidade > item.produto.quantidade){
+                mensagemValidacao("Voce possui algum produto com quantidade maior do que a disponivel!", "Verique seus produtos.", "erro", true)
+            }
+
             let produto = new Produto(item.produto);
-            produto.imagemUrl = servidorImagens + produto.imagemUrl;
-            console.log("🚀 ~ file: carrinho.js ~ line 175 ~ produto.imagemUrl", produto.imagemUrl)
-        
-            card_item(produto, item.quantidade);
+            console.log("🚀 ~ file: carrinho.js ~ line 193 ~ produto", produto.imagemUrl)
+            
+            const imagemReferencia =produto.imagemUrl;
+            if(!imagemReferencia.includes(servidorImagens)){
+                produto.imagemUrl = servidorImagens + produto.imagemUrl;
+            }
+
+
+
+            card_item(item.quantidade, produto);
             lista_produtos_calculo(produto, item.quantidade);
 
             // Input da quantidade do produto
@@ -192,10 +218,10 @@ function popular_carrinho_deslogado() {
 
                     let precoProduto = document.getElementById(`preco-produto-${produto.id}`); //quantidade-produto
                     let quantidadeProduto = document.getElementById(`quantidade-produto-${produto.id}`);
-                  
+
                     precoProduto.innerHTML = (produto.preco * inputQuantidade.value).toFixed(2);
                     quantidadeProduto.innerHTML = inputQuantidade.value;
-               
+
                     quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) - 1;
                     localStorage.setItem("quantidade-carrinho", quantidadeCarrinho.innerHTML);
 
@@ -209,7 +235,7 @@ function popular_carrinho_deslogado() {
             });
 
             btnMore.addEventListener('click', () => {
-                if (parseInt(qtdProduto.value) < 20) {
+                if (parseInt(qtdProduto.value) < 20 && parseInt(qtdProduto.value) < item.produto.quantidade) {
                     qtdProduto.value = parseInt(qtdProduto.value) + 1;
 
                     let precoProduto = document.getElementById(`preco-produto-${produto.id}`);
@@ -240,27 +266,70 @@ function popular_carrinho_deslogado() {
             });
         }
         // calcular soma apos preencher os produtos
-        cleanCart.addEventListener('click', function(){
+        cleanCart.addEventListener('click', function () {
             delete localStorage.carrinho;
             window.location.href = "produtos.html";
         })
         calcular_soma();
-    }
+    } 
 
 }
+
+function validarProdutosDispoveisLocal(){
+    const carrinhoLocal = JSON.parse(localStorage.carrinho);
+    let todosDisponiveis = true;
+    for(let id in carrinhoLocal){
+        const item = carrinhoLocal[id]
+        if(item.quantidade > item.produto.quantidade) todosDisponiveis = false;
+    }
+
+    return todosDisponiveis;
+}
+
+async function validarProdutosDispoveis() {
+    const respose = await request_API("GET", `http://localhost:8080/carrinho/exibirCarrinho/${idUsuario}`);
+    console.log(respose)
+    if (respose.status != 200 && respose.status != 201) return
+    dados = await respose.json();
+    let todosTemEstoque = true;
+    dados.forEach(item => {
+        let id = item.produtoDTO.id;
+        let inputQuantidade = document.getElementById(`input-qtd-${id}`);
+
+        if (inputQuantidade.value > item.produtoDTO.quantidade) {
+            todosTemEstoque = false;
+            return false;
+
+        }
+
+    })
+
+    return todosTemEstoque ? true : false;
+}
+
 async function popular_carrinho_logado() {
     const respose = await request_API("GET", `http://localhost:8080/carrinho/exibirCarrinho/${idUsuario}`);
-    if(respose.ok != true) return
+    console.log(respose)
+    if (respose.status == 204) {
+        mensagemValidacao("Carrinho vazio!", "voce será redirecionado para pagina princiapal", "erro", true);
+
+        setTimeout(function () {
+            window.location.href = "home-page.html"
+        }, 4000)
+    }
+    if (respose.status != 200 && respose.status != 201) return
     dados = await respose.json();
+
     dados.forEach(item => {
         let produto = new Produto(item.produtoDTO);
         let id = produto.id;
 
-
+        console.log("🚀 ~ file: carrinho.js ~ line 310 ~ produto.imagemUrl", produto.imagemUrl)
         produto.imagemUrl = servidorImagens + produto.imagemUrl;
+        console.log("🚀 ~ file: carrinho.js ~ line 312 ~ produto.imagemUrl", produto.imagemUrl)
 
         // Criação dinamicamente do produto no carrinho
-        card_item(produto, item.quantidade);
+        card_item(item.quantidade, produto);
         lista_produtos_calculo(produto, item.quantidade); //idProduto, nomeProduto, marca, quantidade, preco
 
         // Input da quantidade do produto
@@ -271,6 +340,10 @@ async function popular_carrinho_logado() {
         let btnMore = document.getElementById(`more-qtd-${id}`);
         let deleteButton = document.getElementById(`delete-button-${id}`);
         let inputQuantidade = document.getElementById(`input-qtd-${id}`);
+
+        if (inputQuantidade.value > item.produtoDTO.quantidade) {
+            mensagemValidacao("Voce possui algum produto com quantidade maior do que a disponivel!", "Verique seus produtos.", "erro", true)
+        }
 
         // Adicionando funções aos botões
         btnLess.addEventListener('click', () => {
@@ -292,13 +365,13 @@ async function popular_carrinho_logado() {
         });
 
         btnMore.addEventListener('click', () => {
-            if (parseInt(qtdProduto.value) < 20) {
+            if (parseInt(qtdProduto.value) < 20 && parseInt(qtdProduto.value) < item.produtoDTO.quantidade) {
                 qtdProduto.value = parseInt(qtdProduto.value) + 1;
 
                 let precoProduto = document.getElementById(`preco-produto-${id}`);
                 let quantidadeProduto = document.getElementById(`quantidade-produto-${id}`);
 
-                precoProduto.innerHTML = (preco * inputQuantidade.value).toFixed(2);
+                precoProduto.innerHTML = (produto.preco * inputQuantidade.value).toFixed(2);
                 quantidadeProduto.innerHTML = inputQuantidade.value;
 
                 let endPoint = `http://localhost:8080/carrinho/alterar/AUMENTAR/${idUsuario}/${id}`;
@@ -350,11 +423,25 @@ function finalizar_compra() {
     }
     response()
 }
-function comprar_agora(){
-    if(logado == "true"){
+async function comprar_agora() {
+    let todosTemEstoque
+    if(localStorage.logado == "true"){
+        todosTemEstoque = await validarProdutosDispoveis();
+    }
+    if(localStorage.logado == "false"){
+        todosTemEstoque = validarProdutosDispoveisLocal();
+    }
+
+    console.log(todosTemEstoque)
+    if (todosTemEstoque == false) {
+        mensagemValidacao("Voce possui algum produto com quantidade maior do que a disponivel!", "Verique seus produtos.", "erro", true);
+        return
+    }
+
+    if (logado == "true") {
         window.location.href = "finalizar-compra.html";
         localStorage.totalVenda = totalProdutos.innerHTML;
-    }else if(logado == "false"){
+    } else if (logado == "false") {
         window.location.href = "login.html";
         localStorage.redirecionamento = "finalizar-compra.html";
     }
@@ -363,7 +450,7 @@ function comprar_agora(){
 async function clean_cart() {
     let endPoint = `http://localhost:8080/carrinho/remover/${idUsuario}`;
     let response = await request_API("DELETE", endPoint);
-    if(response.ok == true)
+    if (response.ok == true)
         window.location.href = "produtos.html";
 }
 

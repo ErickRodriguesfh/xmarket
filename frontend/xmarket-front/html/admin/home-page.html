@@ -23,13 +23,15 @@
 
     <script src="https://kit.fontawesome.com/c6a43d1a54.js" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.7/pdfobject.min.js" integrity="sha512-g16L6hyoieygYYZrtuzScNFXrrbJo/lj9+1AYsw+0CYYYZ6lx5J3x9Yyzsm+D37/7jMIGh0fDqdvyYkNWbuYuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <style>
-        label{
+        label {
             font-size: .875rem;
-    
-            color:black;
+
+            color: black;
             font-weight: bold;
-        
+
         }
     </style>
 </head>
@@ -568,106 +570,58 @@
             </div>
 
             <div class="panel-relatorio" style="display: none;">
+                <header>
 
-                <div id="botao-gerar-relatorio-pdf" style="    width: 130px;
-                height: 70px;
-                background: rgb(255, 255, 255);
-                border: 1px solid black;
-                margin: 0 auto;
-                display: flex;
-                border-radius: 10px;
-                cursor: pointer;
-                ">
-                    <h6 style="    position: absolute;
-                    margin-top: -20px;
-                    margin-left: 6px;">Baixar PDF</h6>
-                    <svg style="width: 50px; height: 50px; margin: auto" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 384 512">
-                        <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                        <path
-                            d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 232V334.1l31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31V232c0-13.3 10.7-24 24-24s24 10.7 24 24z" />
-                    </svg>
-                </div>
-
-                <div
-                    style="width: 60%; height: 70%; background: rgba(255, 0, 0, 0)(255, 255, 255); margin: 0 auto; display: flex; justify-content: space-evenly; border: 1px solid black; align-items: center;">
-                    <div style="display: inline-grid; height: 100%">
-                        <label for="data-inicio" style="height: 20px; width: 144px;">Baixar Relatorio de
-                            Vendas</label>
-                        <div id="botao-gerar-relatorio-excel-venda" style="    width: 144px;
-               height: 40px;
-                background: rgb(255, 255, 255);
-                border: 1px solid black;
-                margin: 0 auto;
-                display: flex;
-                border-radius: 2px;
-                cursor: pointer;">
-                            <svg style="width: 35px; height: 35px; margin: auto" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 384 512">
-                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                <path
-                                    d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 232V334.1l31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31V232c0-13.3 10.7-24 24-24s24 10.7 24 24z" />
-                            </svg>
+                    <div id="cabecalho-relatorios">
+                       
+                        <div class="opcao-relatorio">
+                            <h6 style="text-align: center; font-weight: bold;">Tipo</h6>
+                            <select id="tipo-relatorio" class="form-select" aria-label="Default select example">
+                                <option selected>Vendas</option>
+                                <option value="Produtos">Produtos</option>
+                              </select>
                         </div>
 
-                    </div>
-                    <div style="display: inline-grid; height: 100%">
-                        <label for="data-inicio" style="height: 20px; width: 144px;">Baixar Relatorio de
-                            Produtos</label>
-                        <div id="botao-gerar-relatorio-excel-produto" style="    width: 144px;
-               height: 40px;
-                background: rgb(255, 255, 255);
-                border: 1px solid black;
-                margin: 0 auto;
-                display: flex;
-                border-radius: 2px;
-                cursor: pointer;">
-                            <svg style="width: 35px; height: 35px; margin: auto" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 384 512">
-                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                <path
-                                    d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 232V334.1l31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31V232c0-13.3 10.7-24 24-24s24 10.7 24 24z" />
-                            </svg>
+                        <div class="opcao-relatorio">
+                            <h6 style="text-align: center; font-weight: bold;">Extensão</h6>
+                            <select id="extencao-relatorio" class="form-select" aria-label="Default select example">
+                                <option selected id="option-pdf">Pdf</option>
+                                <option value="Excel">Excel</option>
+                              </select>
                         </div>
 
-                    </div>
-                </div>
-                <div
-                    style="width: 60%; height: 70%; background: rgba(255, 0, 0, 0)(255, 255, 255); margin: 0 auto; display: flex; justify-content: space-evenly; border: 1px solid black; align-items: center;">
-                    <div style="display: inline-grid; height: 100%;">
-                        <label for="data-inicio" style="height: 20px;">Data inicio</label>
-                        <input id="data-inicio" name="data-inicio" type="date" style="    height: 40px;
-                            border: 1px solid black;
-                            border-radius: 2px;">
-                    </div>
-                    <div style="display: inline-grid; height: 100%;">
-                        <label for="data-fim" style="height: 20px;">Data fim</label>
-                        <input id="data-fim" name="data-fim" type="date" style="    height: 40px;
-                            border: 1px solid black;
-                            border-radius: 2px;">
-                    </div>
-                    <div style="display: inline-grid; height: 100%">
-                        <label for="data-inicio" style="height: 20px;">Baixar Relatorio</label>
-                        <div id="botao-gerar-relatorio-data" style="    
-                        width: 144px;
-                        height: 40px;
-                 background: rgb(255, 255, 255);
-                 border: 1px solid black;
-                 display: flex;
-                 border-radius: 2px;
-                 cursor: pointer;
-                 ">
-
-                            <svg style="width: 35px; height: 35px; margin: auto" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 384 512">
-                                <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                <path
-                                    d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 232V334.1l31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31V232c0-13.3 10.7-24 24-24s24 10.7 24 24z" />
-                            </svg>
+                        <div id="area-filtro" class="opcao-relatorio">
+                            <h6 style="text-align: center; font-weight: bold;">Filtro</h6>
+                            <select id="filtro-relatorio" class="form-select" aria-label="Default select example">
+                                <option selected>Sem Filtro</option>
+                                <option value="Data">Data</option>
+                              </select>
                         </div>
-
                     </div>
-                </div>
+
+
+
+                    <div id="cabecalho-relatorios-filtro">
+                        <div class="opcao-relatorio" id="area-data-inicio">
+                            <h6 style="text-align: center; font-weight: bold;">Data Inicio:</h6>
+                            <input class="form-select" id="data-inicio" name="data-inicio" type="date">
+                        </div>
+    
+                        <div class="opcao-relatorio" id="area-data-fim">
+                            <h6 style="text-align: center; font-weight: bold;">Data Fim:</h6>
+                            <input class="form-select" id="data-fim" name="data-fim" type="date">
+                        </div>
+                        
+                        <div class="opcao-relatorio" id="gerar-relatorio">
+                            <h4>Gerar</h4>
+                        </div>
+    
+                    </div>
+                </header>
+
+                <section id="my-container" class="ng-scope pdfobject-container" style="width: 100%; height:100%; background: rgb(255, 255, 255); margin-top: 20px;">
+                
+                </section>
 
             </div>
 

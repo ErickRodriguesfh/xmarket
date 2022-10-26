@@ -14,6 +14,8 @@ import br.com.seguranca.model.Login;
 import br.com.seguranca.repositories.ClienteRepositorio;
 import lombok.RequiredArgsConstructor;
 
+
+
 @Service
 @RequiredArgsConstructor
 public class ClienteServico {

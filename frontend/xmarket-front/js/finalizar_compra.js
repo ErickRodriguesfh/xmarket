@@ -50,8 +50,7 @@ botaoFinalizarCompra.addEventListener("click", function(){
     if(pagamentoSelecionado){
         finalizar_compra();
     }else{
-        const mensagem = mensagemValidacao("Forma de pagamento não reconhecida", "Por favor selecione uma forma de pagamento.", true);
-        document.body.appendChild(mensagem)
+        mensagemValidacao("Forma de pagamento não reconhecida", "Por favor selecione uma forma de pagamento.", "erro", true);
     }
 })
 
@@ -173,8 +172,9 @@ function finalizar_compra() {
         if(response.ok == true){
             var result = await response.text();
             if(result == ""){
-                let mensagem = mensagemValidacao("Sucesso, Obrigado pela compra!", "Comprovante enviado para email", false,3000);
-                document.body.appendChild(mensagem);
+                
+                mensagemValidacao("Sucesso, Obrigado pela compra!", "Comprovante enviado para email","sucesso", false,3000);
+                
 
                 setTimeout(() => {
                     window.location.href = "home-page.html"

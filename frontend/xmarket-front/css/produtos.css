@@ -11,13 +11,14 @@
 
 .card-item {
     max-width: 300px;
-    max-height: 500px;
+    max-height: 400px;
+    min-height: 300px;
     width: 44%;
-    height: 60%;
     margin: 0.5%;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
     border-radius: 10px;
     position: relative;
+    padding: 1%;
 
 }
 
@@ -36,14 +37,13 @@
 
 .title-item {
     height: 10%;
-
+   
     text-align: center;
 }
 
 .title-item h2 {
     font-weight: bold;
 }
-
 .description-item {
     position: absolute;
     left: 0;
@@ -93,6 +93,12 @@
     -webkit-flex-flow: row wrap;
 
     justify-content: space-evenly;
+}
+@media (max-width: 600px) {
+    .title-item h4{
+        font-size: 1.0rem !important;
+    }
+
 }
 
 @media (max-width: 992px) {

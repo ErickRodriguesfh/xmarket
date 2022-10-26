@@ -113,7 +113,7 @@ export default function adicionandoEventos() {
             element.style.display = "none";
             relatorio.style.display = "none";
         } else if(localStorage.getItem("option") == "relatorios"){ //panel-relatorio
-            relatorio.style.display = "contents";
+            relatorio.style.display = "inline";
             element.style.display = "none"
         }
         else {

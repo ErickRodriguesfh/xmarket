@@ -31,6 +31,7 @@ const newCadastro =  async () =>{
             "telefone": telefone.value,
             "endereco": `${rua.value}, ${numero.value}, ${bairro.value}, ${municipio.value}, ${estado.value}`,
         }
+        console.log(dados)
         const response = await request_API("POST", endPoint, dados);
         console.log(response)
         if(response.ok == true){

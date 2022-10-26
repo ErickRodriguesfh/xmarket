@@ -1,4 +1,4 @@
-export default function mensagemValidacao(titulo, mensagem, comBotao, tempoDeEspera=1000){
+export default function mensagemValidacao(titulo, mensagem, flag, comBotao, tempoDeEspera=1500){
     let background = document.createElement("div");
     let caixaMensagem = document.createElement("div");
     let tituloMensagem = document.createElement("h4");
@@ -14,8 +14,14 @@ export default function mensagemValidacao(titulo, mensagem, comBotao, tempoDeEsp
     })
 
     corpoMensagem.setAttribute("id", "corpo-mensagem");
-    tituloMensagem.setAttribute("id", "titulo-mensagem");
     
+    tituloMensagem.setAttribute("id", "titulo-mensagem");
+
+    if(flag == "sucesso"){
+        tituloMensagem.classList.add("mensagem-sucesso");
+    }else{
+        tituloMensagem.classList.add("mensagem-erro");
+    }
 
     corpoMensagem.appendChild(document.createTextNode(mensagem));
     tituloMensagem.appendChild(document.createTextNode(titulo));
@@ -30,10 +36,11 @@ export default function mensagemValidacao(titulo, mensagem, comBotao, tempoDeEsp
             background.style.display = "none";                  
         }, tempoDeEspera);
     }
-        
+    
 
     background.appendChild(caixaMensagem);
     background.setAttribute("class", "canva-mensagem")
-    return background;
+
+    document.body.appendChild(background);
 
 }

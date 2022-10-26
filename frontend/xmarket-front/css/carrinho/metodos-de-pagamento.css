@@ -12,7 +12,7 @@
 .valor-produto{
     display: flex;
     justify-content: space-between;
-    height: 30px;
+    min-height: 20px;
 
 }
 .preview-produto{

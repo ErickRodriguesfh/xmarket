@@ -97,7 +97,7 @@ public class AdminControlador {
 		return ResponseEntity.status(201).body(path);
 	}
 
-	@DeleteMapping("/estoque/excluir/{id}")
+	@DeleteMapping("/estoque/deletar/{id}")
 	public ResponseEntity<ProdutoDTO> excluir(@PathVariable Long id) {
 		if (produtoServico.excluirProduto(id)) {
 			return ResponseEntity.status(200).build();

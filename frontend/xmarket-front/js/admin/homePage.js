@@ -206,7 +206,7 @@ function listarClientes(dados) {
 
     dados.forEach((element) => {
         let cliente = new Cliente(element);
-        if(cliente.id == 1) return;
+        if(cliente.id == 2) return;
         let row = cliente.listarParaTabela();
         listContent.appendChild(row);
 
@@ -519,7 +519,7 @@ async function removaProduto() {
     const idProduto = camposRemoverProduto.id.value;
 
 
-    const endPoint = `http://localhost:8080/admin/estoque/excluir/${idProduto}`;
+    const endPoint = `http://localhost:8080/admin/estoque/deletar/${idProduto}`;
     const response = await request_API("DELETE", endPoint);
 
     if (response.status == 200 || response.status == 201) {
@@ -578,80 +578,135 @@ function unblockInputs(confirm, formulario) {
 }
 
 
-let gerarRelatorioPdf = document.getElementById("botao-gerar-relatorio-pdf");
-gerarRelatorioPdf.addEventListener("click", async function () {
-    let endPoint = "http://localhost:8080/xmarket/pdf/jr2/01";
+const tipoRelatorio = document.getElementById("tipo-relatorio");
+const extencaoRelatorio = document.getElementById("extencao-relatorio");
+const filtroRelatorio = document.getElementById("filtro-relatorio");
 
-    let response = request_API("GET", endPoint)
+const areaFiltro = document.getElementById("area-filtro");
 
-    response
-        .then(r => r.blob())
-        .then(showFile)
+tipoRelatorio.addEventListener("change", function(e){
 
-})
+    switch(tipoRelatorio.value){
+        case "Vendas":
+            if(extencaoRelatorio.value == "Pdf"){
+                areaFiltro.style.display = "inline";
 
-let gerarRelatorioVendaExcel = document.getElementById("botao-gerar-relatorio-excel-venda");
-gerarRelatorioVendaExcel.addEventListener("click", async function () {
-    let endPoint = "http://localhost:8080/exportar-excel-vendas";
+            }
 
-    let response = request_API("GET", endPoint)
+            break;
+        case "Produtos":
+            areaFiltro.style.display = "none";
 
-    response
-        .then(r => r.blob())
-        .then(showFileExcelVendas)
 
-})
-
-let gerarRelatorioProdutoExcel = document.getElementById("botao-gerar-relatorio-excel-produto");
-gerarRelatorioProdutoExcel.addEventListener("click", async function () {
-    let endPoint = "http://localhost:8080/exportar-excel-produtos";
-
-    let response = request_API("GET", endPoint)
-
-    response
-        .then(r => r.blob())
-        .then(showFileExcel)
-
+            break;
+    }
+    
 })
 
 
-
-let gerarRelatorioData = document.getElementById("botao-gerar-relatorio-data");
-gerarRelatorioData.addEventListener("click", function(){
-    const dataInicio = document.getElementById("data-inicio");
-    const dataFim = document.getElementById("data-fim");
+extencaoRelatorio.addEventListener("change", function(e){
+    const tipoRelatorio = document.getElementById("tipo-relatorio");
 
 
-    console.log(dataInicio.value)
-    console.log(dataFim.value)
-    console.log("click")
-    if(dataInicio && dataFim){
-        const endPoint = `http://localhost:8080/xmarket/pdf/jr2/02?data_inicio=${dataInicio.value}&data_final=${dataFim.value}`;
-        const response = request_API("GET", endPoint)
-
-        response
-        .then(r => r.blob())
-        .then(showFileDate)
-    }else{
-        console.log("nao deu")
+    switch(extencaoRelatorio.value){
+        case "Pdf":
+            if(tipoRelatorio.value == "Vendas"){
+                areaFiltro.style.display = "inline";
+            }
+            break;
+        case "Excel":
+            areaFiltro.style.display = "none";
+            break;
+        default:
+            alert("defaul");
+            break;
     }
 })
 
+filtroRelatorio.addEventListener("change", function(e){
+    let dataInicio = document.getElementById("area-data-inicio");
+    let dataFim = document.getElementById("area-data-fim");
+    let areaFiltros = document.getElementById("cabecalho-relatorios-filtro");
+
+
+    switch(filtroRelatorio.value){
+        case "Data":
+            dataInicio.style.display = "inline";
+            dataFim.style.display = "inline";
+            areaFiltros.style.marginTop = "0";
+            break;
+        default:
+            dataInicio.style.display = "none";
+            dataFim.style.display = "none";
+            areaFiltros.style.marginTop = "-20px";
+            break;
+    }
+    
+})
+
+let gerarRelatorioPdf = document.getElementById("gerar-relatorio");
+gerarRelatorioPdf.addEventListener("click", async function () {
+    let endPoint;
+    let funcao;
+    switch(tipoRelatorio.value){
+        case "Vendas":
+            if(extencaoRelatorio.value == "Pdf"){
+                endPoint = "http://localhost:8080/xmarket/pdf/jr2/01";
+                funcao = showFile;
+
+                if(filtroRelatorio.value == "Data"){
+                    const dataInicio = document.getElementById("data-inicio");
+                    const dataFim = document.getElementById("data-fim");
+
+                    endPoint =  `http://localhost:8080/xmarket/pdf/jr2/02?data_inicio=${dataInicio.value}&data_final=${dataFim.value}`;
+                    funcao = showFile;
+                }
+
+            }
+            
+            if( extencaoRelatorio.value == "Excel"){
+                endPoint = "http://localhost:8080/exportar-excel-vendas";
+                funcao = showFileExcelVendas;
+
+ 
+            }
+            
+            break;
+        case "Produtos":
+
+            if(extencaoRelatorio.value == "Pdf"){
+                endPoint = "http://localhost:8080/xmarket/pdf/jr7?code=07&acao=v";
+                funcao = showFile;
+
+            }
+            if(extencaoRelatorio.value == "Excel"){
+                endPoint = "http://localhost:8080/exportar-excel-produtos";
+                funcao = showFileExcel;
+
+                
+            }
+            break;
+    }
+
+    let response = request_API("GET", endPoint)
+
+    response
+        .then(r => r.blob())
+        .then(funcao)
+})
+
+
+
 function showFileDate(blob) {
 
-    // It is necessary to create a new blob object with mime-type explicitly set
-    // otherwise only Chrome works like it should
+
     var newBlob = new Blob([blob], { type: "application/octec-stream" })
 
-    // IE doesn't allow using a blob object directly as link href
-    // instead it is necessary to use msSaveOrOpenBlob
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveOrOpenBlob(newBlob);
         return;
     }
 
-    // For other browsers: 
-    // Create a link pointing to the ObjectURL containing the blob.
     const data = window.URL.createObjectURL(newBlob);
     var link = document.createElement('a');
     link.href = data;
@@ -665,7 +720,7 @@ function showFileDate(blob) {
     link.download=`relatorio-produtos-${today.toLocaleDateString()}.pdf`;
     link.click();
     setTimeout(function () {
-        // For Firefox it is necessary to delay revoking the ObjectURL
+        // Firefox demnanda o delay
         window.URL.revokeObjectURL(data);
     }, 100);
 }
@@ -675,7 +730,7 @@ function showFileDate(blob) {
 function showFile(blob) {
     // It is necessary to create a new blob object with mime-type explicitly set
     // otherwise only Chrome works like it should
-    var newBlob = new Blob([blob], { type: "application/octec-stream" })
+    var newBlob = new Blob([blob], { type: "application/pdf" })
 
     // IE doesn't allow using a blob object directly as link href
     // instead it is necessary to use msSaveOrOpenBlob
@@ -687,21 +742,32 @@ function showFile(blob) {
     // For other browsers: 
     // Create a link pointing to the ObjectURL containing the blob.
     const data = window.URL.createObjectURL(newBlob);
-    var link = document.createElement('a');
-    link.href = data;
 
-   
+
+
+    var link = document.createElement('a');
+
+
+    link.href = data;
+    console.log(data)
+
+
+
+    //window.open(data)
+    PDFObject.embed(data, "#my-container");
+
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
     
-    
 
-    link.download=`relatorio-produtos-${today.toLocaleDateString()}.pdf`;
-    link.click();
-    setTimeout(function () {
-        // For Firefox it is necessary to delay revoking the ObjectURL
-        window.URL.revokeObjectURL(data);
-    }, 100);
+    // link.download=`relatorio-produtos-${today.toLocaleDateString()}.pdf`;
+
+    // //window.open(link)
+    // link.click();
+    // setTimeout(function () {
+    //     // For Firefox it is necessary to delay revoking the ObjectURL
+    //     //window.URL.revokeObjectURL(data);
+    // }, 100);
 }
 
 

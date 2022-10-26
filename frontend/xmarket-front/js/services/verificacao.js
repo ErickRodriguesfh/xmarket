@@ -1,7 +1,7 @@
 var isValidate = localStorage.getItem("logado");
 console.log("Puxando")
 if(isValidate == "false"){
-    //window.location.href="login.html";
+    window.location.href="login.html";
    // alert("teste")
 }
 
