@@ -14,7 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import br.com.xmarket.model.Produto;
+import br.com.xmarket.modelo.Produto;
 
 public class ExportarExcelProdutos extends ExportadorAbstrato {
 

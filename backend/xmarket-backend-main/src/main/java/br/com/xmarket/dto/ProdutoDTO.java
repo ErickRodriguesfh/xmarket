@@ -1,6 +1,6 @@
 package br.com.xmarket.dto;
 
-import br.com.xmarket.model.Produto;
+import br.com.xmarket.modelo.Produto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
