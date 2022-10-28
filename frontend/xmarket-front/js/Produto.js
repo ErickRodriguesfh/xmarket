@@ -29,7 +29,7 @@ export default class Produto {
 
         return row;
     }
-    criarCardProduto(id) {
+    criarCardProduto() {
         let serverImage = "http://127.0.0.1:5500/";
         let element = document.createElement("div");
         element.setAttribute("class", "card-item");
@@ -38,14 +38,14 @@ export default class Produto {
         let image_item = this._imageItem(serverImage + this._imagemUrl);
         let title_item = this._titleItem(`${this._nome} - ${this._marca} `);
         let description_item = this._descriptionItem(this._preco);
-        let button_item = this._buttonItem(id);
+        let button_item = this._buttonItem(this.id);
     
         card_item.appendChild(image_item);
         card_item.appendChild(title_item);
         card_item.appendChild(description_item);
         card_item.appendChild(button_item);
     
-        document.getElementById("product-container").appendChild(card_item);
+        return card_item;
     }
     cadastrar(){
         const body = { 

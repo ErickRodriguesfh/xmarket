@@ -32,17 +32,31 @@
             <div class="area-documento" style="display: flex; justify-content: space-between;">
                 <div class="mb-3" style="width: 49%;">
                     <label for="cadastrar-cliente-cpf" class="form-label">Cpf</label>
-                    <input type="text" class="form-control" id="cadastrar-cliente-cpf">
+                    <input type="text" class="form-control" id="cadastrar-cliente-cpf" maxlength="14">
                     <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
                 <div class="mb-3" style="width: 49%;">
                     <label for="cadastrar-cliente-rg" class="form-label">Rg</label>
-                    <input type="text" class="form-control" id="cadastrar-cliente-rg">
+                    <input type="text" class="form-control" id="cadastrar-cliente-rg" maxlength="13">
+                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+            </div>
+            <div class="area-cep" style="display: flex; width: 100%; justify-content: space-between;">
+                <div class="mb-3" style="width: 49%;">
+                    <label for="cadastrar-cliente-endereco-cep" class="form-label">CEP</label>
+                    <input type="text" class="form-control" id="cadastrar-cliente-endereco-cep" maxlength="10">
+                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+                <div class="mb-3" style="width: 49%; display: flex; align-items: end;">
+                    <div id="botao-pesquisar-cep" type="submit" class="btn btn-primary">
+                        <p style="margin: auto; font-size: 18px; font-weight: bold;">Pesquisar</p>
+                    </div>
                     <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
             </div>
             <div class="area-endereco" style="display: inline-grid; width: 100%;">
                 <div class="endereco" style="display: flex; justify-content: space-between;">
+
                     <div class="mb-3" style="width: 39%;">
                         <label for="cadastrar-cliente-endereco-rua" class="form-label">Rua</label>
                         <input type="text" class="form-control" id="cadastrar-cliente-endereco-rua">
@@ -96,7 +110,7 @@
                             <option value="SP">SP</option>
                             <option value="SE">SE</option>
                             <option value="TO">TO</option>
-                         </select>
+                        </select>
                         <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                 </div>
@@ -110,7 +124,7 @@
                 </div>
                 <div class="mb-3" style="width: 49%;">
                     <label for="cadastrar-cliente-telefone" class="form-label">Telefone</label>
-                    <input type="text" class="form-control" id="cadastrar-cliente-telefone">
+                    <input type="text" class="form-control" id="cadastrar-cliente-telefone" maxlength="14">
                     <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
             </div>
@@ -126,13 +140,44 @@
             </div>
 
             <div class="mb-3" style="width: 100%; display: flex; justify-content: space-between;">
-                <div id="botao-retornar" style="width: 49%; border:1px solid rgb(25,68,131); height: 7vh; display: flex; cursor: pointer;"><p style="margin: auto; font-size: 20px; font-weight: bold; color: rgb(25,68,131);">Voltar</p></div>
-                <div id="botao-cadastrar-cliente" type="submit" class="btn btn-primary" style="width: 49%; display: flex;"><p style="margin: auto; font-size: 20px; font-weight: bold;">Cadastrar</p></div>
+                <div id="botao-retornar"
+                    style="width: 49%; border:1px solid rgb(25,68,131); height: 7vh; display: flex; cursor: pointer;">
+                    <p style="margin: auto; font-size: 20px; font-weight: bold; color: rgb(25,68,131);">Voltar</p>
+                </div>
+                <div id="botao-cadastrar-cliente" type="submit" class="btn btn-primary"
+                    style="width: 49%; display: flex;">
+                    <p style="margin: auto; font-size: 20px; font-weight: bold;">Cadastrar</p>
+                </div>
             </div>
 
         </form>
     </div>
+    <div id="confirmacao-email">
+        <header id="area-do-codigo">
 
+            <input type="text" class="otp" id="1">
+            <input type="text" class="otp" id="2">
+            <input type="text" class="otp" id="3">
+            <input type="text" class="otp" id="4">
+            <input type="text" class="otp" id="5">
+
+
+        </header>
+
+        <div id="evento-confirmacao-email">
+            <div id="botao-conferir-confirmacao" class="no-selectable">
+                <h2>Enviar</h2>
+            </div>
+            <div id="contador-de-expiracao">
+                <h4>Seu codigo expira em: </h4>
+                <h2 id="contador"></h2>
+            </div>
+            <div id="botoes-confirmar-email">
+                <div id="botao-voltar" class="btns-confirmar no-selectable"><h3>Voltar</h3></div>
+                <div id="botao-reenviar" class="btns-confirmar disable no-selectable"  ><h3>Reenviar</h3></div>
+            </div>
+        </div>
+    </div>
     <!-- <div class="canva-validacao canva-mensagem" >
         <div class="validacao mensagem">
             <h4>Realmente deseja</h4>
@@ -141,7 +186,7 @@
         </div>
     </div> -->
 
-    <script type="module" src="../js/cadastro.js"></script>
+    <script type="module" src="../js/screens/cadastro.js"></script>
 
 </body>
 

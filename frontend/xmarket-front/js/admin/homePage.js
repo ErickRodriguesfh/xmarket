@@ -109,7 +109,7 @@ document.getElementById("opcao-listar").addEventListener("click", async function
 
     if (opcao == "clientes") {
 
-        let endPoint = "http://localhost:8080/admin/clientes";
+        let endPoint = "http://localhost:8080/administrador/clientes";
         response = await request_API("GET", endPoint);
 
         if (response.status == 200 || response.status == 201) {
@@ -122,7 +122,7 @@ document.getElementById("opcao-listar").addEventListener("click", async function
     }
     if (opcao == "produtos") {
 
-        let endPoint = "http://localhost:8080/admin/estoque";
+        let endPoint = "http://localhost:8080/administrador/estoque";
         response = await request_API("GET", endPoint);
 
         if (response.status == 200 || response.status == 201) {
@@ -257,7 +257,7 @@ function mostrarMensagem(dialog) {
 let idModificarProduto = camposModificarProduto.id;
 idModificarProduto.addEventListener("keydown", async function (evt) {
     if (evt.key == "Enter" && Number(idModificarProduto.value)) {
-        var endPoint = `http://localhost:8080/admin/estoque/busca/${idModificarProduto.value}`;
+        var endPoint = `http://localhost:8080/administrador/estoque/buscar/${idModificarProduto.value}`;
         var response = await request_API("GET", endPoint);
 
         if (response.status == 200 || response.status == 201) {
@@ -287,7 +287,7 @@ let idRemoverProduto = manipuladorDosCampos.removerProduto().id;
 idRemoverProduto.addEventListener("keydown", async function (evt) {
     if (evt.key == "Enter" && Number(idRemoverProduto.value)) {
 
-        var endPoint = `http://localhost:8080/admin/estoque/busca/${idRemoverProduto.value}`;
+        var endPoint = `http://localhost:8080/administrador/estoque/buscar/${idRemoverProduto.value}`;
 
         var response = await request_API("GET", endPoint);
 
@@ -368,7 +368,7 @@ idRemoverCliente.addEventListener("keydown", async function (evt) {
 
 
 async function preencherInformacoesCliente(idCliente, campos) {
-    var endPoint = `http://localhost:8080/admin/clientes/buscar/${idCliente.value}`; // trocar end point
+    var endPoint = `http://localhost:8080/administrador/clientes/buscar/${idCliente.value}`; // trocar end point
     var response = await request_API("GET", endPoint);
 
     if (response.status == 200 || response.status == 201) {
@@ -394,7 +394,7 @@ botaoCadastrarCliente.addEventListener("click", async function () {
 
     console.log("🚀 ~ file: homePage.js ~ line 332 ~ cliente.cadastrar()", cliente.cadastrar())
 
-    const endPoint = "http://localhost:8080/admin/clientes/cadastrar";
+    const endPoint = "http://localhost:8080/administrador/clientes/cadastrar";
     const response = await request_API("POST", endPoint, cliente.cadastrar());
 
     console.log(response)
@@ -410,7 +410,7 @@ botaoCadastrarCliente.addEventListener("click", async function () {
 let botaoModificarCliente = document.getElementById("botao-modificar-cliente");
 botaoModificarCliente.addEventListener("click", async function () {
     const cliente = new Cliente(camposModificarCliente.todosValores());
-    const endPoint = "http://localhost:8080/admin/clientes/alterar";
+    const endPoint = "http://localhost:8080/administrador/clientes/editar";
     const response = await request_API("PUT", endPoint, cliente.modificar());
 
     if (response.status == 200 || response.status == 201) {
@@ -432,7 +432,7 @@ botaoRemoverCliente.addEventListener("click", async function () {
 async function removaCliente() {
     const idCliente = camposRemoverCliente.todosValores().id;
 
-    const endPoint = `http://localhost:8080/admin/clientes/deletar/${idCliente}`;
+    const endPoint = `http://localhost:8080/administrador/clientes/deletar/${idCliente}`;
     const response = await request_API("PUT", endPoint);
 
     if (response.status == 200 || response.status == 201) {
@@ -459,12 +459,12 @@ botaoCadastrarProduto.addEventListener("click", async function () {
     formData.append("arquivoImagem", valoresCamposCadastrarCliente.imagemUrl);
 
 
-    const endPoint = "http://localhost:8080/admin/estoque/inserir/imagem";
+    const endPoint = "http://localhost:8080/administrador/estoque/cadastrar-imagem";
     let response = await request_API_imagem(endPoint, formData);
 
 
     if (response.status == 201) {
-        const endPoint = "http://localhost:8080/admin/estoque/inserir";
+        const endPoint = "http://localhost:8080/administrador/estoque/cadastrar";
         let response = await request_API("POST", endPoint, produto.cadastrar());
 
         if (response.status == 200 || response.status == 201) {
@@ -488,7 +488,7 @@ botaoModificarProduto.addEventListener("click", async function () {
     valoresCamposModificarProduto.imagemUrl = document.getElementById("imagem-modificar-produto-preview").name;
 
     const produto = new Produto(valoresCamposModificarProduto);
-    const endPoint = "http://localhost:8080/admin/estoque/alterar";
+    const endPoint = "http://localhost:8080/administrador/estoque/editar";
     const response = await request_API("PUT", endPoint, produto.modificar());
 
 
@@ -497,7 +497,7 @@ botaoModificarProduto.addEventListener("click", async function () {
 
         formData.append("arquivoImagem", camposModificarProduto.imagemUrl.files[0]);
 
-        const endPoint = "http://localhost:8080/admin/estoque/inserir/imagem";
+        const endPoint = "http://localhost:8080/administrador/estoque/cadastrar-imagem";
         let response = await request_API_imagem(endPoint, formData);
 
         mostrarMensagem(`Produto ${produto.id} \nmodificado com sucesso!`);
@@ -519,7 +519,7 @@ async function removaProduto() {
     const idProduto = camposRemoverProduto.id.value;
 
 
-    const endPoint = `http://localhost:8080/admin/estoque/deletar/${idProduto}`;
+    const endPoint = `http://localhost:8080/administrador/estoque/deletar/${idProduto}`;
     const response = await request_API("DELETE", endPoint);
 
     if (response.status == 200 || response.status == 201) {
@@ -651,21 +651,21 @@ gerarRelatorioPdf.addEventListener("click", async function () {
     switch(tipoRelatorio.value){
         case "Vendas":
             if(extencaoRelatorio.value == "Pdf"){
-                endPoint = "http://localhost:8080/xmarket/pdf/jr2/01";
+                endPoint = "http://localhost:8080/relatorio/pdf/01";
                 funcao = showFile;
 
                 if(filtroRelatorio.value == "Data"){
                     const dataInicio = document.getElementById("data-inicio");
                     const dataFim = document.getElementById("data-fim");
 
-                    endPoint =  `http://localhost:8080/xmarket/pdf/jr2/02?data_inicio=${dataInicio.value}&data_final=${dataFim.value}`;
+                    endPoint =  `http://localhost:8080/relatorio/pdf/filtro/data?data_inicio=${dataInicio.value}&data_final=${dataFim.value}`;
                     funcao = showFile;
                 }
 
             }
             
             if( extencaoRelatorio.value == "Excel"){
-                endPoint = "http://localhost:8080/exportar-excel-vendas";
+                endPoint = "http://localhost:8080/relatorio/excel/vendas";
                 funcao = showFileExcelVendas;
 
  
@@ -675,12 +675,12 @@ gerarRelatorioPdf.addEventListener("click", async function () {
         case "Produtos":
 
             if(extencaoRelatorio.value == "Pdf"){
-                endPoint = "http://localhost:8080/xmarket/pdf/jr7?code=07&acao=v";
+                endPoint = "http://localhost:8080/relatorio/pdf/07";
                 funcao = showFile;
 
             }
             if(extencaoRelatorio.value == "Excel"){
-                endPoint = "http://localhost:8080/exportar-excel-produtos";
+                endPoint = "http://localhost:8080/relatorio/excel/produtos";
                 funcao = showFileExcel;
 
                 

@@ -25,4 +25,18 @@ public class MensagemEmail {
 	return msgVenda;
 	
 	}
+	
+	public String codigoConfirmacao(){
+		
+		String codigo = "";
+
+		for(int i = 0; i < 5; i++){
+			int number = (int)(Math.random() * 10);
+
+			codigo = codigo +" "+  Integer.toString(number);
+		}
+
+		return codigo;
+
+	}
 }

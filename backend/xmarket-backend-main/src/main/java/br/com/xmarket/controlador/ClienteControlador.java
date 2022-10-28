@@ -11,7 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.xmarket.dto.ClienteDTO;
 import br.com.xmarket.modelo.Cliente;
@@ -69,6 +76,37 @@ public class ClienteControlador {
 		return ResponseEntity.status(401).build(); 
 	}
 
+	
+	@PostMapping("/confirmacao-email/{email}")
+	public ResponseEntity<String> cadastroClienteEmail(@Valid @PathVariable String email) throws MessagingException {
+
+			if(email.isBlank()) return ResponseEntity.status(400).build();	
+
+			String codigoConfirmacao = msg.codigoConfirmacao();
+		
+			new Thread() {
+				public void run() {
+					Email novoEmail = new Email();
+
+					String mensagem = String.format("<body style='color:black'>"
+					+ "<p style='font-size:16px'> Segue abaixo o codigo de confirmação!</p> %n"
+					+ "<br>"
+					+ codigoConfirmacao
+					+ "<h3>Atenciosamente,</h3>" + "<br>" + "<h3>XMarket</h3>" + "</body>");
+
+					novoEmail.setRemetente(email);
+					novoEmail.setTitulo("XMarket - Código de confirmação! \n");
+					novoEmail.setMensagem(mensagem);
+					try {
+						emailServico.enviarEmailCadastro(novoEmail);
+					} catch (MessagingException e) {
+						e.printStackTrace();
+					}
+				}
+			}.start();
+
+			return ResponseEntity.status(201).body(codigoConfirmacao);
+	}
 
 
 	// Mapeia as Exceções (400)

@@ -1,16 +1,15 @@
-import Cliente from "./Cliente.js";
-import Produto from "./Produto.js";
-import request_API from "./services/service.js";
-import mensagemValidacao from "./services/mensagemValidacao.js"
+import Cliente from "../Cliente.js";
+import Produto from "../Produto.js";
+import request_API from "../services/request_API.js";
+import mensagemValidacao from "../services/mensagemValidacao.js"
 
 
 
-var idUsuario;
-var opcaoSelecionada;
-
+let idUsuario;
+let opcaoSelecionada;
 
 if (localStorage.cliente) {
-    var cliente = new Cliente(JSON.parse(localStorage.cliente));
+    let cliente = new Cliente(JSON.parse(localStorage.cliente));
     idUsuario = cliente.id;
 
     let primeiraParteEndereco = document.getElementById("rua-numero-bairro");
@@ -27,7 +26,8 @@ const pagamentoPix = document.getElementById("pix");
 const pagamentoCartao = document.getElementById("cartao");
 const pagamentoBoleto = document.getElementById("boleto");
 const botaoFinalizarCompra = document.getElementById("finalizar-compra");
-let totalProdutos = document.getElementById("total-somado");
+
+const totalProdutos = document.getElementById("total-somado");
 
 
 pagamentoPix.addEventListener("click", function () {
@@ -45,11 +45,11 @@ pagamentoBoleto.addEventListener("click", function () {
     opcaoSelecionada = "BOLETO";
 });
 
-botaoFinalizarCompra.addEventListener("click", function(){
+botaoFinalizarCompra.addEventListener("click", function () {
     const pagamentoSelecionado = document.querySelector(".selected-payment")
-    if(pagamentoSelecionado){
+    if (pagamentoSelecionado) {
         finalizar_compra();
-    }else{
+    } else {
         mensagemValidacao("Forma de pagamento não reconhecida", "Por favor selecione uma forma de pagamento.", "erro", true);
     }
 })
@@ -69,11 +69,22 @@ function controleSelecao(componente) {
 
 async function preencherDados(idUsuario) {
     let dados;
-    const response = await request_API("GET", `http://localhost:8080/carrinho/exibirCarrinho/${idUsuario}`);
+    const response = await request_API("GET", `http://localhost:8080/carrinho/${idUsuario}`);
 
     if (response.ok != true) return
 
-    dados = await response.json();
+
+
+    try {
+        dados = await response.json();
+    } catch (err) {
+        mensagemValidacao("Não possui itens em seu carrinho!", "Você sera redirecionado para pagina principal, para continuar com suas compras.", "erro", true);
+        const confirmar = document.getElementById("confirmar-operacao");
+        confirmar.addEventListener("click", function () {
+            window.location.href = "home-page.html"
+        })
+    }
+
     dados.forEach(item => {
         let produto = new Produto(item.produtoDTO);
         console.log(item.produtoDTO)
@@ -163,24 +174,24 @@ function finalizar_compra() {
         "enumPagamento": opcaoSelecionada,
         "valorTotal": totalProdutos.innerHTML
     }
-    
+
 
     let endPoint = `http://localhost:8080/venda/${idUsuario}`;
 
     let response = async function () {
         const response = await request_API("POST", endPoint, venda);
-        if(response.ok == true){
-            var result = await response.text();
-            if(result == ""){
-                
-                mensagemValidacao("Sucesso, Obrigado pela compra!", "Comprovante enviado para email","sucesso", false,3000);
-                
+        if (response.ok == true) {
+            let result = await response.text();
+            if (result == "") {
+
+                mensagemValidacao("Sucesso, Obrigado pela compra!", "Comprovante enviado para email", "sucesso", false, 3000);
+
 
                 setTimeout(() => {
                     window.location.href = "home-page.html"
                 }, 2000);
-            
-            }else {
+
+            } else {
                 console.log("codigos do produtos")
                 console.log(result)
             }
