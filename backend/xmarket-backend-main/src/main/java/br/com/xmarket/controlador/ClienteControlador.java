@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -69,8 +70,7 @@ public class ClienteControlador {
 	public ResponseEntity<?> logar(@Valid @RequestBody Login login) {
 		boolean valid = clienteServico.validarLogin(login);
 		if (valid) {
-			Cliente cliente = clienteServico.buscarCliente(login);
-
+			Cliente cliente = clienteServico.buscarClientePorEmail(login);
 			return ResponseEntity.status(200).body(cliente);
 		}
 		return ResponseEntity.status(401).build(); 
@@ -107,9 +107,17 @@ public class ClienteControlador {
 
 			return ResponseEntity.status(201).body(codigoConfirmacao);
 	}
-
-
-	// Mapeia as Exceções (400)
+	
+	
+	@PutMapping("/alterarDados")
+	public ResponseEntity<?> alterarDados(@RequestBody Cliente cliente){
+		boolean clienteValido = clienteServico.alterarCliente(cliente);
+		if(clienteValido) {
+			return ResponseEntity.status(200).build();
+		}	
+		return ResponseEntity.status(400).build();
+	}
+	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Map<String, String> handleValidationException(MethodArgumentNotValidException e) {
@@ -124,5 +132,4 @@ public class ClienteControlador {
 
 		return errors;
 	}
-
 }

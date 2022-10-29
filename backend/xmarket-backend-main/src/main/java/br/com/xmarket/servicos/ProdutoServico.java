@@ -67,7 +67,7 @@ public class ProdutoServico {
 	public boolean excluirProduto(Long idProduto) {
 		Produto produto = buscarPeloId(idProduto);
 		if (produto != null) {
-			produtoRepository.deleteById(idProduto);
+			produtoRepository.atualizarQuantidade(0, idProduto);
 			return true;
 		}
 		return false;

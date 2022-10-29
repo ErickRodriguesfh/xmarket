@@ -11,8 +11,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @OpenAPIDefinition(
 		info = @Info(title = "Api XMarket", version = "2.0.0", description = "API Para uso interno do e-commerce"),
 		servers = {
-				@Server(url = "http://localhost:8080")
-
+				@Server(url = "https://localhost/")
 		}
 )
 public class XmarketApplication {

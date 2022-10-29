@@ -34,8 +34,6 @@ public class ClienteServico {
         return usuarioRepository.save(usuario);//Salva o objeto com a senha criptograda
     }
 
-
-
     public boolean validarLogin(Login login) {
         Cliente usuario = usuarioRepository.getByEmail(login.getEmail());//Verifica se o existe usuario com o email digitado, caso nao exista ele retorna false
         if (usuario == null) { /*Caso o objeto seja nulo ou vazio retorna um false*/
@@ -47,31 +45,25 @@ public class ClienteServico {
         }
 
     }
-
-    public Cliente buscarCliente(Login login){
+    public Cliente buscarClientePorEmail(Login login){
         Cliente usuario = usuarioRepository.getByEmail(login.getEmail());
-
         return usuario;
     }
-
+    
     public Cliente buscarPeloId(Long id) {
 		return usuarioRepository.findById(id).orElse(null);
 	}
-
+    
 	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = usuarioRepository.findAll();
 		return clientes;
 	}
-
+	
 	public Boolean alterarCliente(Cliente cliente) {
-
         Cliente obj = buscarPeloId(cliente.getId());
-
         if(obj != null){
-
-            Cliente clienteAlterado = usuarioRepository.save(cliente);
+            usuarioRepository.save(cliente);
             return true;
-
         }
 		return false;
 	}

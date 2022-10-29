@@ -1,20 +1,14 @@
 package br.com.xmarket.controlador;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -94,18 +87,13 @@ public class AdministradorControlador {
 	//Inserir uma imagem para anéxa-la ao produto
 	@PostMapping("/estoque/cadastrar-imagem")
 	public ResponseEntity<?> cadastrarImagem(@RequestParam("arquivoImagem") MultipartFile arquivoImagem) {
-
-
 		String path = produtoServico.inserirSomenteImagem(arquivoImagem);
-
 		if(!path.isBlank()){
 			return ResponseEntity.status(201).body(path);
 		}
-
 		return ResponseEntity.status(400).build();
-
 	}
-
+	//Seta a quantidade do produto em 0
 	@PutMapping("/estoque/deletar/{id}")
 	public ResponseEntity<String> zerarQuantidade(@PathVariable Long id) {
 		if (produtoServico.excluirProduto(id)) {
@@ -113,10 +101,9 @@ public class AdministradorControlador {
 		}
 		return ResponseEntity.status(404).build();
 	}
-
+	//Edita o produto
 	@PutMapping("/estoque/editar")
-	public ResponseEntity<?> editarProduto(@Valid @RequestBody Produto produto) { // Não pode colocar quantidade //
-																					// negativa
+	public ResponseEntity<?> editarProduto(@Valid @RequestBody Produto produto) {
 		boolean edicaoValida = produtoServico.editarProduto(produto);
 		if (edicaoValida) {
 			return ResponseEntity.status(200).build();
@@ -124,6 +111,7 @@ public class AdministradorControlador {
 		return ResponseEntity.status(406).body("Quantidade inválida!");
 	}
 
+	//Busca por Id
 	@GetMapping("/estoque/buscar/{id}")
 	public ResponseEntity<Produto> buscarPorId(@Valid @PathVariable Long id) {
 		Produto produto = produtoServico.buscarPeloId(id);
@@ -134,7 +122,6 @@ public class AdministradorControlador {
 	}
 
 	// Controle de Clientes
-
 	@GetMapping("/clientes")
 	public ResponseEntity<List<Cliente>> listarClientes() {
 		List<Cliente> clientes = clienteServico.listarClientes();
@@ -146,7 +133,6 @@ public class AdministradorControlador {
 
 	@PutMapping("/clientes/editar")
 	public ResponseEntity<Cliente> editarCliente(@Valid @RequestBody Cliente cliente) {
-
 	boolean valido = clienteServico.alterarCliente(cliente);
 		if(valido){
 			return ResponseEntity.status(200).build();
@@ -179,21 +165,5 @@ public class AdministradorControlador {
 			return ResponseEntity.status(200).body("Excluído");
 		}
 		return ResponseEntity.status(204).build();
-	}
-
-	// Mapeia as Exceções (400)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Map<String, String> handleValidationException(MethodArgumentNotValidException e) {
-		Map<String, String> errors = new HashMap<>();
-
-		e.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-			String errorMessage = error.getDefaultMessage();
-
-			errors.put(fieldName, errorMessage);
-		});
-
-		return errors;
 	}
 }
