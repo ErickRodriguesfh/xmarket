@@ -121,7 +121,6 @@ enviarCodigo.addEventListener("click", function () {
         return
     }
 
-    mensagemValidacao("Email Confirmado!", "Desejo uma otima experiência!", "sucesso", true);
     limparOTP();
     cadastrarCliente();
 })
@@ -143,6 +142,8 @@ async function cadastrarCliente() {
     console.log(response)
 
     if (response.status == 201) {
+  
+        mensagemValidacao("Email Confirmado!", "Desejo uma otima experiência!", "sucesso", true);
         const confirmar = document.getElementById("confirmar-operacao");
         confirmar.addEventListener("click", function () {
             window.location.href = "login.html"
@@ -205,6 +206,8 @@ botaoProsseguir.addEventListener('click', async function () {
 async function mandarCodigoEmail() {
     let endPoint = `https://localhost/cliente/confirmacao-email/${dadosCadastrais.email.value}`;
     let response = await request_API("POST", endPoint);
+
+    console.log(response)
 
     if(response.status == 422){
         mensagemValidacao("Email já cadastrado no sistema!", "Por favor digite outro E-mail e tente novamente.", "erro", true);

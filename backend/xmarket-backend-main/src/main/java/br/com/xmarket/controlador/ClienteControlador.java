@@ -105,7 +105,7 @@ public class ClienteControlador {
 				}
 			}.start();
 
-			return ResponseEntity.status(201).body(codigoConfirmacao);
+			return ResponseEntity.status(200).body(codigoConfirmacao);
 	}
 	
 	
