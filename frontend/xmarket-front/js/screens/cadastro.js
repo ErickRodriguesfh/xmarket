@@ -197,7 +197,7 @@ botaoProsseguir.addEventListener('click', async function () {
     }
 
     await mandarCodigoEmail();
-
+    document.getElementById("email-dinamico").innerHTML = dadosCadastrais.email.value;
     //Removendo classe se houver.
     dadosCadastrais.confirmarSenha.classList.remove("erro");
 
