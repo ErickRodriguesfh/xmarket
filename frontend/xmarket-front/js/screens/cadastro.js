@@ -43,7 +43,7 @@ const botaoReenviar = document.getElementById("botao-reenviar");
 
 
 var codigoCorreto;
-
+var telaAtual;
 botaoPesquisarCep.addEventListener("click", async function () {
     const cep = dadosCadastrais.cep.value.replace(".", "").replace("-", "");
     const enderecoCEP = await cep_API(cep);
@@ -59,22 +59,27 @@ botaoPesquisarCep.addEventListener("click", async function () {
     dadosCadastrais.estado.value = enderecoCEP.uf;
 })
 
-function telaCadastro(opcao) {
+async function telaCadastro(opcao) {
     let confirmacaoEmail = document.getElementById("confirmacao-email");
     let cadastro = document.getElementById("form-cadastro");
 
     if (opcao == "cadastro") {
+        telaAtual = opcao;
+        
         cadastro.style.display = "block";
         confirmacaoEmail.style.display = "none";
 
         document.body.style.height = "100%";
     }
     if (opcao == "confirmacao-email") {
+        telaAtual = opcao;
+
         cadastro.style.display = "none";
         confirmacaoEmail.style.display = "inline";
 
         document.body.style.height = "100vh";
     }
+    console.log("Esperando.")
 }
 function controladorCampos() {
     let todosCampos = document.querySelectorAll(".otp");
@@ -99,12 +104,19 @@ enviarCodigo.addEventListener("click", function () {
         if (todosCampos[i].value != "") {
             codigoDigitado = codigoDigitado + todosCampos[i].value;
         } else {
-            return null;
+            mensagemValidacao("Código insuficiente!", "Por favor digite novamente!", "erro", true);
+            todosCampos[i].focus();
         }
     }
 
     if (codigoDigitado != codigoCorreto) {
-        mensagemValidacao("Codigo incorreto!", "Por favor digite novamente!", "erro", true);
+
+        if(codigoCorreto == "")
+            mensagemValidacao("Codigo expirado!", "Por favor reenvie e tente novamente!", "erro", true);
+        else
+            mensagemValidacao("Codigo incorreto!", "Por favor digite novamente!", "erro", true);
+        
+
         limparOTP();
         return
     }
@@ -112,7 +124,6 @@ enviarCodigo.addEventListener("click", function () {
     mensagemValidacao("Email Confirmado!", "Desejo uma otima experiência!", "sucesso", true);
     limparOTP();
     cadastrarCliente();
-
 })
 
 function limparOTP() {
@@ -124,7 +135,7 @@ function limparOTP() {
 }
 
 async function cadastrarCliente() {
-    let endPoint = "http://localhost:8080/cliente";
+    let endPoint = "https://localhost/cliente";
     let cliente = dadosCadastrais.cadastrar();
     let response = await request_API("POST", endPoint, cliente);
 
@@ -134,7 +145,7 @@ async function cadastrarCliente() {
     if (response.status == 201) {
         const confirmar = document.getElementById("confirmar-operacao");
         confirmar.addEventListener("click", function () {
-            window.location.href = "login.html";
+            window.location.href = "login.html"
         })
     }
 
@@ -151,14 +162,30 @@ async function cadastrarCliente() {
 }
 
 function sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
+    console.log("🚀 ~ file: cadastro.js ~ line 164 ~ sleep ~ telaAtual", telaAtual)
+    if(telaAtual == "confirmacao-email"){
+       
+        console.log("1")
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+    console.log("2")
+    return new Promise(resolve => resolve);
 }
 
 botaoProsseguir.addEventListener('click', async function () {
-    let endPoint;
-    let cliente;
-    let response;
+    console.log("click");
+    
+    for(var element in dadosCadastrais){
+        let input = dadosCadastrais[element];
 
+        if(typeof input == "object")
+            if(input.value == ""){
+                mensagemValidacao("Alguns campos estão vazios!", "Por favor preencher todos os campos.", "erro");
+                input.focus();
+                return;
+            }
+    }
+    
     if (dadosCadastrais.senha.value != dadosCadastrais.confirmarSenha.value) {
         dadosCadastrais.confirmarSenha.classList.add("class", "erro");
         dadosCadastrais.confirmarSenha.focus();
@@ -168,54 +195,46 @@ botaoProsseguir.addEventListener('click', async function () {
         return;
     }
 
-
-    telaCadastro("confirmacao-email");
-
     await mandarCodigoEmail();
 
-    // setTimeout(async function () {
-    //     await sleep(1000)
-    //     contador.innerHTML = Number(contador.innerHTML) - 1;
-    // }, 30000)
-
-    // for(var i = 0; i < timer;){
-    //     contador.innerHTML = Number(contador.innerHTML) - 1;
-    //     setTimeout(function(){
-    //         i++;
-    //     }, 1000)
-    // }
-
-
-
-    //Removendo classse se houver.
+    //Removendo classe se houver.
     dadosCadastrais.confirmarSenha.classList.remove("erro");
-
-
-    //
-    await tempoParaExpirarCodigo(30);
 
 });
 
 async function mandarCodigoEmail() {
-    let endPoint = `http://localhost:8080/cliente/confirmacao-email/${dadosCadastrais.email.value}`;
+    let endPoint = `https://localhost/cliente/confirmacao-email/${dadosCadastrais.email.value}`;
     let response = await request_API("POST", endPoint);
 
-    codigoCorreto = await response.text();
-    for (var i = 0; i < codigoCorreto.length; i++) {
-        codigoCorreto = codigoCorreto.replace(" ", "");
+    if(response.status == 422){
+        mensagemValidacao("Email já cadastrado no sistema!", "Por favor digite outro E-mail e tente novamente.", "erro", true);
+        return;
+    }
+    if(response.status == 200){
+        codigoCorreto = await response.text();
+
+        codigoCorreto = codigoCorreto.replaceAll(" ", "");
+
+        //Muda de tela
+        await telaCadastro("confirmacao-email");
+
+        console.log(telaAtual)
+        console.log("Esperando!!")
+        //Define o temporizador
+        tempoParaExpirarCodigo(45);
+    }else{
+        mensagemValidacao("Email invalido!", "Por favor digite outro E-mail e tente novamente.", "erro", true);
     }
 }
 
 async function tempoParaExpirarCodigo(tempo) {
     //Controlador do timer
     let timer = tempo;
-
     let contador = document.getElementById("contador");
     contador.innerHTML = timer;
-
+    console.log(timer)
     for (var i = 0; i < timer; i++) {
-        
-
+        console.log(i)
         contador.innerHTML = Number(contador.innerHTML) - 1;
         await sleep(1000);
     }
@@ -230,12 +249,8 @@ async function tempoParaExpirarCodigo(tempo) {
 }
 async function controleContador() {
 
-    await mandarCodigoEmail();
-
+    mandarCodigoEmail();
     botaoReenviar.classList.add("disable");
-    tempoParaExpirarCodigo(30);
-
-    
     botaoReenviar.removeEventListener("click", controleContador);
 }
 

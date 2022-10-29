@@ -27,7 +27,7 @@ async function popular_produtos() {
     let response;
     let dados;
 
-    endPoint = "http://localhost:8080/produtos";
+    endPoint = "https://localhost/produtos";
 
     areaProdutos = document.getElementById("product-container");
     areaProdutos.innerHTML = "";
@@ -40,6 +40,10 @@ async function popular_produtos() {
     }
 
     dados = await response.json()
+
+    document.getElementById("numero-ocorrencias").innerHTML = Object.keys(dados).length;
+
+    console.log(Object.keys(dados).length)
 
     dados.forEach((produtoDto) => {
         if (produtoDto.quantidade > 0) {
@@ -112,12 +116,15 @@ async function popular_produtos() {
 }
 
 async function adicionar_produto_carrinho(id_produto, id_usuario, quantidade) {
-    let endPoint = `http://localhost:8080/carrinho/${id_usuario}/adicionar/${id_produto}`;
+    let endPoint = `https://localhost/carrinho/${id_usuario}/adicionar/${id_produto}`;
 
     await request_API("POST", endPoint);
 
 
     quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
+
+    canvaQuantidadeCarrinho.style.display = "flex";
+    quantidadeCarrinho.style.display = "flex";
 
     mensagemValidacao("Produto adicionado no carrinho", "Confira no seu carrinho.", "sucesso", false)
 

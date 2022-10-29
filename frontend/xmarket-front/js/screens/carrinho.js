@@ -155,7 +155,7 @@ function validarProdutosDispoveisLocal(){
 }
 
 async function validarProdutosDispoveis() {
-    const respose = await request_API("GET", `http://localhost:8080/carrinho/${idUsuario}`);
+    const respose = await request_API("GET", `https://localhost/carrinho/${idUsuario}`);
     console.log(respose)
     if (respose.status != 200 && respose.status != 201) return
     dados = await respose.json();
@@ -176,7 +176,7 @@ async function validarProdutosDispoveis() {
 }
 
 async function popular_carrinho_logado() {
-    const respose = await request_API("GET", `http://localhost:8080/carrinho/${idUsuario}`);
+    const respose = await request_API("GET", `https://localhost/carrinho/${idUsuario}`);
     console.log(respose)
     if (respose.status == 204) {
         mensagemValidacao("Carrinho vazio!", "voce será redirecionado para pagina princiapal", "erro", true);
@@ -223,7 +223,7 @@ async function popular_carrinho_logado() {
 
                 precoProduto.innerHTML = (produto.preco * inputQuantidade.value).toFixed(2);
                 quantidadeProduto.innerHTML = inputQuantidade.value;
-                let endPoint = `http://localhost:8080/carrinho/${idUsuario}/alterar/${id}/DIMINUIR`;
+                let endPoint = `https://localhost/carrinho/${idUsuario}/alterar/${id}/DIMINUIR`;
                 request_API("PUT", endPoint);
 
                 quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) - 1;
@@ -242,7 +242,7 @@ async function popular_carrinho_logado() {
                 precoProduto.innerHTML = (produto.preco * inputQuantidade.value).toFixed(2);
                 quantidadeProduto.innerHTML = inputQuantidade.value;
 
-                let endPoint =`http://localhost:8080/carrinho/${idUsuario}/alterar/${id}/AUMENTAR`;
+                let endPoint =`https://localhost/carrinho/${idUsuario}/alterar/${id}/AUMENTAR`;
                 request_API("PUT", endPoint);
 
                 quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
@@ -253,7 +253,7 @@ async function popular_carrinho_logado() {
         });
 
         deleteButton.addEventListener('click', () => {
-            let endPoint = `http://localhost:8080/carrinho/${idUsuario}/remover-produto/${id}`;
+            let endPoint = `https://localhost/carrinho/${idUsuario}/remover-produto/${id}`;
             request_API("DELETE", endPoint)
 
             window.location.href = "carrinho.html";
@@ -296,7 +296,7 @@ async function comprar_agora() {
 
 // Falta arrumar a questao de limpar carrinho quando esta logado!!
 async function clean_cart() {
-    let endPoint = `http://localhost:8080/carrinho/deletar/${idUsuario}`;
+    let endPoint = `https://localhost/carrinho/deletar/${idUsuario}`;
     let response = await request_API("DELETE", endPoint);
     if (response.ok == true)
         window.location.href = "produtos.html";

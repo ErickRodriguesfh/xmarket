@@ -1,3 +1,5 @@
+import manipuladorDosCampos from "./manipuladorDosCampos.js";
+
 export default function adicionandoEventos() {
     let hamburger = document.querySelector(".hamburger");
     let setting = document.querySelector(".settings-logo");
@@ -108,17 +110,109 @@ export default function adicionandoEventos() {
     function visualizarFuncionalidades() {
         let element = document.getElementById("main-content");
         let relatorio = document.querySelector(".panel-relatorio");
+        let infoAdm = document.getElementById("info-painel-adm");
 
         if (localStorage.getItem("option") == "home") {
             element.style.display = "none";
             relatorio.style.display = "none";
+            infoAdm.style.display = "inline";
         } else if(localStorage.getItem("option") == "relatorios"){ //panel-relatorio
             relatorio.style.display = "inline";
-            element.style.display = "none"
+            element.style.display = "none";
+            infoAdm.style.display = "none";
         }
+
         else {
             element.style.display = "flex";
             relatorio.style.display = "none";
+            infoAdm.style.display = "none";
         }
     }
+
+
+    const cpf = manipuladorDosCampos.cadastrarCliente.cpf;
+    cpf.addEventListener('keyup', function (event) { //pega o evento de precionar uma tecla
+        console.log("TESTE")
+        if (event.keyCode != 46 && event.keyCode != 8) {//verifica se a tecla precionada nao e um backspace e delete
+            var posicao = cpf.value.length; //aqui pega o tamanho do input
+    
+            switch (posicao) {
+                case 3:
+                case 7:
+                    cpf.value = cpf.value + ".";
+                    break;
+                case 11:
+                    cpf.value = cpf.value + "-";
+            }
+        }
+    });
+    
+
+    const telefone = manipuladorDosCampos.cadastrarCliente.telefone;
+
+    telefone.addEventListener('keydown', function (event) { //pega o evento de precionar uma tecla
+    
+        if (event.keyCode != 46 && event.keyCode != 8) {//verifica se a tecla precionada nao e um backspace e delete
+            var posicao = telefone.value.length; //aqui pega o tamanho do input
+    
+            switch (posicao) {
+                case 0:
+                    telefone.value = "(";
+                    break;
+                case 3:
+                    telefone.value = telefone.value + ")";
+                    break;
+                case 9:
+                    telefone.value = telefone.value + "-";
+            }
+        }
+    });
+    
+    const cepCadastro = manipuladorDosCampos.cadastrarCliente.cep;
+    cepCadastro.addEventListener('keydown', function (event) { //pega o evento de precionar uma tecla
+    
+        if (event.keyCode != 46 && event.keyCode != 8) {//verifica se a tecla precionada nao e um backspace e delete
+            var posicao = cepCadastro.value.length; //aqui pega o tamanho do input
+    
+            switch (posicao) {
+                case 2:
+                    cepCadastro.value = cepCadastro.value + ".";
+                    break;
+                case 6:
+                    cepCadastro.value = cepCadastro.value + "-";
+                    break;
+            }
+        }
+    });
+    const cepModificar = manipuladorDosCampos.modificarCliente.cep;
+    cepModificar.addEventListener('keydown', function (event) { //pega o evento de precionar uma tecla
+    
+        if (event.keyCode != 46 && event.keyCode != 8) {//verifica se a tecla precionada nao e um backspace e delete
+            var posicao = cepModificar.value.length; //aqui pega o tamanho do input
+    
+            switch (posicao) {
+                case 2:
+                    cepModificar.value = cepModificar.value + ".";
+                    break;
+                case 6:
+                    cepModificar.value = cepModificar.value + "-";
+                    break;
+            }
+        }
+    });
+    const botaoPesquisarCepCadastrar = document.getElementById("botao-pesquisar-cadastrar");
+    botaoPesquisarCepCadastrar.addEventListener("click", function(){
+        const endereco = manipuladorDosCampos.cadastrarCliente.endereco;
+        manipuladorDosCampos.buscarCep(cep.value, endereco)
+    })
+
+    const botaoPesquisarCepModificar = document.getElementById("botao-pesquisar-modificar");
+    botaoPesquisarCepModificar.addEventListener("click", function(){
+        const endereco = manipuladorDosCampos.modificarCliente.endereco;
+        const cep = manipuladorDosCampos.modificarCliente.cep;
+
+        manipuladorDosCampos.buscarCep(cep.value, endereco)
+    })
+
+
 }

@@ -5,9 +5,11 @@ export default class Produto {
             this._id = produto["id"];
             this._nome = produto["nome"];
             this._marca = produto["marca"];
+            this._categoria = produto["categoria"];
             this._preco = produto["preco"];
             this._quantidade = produto["quantidade"];
             this._imagemUrl = produto["imagemUrl"];
+
         }
     }
 
@@ -51,6 +53,7 @@ export default class Produto {
         const body = { 
             "imagemUrl": this._imagemUrl,
             "marca": this._marca,
+            "categoria": this._categoria,
             "nome": this._nome,
             "preco": this._preco,
             "quantidade": this._quantidade,
@@ -107,7 +110,7 @@ export default class Produto {
     }
     _buttonItem(id) {
         let button_item = document.createElement("div");
-        let button_item_title = document.createElement("h3");
+        let button_item_title = document.createElement("h4");
         let conteudo = document.createTextNode("Adicionar");
     
         button_item_title.appendChild(conteudo);
@@ -147,6 +150,10 @@ export default class Produto {
     set quantidade(quantidade) {
         this._quantidade = quantidade;
     }
+    set categoria(categoria) {
+        this._categoria = categoria;
+    }
+
     set imagemUrl(imagemUrl) {
         this._imagemUrl = imagemUrl;
     }
@@ -159,6 +166,9 @@ export default class Produto {
     }
     get marca() {
         return this._marca;
+    }
+    get categoria(){
+        return this._categoria;
     }
     get preco() {
         return this._preco;

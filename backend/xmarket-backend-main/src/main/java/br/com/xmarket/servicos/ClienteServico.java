@@ -91,24 +91,24 @@ public class ClienteServico {
     
   
   //Método para verificar se exitem email,cpf e rg já cadastrados no banco de dados
-    public boolean validarEmail(ClienteDTO clienteDTO) {
-        Cliente cliente = usuarioRepository.getByEmail(clienteDTO.getEmail());
+    public boolean validarEmail(String email) {
+        Cliente cliente = usuarioRepository.getByEmail(email);
         if(cliente == null) {
             return true;
         }
         return false;
     }
     
-    public boolean validarCpf(ClienteDTO clienteDTO) {
-    	Cliente cliente = usuarioRepository.getByCpf(clienteDTO.getCpf());
+    public boolean validarCpf(String cpf) {
+    	Cliente cliente = usuarioRepository.getByCpf(cpf);
     	 if(cliente == null) {
              return true;
          }
          return false;
     }
     
-    public boolean validarRg(ClienteDTO clienteDTO) {
-    	Cliente cliente = usuarioRepository.getByRg(clienteDTO.getRg());
+    public boolean validarRg(String rg) {
+    	Cliente cliente = usuarioRepository.getByRg(rg);
     	 if(cliente == null) {
              return true;
          }
@@ -116,7 +116,7 @@ public class ClienteServico {
     }
     
     public boolean validacaoGeral(ClienteDTO clienteDTO) {
-    	if(validarCpf(clienteDTO) && validarEmail(clienteDTO) && validarRg(clienteDTO)) {
+    	if(validarCpf(clienteDTO.getCpf()) && validarEmail(clienteDTO.getEmail()) && validarRg(clienteDTO.getRg())) {
     		return true;
     	}
     	return false;

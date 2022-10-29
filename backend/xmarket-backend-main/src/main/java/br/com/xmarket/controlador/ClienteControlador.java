@@ -109,7 +109,7 @@ public class ClienteControlador {
 	}
 	
 	
-	@PutMapping("/alterarDados")
+	@PutMapping("/alterar")
 	public ResponseEntity<?> alterarDados(@RequestBody Cliente cliente){
 		boolean clienteValido = clienteServico.alterarCliente(cliente);
 		if(clienteValido) {

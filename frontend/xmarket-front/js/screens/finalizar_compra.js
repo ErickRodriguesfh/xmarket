@@ -69,7 +69,7 @@ function controleSelecao(componente) {
 
 async function preencherDados(idUsuario) {
     let dados;
-    const response = await request_API("GET", `http://localhost:8080/carrinho/${idUsuario}`);
+    const response = await request_API("GET", `https://localhost/carrinho/${idUsuario}`);
 
     if (response.ok != true) return
 
@@ -176,7 +176,7 @@ function finalizar_compra() {
     }
 
 
-    let endPoint = `http://localhost:8080/venda/${idUsuario}`;
+    let endPoint = `https://localhost/venda/${idUsuario}`;
 
     let response = async function () {
         const response = await request_API("POST", endPoint, venda);

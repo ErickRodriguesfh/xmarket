@@ -9,6 +9,16 @@
             "projectName": "seguranca",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-XmarketApplication<seguranca>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.com.xmarket.XmarketApplication",
+            "projectName": "seguranca",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

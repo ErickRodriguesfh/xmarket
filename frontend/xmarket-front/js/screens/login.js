@@ -14,7 +14,7 @@ botaoLogar.addEventListener('click', async function () {
         "email": document.getElementById("email").value,
         "senha": document.getElementById("senha").value
     }
-    endPoint = "http://localhost:8080/cliente/logar";
+    endPoint = "https://localhost/cliente/logar";
     response = await request_API("POST", endPoint, cliente)
 
     console.log(response)
@@ -71,7 +71,7 @@ async function adicionar_no_carrinho(idCliente) {
             let quantidade = item.quantidade;
 
             while (quantidade > 0) {
-                const endPoint = `http://localhost:8080/carrinho/${idCliente}/adicionar/${produto.id}/`;
+                const endPoint = `https://localhost/carrinho/${idCliente}/adicionar/${produto.id}/`;
                 let response = await request_API("POST", endPoint);
 
                 quantidade = quantidade - 1;

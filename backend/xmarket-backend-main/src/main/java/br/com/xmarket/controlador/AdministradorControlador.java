@@ -147,7 +147,7 @@ public class AdministradorControlador {
 			clienteServico.cadastrarCliente(clienteDTO);
 			return ResponseEntity.status(201).build();
 		}
-		return ResponseEntity.status(200).body("Usuario já existe!");
+		return ResponseEntity.status(422).body("Usuario já existe!");
 	}
 
 	@GetMapping("/clientes/buscar/{id}")

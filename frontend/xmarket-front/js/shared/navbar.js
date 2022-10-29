@@ -70,7 +70,7 @@ async function alterarQuantidade() {
         botaoLogar.style.display = "none";
 
 
-        response = await request_API("GET", `http://localhost:8080/carrinho/${idUsuario}`);
+        response = await request_API("GET", `https://localhost/carrinho/${idUsuario}`);
 
         if (response.status == 200)
             dados = await response.json();

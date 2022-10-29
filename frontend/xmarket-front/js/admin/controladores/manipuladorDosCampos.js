@@ -1,3 +1,7 @@
+import cep_API from "../../services/cep_API.js";
+import mensagemValidacao from "../../services/mensagemValidacao.js";
+
+
 const manipuladorDosCampos = {
     cadastrarCliente: {
         nome: document.getElementById("cadastrar-cliente-nome"),
@@ -7,6 +11,7 @@ const manipuladorDosCampos = {
         telefone: document.getElementById("cadastrar-cliente-telefone"),
         senha: document.getElementById("cadastrar-cliente-senha"),
         confirmarSenha: document.getElementById("cadastrar-cliente-confirmarSenha"),
+        cep: document.getElementById("cadastrar-cliente-endereco-cep"),
         endereco: {
             rua: document.getElementById("cadastrar-cliente-endereco-rua"),
             numero: document.getElementById("cadastrar-cliente-endereco-numero"),
@@ -18,10 +23,10 @@ const manipuladorDosCampos = {
         todosValores() {
             return {
                 nome: this.nome.value,
-                cpf: this.cpf.value,
+                cpf: this.cpf.value.replaceAll(".", "").replaceAll("-", ""),
                 rg: this.rg.value,
                 email: this.email.value,
-                telefone: this.telefone.value,
+                telefone: this.telefone.value.replaceAll("-", "").replaceAll("(", "").replaceAll(")", ""),
                 senha: this.senha.value,
                 endereco: {
                     rua: this.endereco.rua.value,
@@ -41,6 +46,7 @@ const manipuladorDosCampos = {
         rg: document.getElementById("modificar-cliente-rg"),
         email: document.getElementById("modificar-cliente-email"),
         telefone: document.getElementById("modificar-cliente-telefone"),
+        cep: document.getElementById("modificar-cliente-endereco-cep"),
         endereco: {
             rua: document.getElementById("modificar-cliente-endereco-rua"),
             numero: document.getElementById("modificar-cliente-endereco-numero"),
@@ -60,7 +66,8 @@ const manipuladorDosCampos = {
             this.endereco.numero.value = enderecoSeparado.numero;
             this.endereco.bairro.value = enderecoSeparado.bairro;
             this.endereco.municipio.value = enderecoSeparado.municipio;
-            this.endereco.estado.value = enderecoSeparado.estado;
+            console.log(enderecoSeparado.estado)
+            this.endereco.estado.value = enderecoSeparado.estado.replaceAll(" ", "");
 
         },
         todosValores() {
@@ -133,6 +140,7 @@ const manipuladorDosCampos = {
     cadastrarProduto: {
         nome: document.getElementById("nomeProduto"),
         marca: document.getElementById("marcaProduto"),
+        categoria: document.getElementById("categoriaProduto"), 
         preco: document.getElementById("precoProduto"),
         quantidade: document.getElementById("quantidadeProduto"),
         imagemUrl: document.getElementById("imagem-cadastrar-produto"),
@@ -141,7 +149,8 @@ const manipuladorDosCampos = {
             return {
                 nome: this.nome.value,
                 marca: this.marca.value,
-                preco: this.preco.value,
+                categoria: this.categoria.value,
+                preco: this.preco.value.replaceAll(",", "."),
                 quantidade: this.quantidade.value,
                 imagemUrl: this.imagemUrl.files[0]
             }
@@ -152,6 +161,7 @@ const manipuladorDosCampos = {
         id: document.getElementById("modificar-produto-id"),
         nome: document.getElementById("modificar-produto-nome"),
         marca: document.getElementById("modificar-produto-marca"),
+        categoria: document.getElementById("modificar-produto-categoria"), 
         preco: document.getElementById("modificar-produto-preco"),
         quantidade: document.getElementById("modificar-produto-quantidade"),
         imagemUrl: document.getElementById("modificar-produto-imagem"),
@@ -161,6 +171,7 @@ const manipuladorDosCampos = {
                 id: this.id.value,
                 nome: this.nome.value,
                 marca: this.marca.value,
+                categoria: this.categoria.value,
                 preco: this.preco.value,
                 quantidade: this.quantidade.value,
                 imagemUrl: this.imagemUrl
@@ -191,6 +202,22 @@ const manipuladorDosCampos = {
 
             //console.log("objetoCampos[key")
         }
+    },
+
+    async buscarCep(cep,endereco){
+        cep = cep.replaceAll(".", "").replaceAll("-", "");
+        alert(cep)
+        const enderecoCEP = await cep_API(cep);
+
+        if (enderecoCEP == null) {
+            mensagemValidacao("Cep inválido ou inpacaz de encontrar endereço", "Por favor digite novamente!.", "erro", true);
+            return;
+        }
+
+        endereco.rua.value = enderecoCEP.logradouro;
+        endereco.municipio.value = enderecoCEP.localidade;
+        endereco.estado.value = enderecoCEP.uf;
+
     }
 }
 
