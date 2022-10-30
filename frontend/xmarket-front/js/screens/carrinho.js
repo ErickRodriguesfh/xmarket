@@ -16,6 +16,7 @@ let returnToProduto = document.getElementById("button-return");
 //
 let totalProdutos = document.getElementById("total-somado");
 //
+
 const quantidadeCarrinho = document.getElementById("quantidade-carrinho");
 
 
@@ -91,7 +92,7 @@ function popular_carrinho_deslogado() {
                     quantidadeProduto.innerHTML = inputQuantidade.value;
 
                     quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) - 1;
-                    localStorage.setItem("quantidade-carrinho", quantidadeCarrinho.innerHTML);
+                    
 
                     carrinhoLocal[`${id}`] = {
                         "produto": produto.salvarCarrinho(),
@@ -114,6 +115,7 @@ function popular_carrinho_deslogado() {
 
                     quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
                     localStorage.setItem("quantidade-carrinho", quantidadeCarrinho.innerHTML);
+                    
 
                     carrinhoLocal[`${id}`] = {
                         "produto": produto.salvarCarrinho(),
@@ -272,7 +274,7 @@ async function comprar_agora() {
     if(localStorage.logado == "true"){
         todosTemEstoque = await validarProdutosDispoveis();
     }
-    if(localStorage.logado == "false"){
+    if(localStorage.logado == "false" || localStorage.logado == undefined){
         todosTemEstoque = validarProdutosDispoveisLocal();
     }
 
@@ -287,7 +289,7 @@ async function comprar_agora() {
         window.location.href = "finalizar-compra.html";
         localStorage.totalVenda = totalProdutos.innerHTML;
     }
-    if (logado == "false") {
+    if (logado == "false" || localStorage.logado == undefined) {
         window.location.href = "login.html";
         localStorage.redirecionamento = "finalizar-compra.html";
     }
@@ -361,7 +363,6 @@ function calcular_soma() {
     maninContainer.childNodes.forEach((element) => {
         console.log(element)
         if (element.lastChild !== null) {
-            console.log(element[0])
             totalProdutosCarrinho = totalProdutosCarrinho + parseFloat(element.lastChild.lastChild.innerHTML);
         }
     });

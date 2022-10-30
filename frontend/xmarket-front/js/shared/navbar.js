@@ -12,7 +12,7 @@ let idUsuario;
 
 if (localStorage.cliente) idUsuario = JSON.parse(localStorage.cliente).id;
 
-/*
+
 if (logado == "true") {
     botaoConfiguracao.style.display = "flex";
     botaoLogar.style.display = "none";
@@ -22,7 +22,7 @@ if (logado == "true") {
     botaoLogar.style.display = "flex";
 
 }
-*/
+
 
 botaoLogar.addEventListener("click", function () {
     localStorage.redirecionamento = localStorage.ultimaPagina
@@ -77,13 +77,13 @@ async function alterarQuantidade() {
 
     }
 
-    if (logado == "false") {
+    if (logado == "false" || logado == undefined) {
         botaoConfiguracao.style.display = "none";
         botaoLogar.style.display = "flex";
 
 
         if (localStorage.carrinho)
-            dados = JSON.parse(carrinhoLocal);
+            dados = JSON.parse(localStorage.carrinho);
 
     }
 
