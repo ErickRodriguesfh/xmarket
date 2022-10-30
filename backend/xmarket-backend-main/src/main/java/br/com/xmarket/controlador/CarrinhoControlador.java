@@ -106,8 +106,5 @@ public class CarrinhoControlador {
         }
 
         return ResponseEntity.status(200).build();
-
-    }
-    
-    
+    }   
 }

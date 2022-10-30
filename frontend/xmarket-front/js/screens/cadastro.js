@@ -137,6 +137,7 @@ async function cadastrarCliente() {
     let endPoint = "https://localhost/cliente";
     let cliente = dadosCadastrais.cadastrar();
     let response = await request_API("POST", endPoint, cliente);
+    let carrinho, ultimaPagina;
 
     console.log(cliente)
     console.log(response)
@@ -155,8 +156,14 @@ async function cadastrarCliente() {
     if (response.status == 500) {
         mensagemValidacao("Estamos com instabilidade no sistema!", "Por favor tente novamente mais tarde.", "erro", true);
     }
+    
+    carrinho = localStorage.carrinho;
+    ultimaPagina = localStorage.ultimaPagina;
 
     localStorage.clear();
+
+    localStorage.carrinho = carrinho;
+    localStorage.ultimaPagina = ultimaPagina;
 }
 
 function sleep(milliseconds) {
@@ -315,3 +322,23 @@ dadosCadastrais.cep.addEventListener('keydown', function (event) { //pega o even
         }
     }
 });
+
+
+async function adicionar_no_carrinho(idCliente) {
+    if (localStorage.carrinho) {
+        let carrinhoLocal = JSON.parse(localStorage.carrinho);
+
+        for (let id in carrinhoLocal) {
+            const item = carrinhoLocal[id]
+            const produto = item.produto;
+            let quantidade = item.quantidade;
+
+            while (quantidade > 0) {
+                const endPoint = `https://localhost/carrinho/${idCliente}/adicionar/${produto.id}/`;
+                let response = await request_API("POST", endPoint);
+
+                quantidade = quantidade - 1;
+            }
+        }
+    }
+}
