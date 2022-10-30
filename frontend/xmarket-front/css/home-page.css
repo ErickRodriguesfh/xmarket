@@ -160,7 +160,7 @@ body{
 /*   Area dos cards    */
 .card-item{
     height: 100%;
-    width: 280px;
+    width: 250px;
     padding: 0 1%;
 
     position: relative;

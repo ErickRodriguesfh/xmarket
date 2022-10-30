@@ -116,6 +116,7 @@ document.getElementById("opcao-listar").addEventListener("click", async function
 
         if (response.status == 200 || response.status == 201) {
             const dados = await response.json();
+            console.log(dados)
             listarClientes(dados);
         } else {
             mostrarMensagem("Erro ao listar Clientes!");
@@ -208,7 +209,10 @@ function listarClientes(dados) {
 
     dados.forEach((element) => {
         let cliente = new Cliente(element);
+        
         if(cliente.id == 2) return;
+        if(element.usuarioAtivo == false) return;
+
         let row = cliente.listarParaTabela();
         listContent.appendChild(row);
 
