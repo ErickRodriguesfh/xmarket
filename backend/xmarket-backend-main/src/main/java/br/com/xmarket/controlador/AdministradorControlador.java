@@ -25,7 +25,7 @@ import br.com.xmarket.modelo.Administrador;
 import br.com.xmarket.modelo.Cliente;
 import br.com.xmarket.modelo.LoginAdmin;
 import br.com.xmarket.modelo.Produto;
-import br.com.xmarket.servicos.AdminServico;
+import br.com.xmarket.servicos.AdministradorServico;
 import br.com.xmarket.servicos.ClienteServico;
 import br.com.xmarket.servicos.ProdutoServico;
 
@@ -38,7 +38,7 @@ public class AdministradorControlador {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Autowired
-	private AdminServico adminServico;
+	private AdministradorServico adminServico;
 	@Autowired
 	private ProdutoServico produtoServico;
 	@Autowired

@@ -10,7 +10,7 @@ import br.com.xmarket.modelo.LoginAdmin;
 import br.com.xmarket.repositorio.AdministradorRepositorio;
 
 @Service
-public class AdminServico {
+public class AdministradorServico {
 	
 	@Autowired
 	private AdministradorRepositorio adminRepositorio;

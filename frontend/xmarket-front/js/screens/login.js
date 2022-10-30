@@ -62,7 +62,7 @@ function redirecionar(pagina) {
 }
 
 async function adicionar_no_carrinho(idCliente) {
-    if (localStorage.carrinho) {
+    if (localStorage.carrinho != 'undefined') {
         let carrinhoLocal = JSON.parse(localStorage.carrinho);
 
         for (let id in carrinhoLocal) {

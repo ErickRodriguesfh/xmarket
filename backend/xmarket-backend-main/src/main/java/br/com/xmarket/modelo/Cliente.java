@@ -38,4 +38,6 @@ public class Cliente implements Serializable{
     private String endereco;
     @Column(name = "rg", unique = true)
     private String rg;
+
+    private boolean usuarioAtivo = true;
 }

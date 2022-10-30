@@ -40,6 +40,8 @@ public class ClienteDTO {
     @NotEmpty(message = "RG Obrigatório")
     private String rg;
 
+    private boolean usuarioAtivo = true;
+
 
 }
 

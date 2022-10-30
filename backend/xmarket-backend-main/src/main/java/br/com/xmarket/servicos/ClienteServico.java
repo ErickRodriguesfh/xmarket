@@ -81,6 +81,7 @@ public class ClienteServico {
 				cliente.setEndereco(enderecoCriptografado);
 				String emailCriptografado = this.passwordEncoder.encode(cliente.getCpf());
 				cliente.setEmail(emailCriptografado);
+                cliente.setUsuarioAtivo(false);
 				usuarioRepository.save(cliente);
 				return true;
 			}
