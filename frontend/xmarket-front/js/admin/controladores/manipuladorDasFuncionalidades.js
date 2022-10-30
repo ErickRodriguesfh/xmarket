@@ -203,6 +203,7 @@ export default function adicionandoEventos() {
     const botaoPesquisarCepCadastrar = document.getElementById("botao-pesquisar-cadastrar");
     botaoPesquisarCepCadastrar.addEventListener("click", function(){
         const endereco = manipuladorDosCampos.cadastrarCliente.endereco;
+        const cep = manipuladorDosCampos.cadastrarCliente.cep;
         manipuladorDosCampos.buscarCep(cep.value, endereco)
     })
 

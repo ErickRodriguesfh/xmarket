@@ -234,7 +234,7 @@ async function popular_carrinho_logado() {
             }
         });
 
-        btnMore.addEventListener('click', () => {
+        btnMore.addEventListener('click', async() => {
             if (parseInt(qtdProduto.value) < 20 && parseInt(qtdProduto.value) < item.produtoDTO.quantidade) {
                 qtdProduto.value = parseInt(qtdProduto.value) + 1;
 
@@ -244,8 +244,14 @@ async function popular_carrinho_logado() {
                 precoProduto.innerHTML = (produto.preco * inputQuantidade.value).toFixed(2);
                 quantidadeProduto.innerHTML = inputQuantidade.value;
 
+                console.log("aumetar")
+                console.log(idUsuario)
+                console.log(id)
                 let endPoint =`https://localhost/carrinho/${idUsuario}/alterar/${id}/AUMENTAR`;
-                request_API("PUT", endPoint);
+
+                let response = await request_API("PUT", endPoint);
+
+                console.log(response)
 
                 quantidadeCarrinho.innerHTML = Number(quantidadeCarrinho.innerHTML) + 1;
                 localStorage.setItem("quantidade-carrinho", quantidadeCarrinho.innerHTML);

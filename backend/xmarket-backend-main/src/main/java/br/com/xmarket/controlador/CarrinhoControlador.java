@@ -88,11 +88,11 @@ public class CarrinhoControlador {
     }
 
     //Endpoint pra controlar a quantidade de itens no carrinho
-    @PutMapping("{id-cliente}/alterar/{id-produto}/{ordem}/")
-    public ResponseEntity<Produto> alterarQuantidadeProduto(@PathVariable("ordem")
-                                                                String ordem,
+    @PutMapping("/{id-cliente}/alterar/{id-produto}/{ordem}")
+    public ResponseEntity<Produto> alterarQuantidadeProduto(
                                                             @PathVariable("id-cliente") Long idCliente,
-                                                            @PathVariable("id-produto") Long idProduto ){
+                                                            @PathVariable("id-produto") Long idProduto, 
+                                                            @PathVariable("ordem") String ordem){
 
         Cliente cliente = clienteServico.buscarPeloId(idCliente);
 

@@ -142,12 +142,7 @@ async function cadastrarCliente() {
     console.log(response)
 
     if (response.status == 201) {
-  
-        mensagemValidacao("Email Confirmado!", "Desejo uma otima experiência!", "sucesso", true);
-        const confirmar = document.getElementById("confirmar-operacao");
-        confirmar.addEventListener("click", function () {
-            window.location.href = "login.html"
-        })
+        mensagemValidacao("Email Confirmado!", "Desejo uma otima experiência!", "sucesso", true, 1500, "login.html");
     }
 
     // Verificar se os dados que foram mandados estao de acordo!! 
@@ -160,6 +155,8 @@ async function cadastrarCliente() {
     if (response.status == 500) {
         mensagemValidacao("Estamos com instabilidade no sistema!", "Por favor tente novamente mais tarde.", "erro", true);
     }
+
+    localStorage.clear();
 }
 
 function sleep(milliseconds) {

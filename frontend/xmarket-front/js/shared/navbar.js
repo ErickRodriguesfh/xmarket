@@ -30,11 +30,11 @@ botaoLogar.addEventListener("click", function () {
 })
 
 botaoDeslogar.addEventListener("click", () => {
-    alert("deslogando")
+    localStorage.clear();
     localStorage.setItem("logado", false);
     window.location.href = "home-page.html";
 
-    localStorage.removeItem("cliente")
+    
 })
 
 botaoConfiguracao.addEventListener("click", function () {

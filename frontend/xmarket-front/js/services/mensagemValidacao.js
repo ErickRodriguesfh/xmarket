@@ -1,4 +1,4 @@
-export default function mensagemValidacao(titulo, mensagem, flag, comBotao, tempoDeEspera=1500){
+export default function mensagemValidacao(titulo, mensagem, flag, comBotao, tempoDeEspera=1500, redirecionamento){
     let background = document.createElement("div");
     let caixaMensagem = document.createElement("div");
     let tituloMensagem = document.createElement("h4");
@@ -8,10 +8,19 @@ export default function mensagemValidacao(titulo, mensagem, flag, comBotao, temp
     botaoFecharMensagem.setAttribute("id", "confirmar-operacao");
     botaoFecharMensagem.classList.add("btn")
     botaoFecharMensagem.classList.add("btn-primary")
-    botaoFecharMensagem.appendChild(document.createTextNode("Ok"))
-    botaoFecharMensagem.addEventListener("click", function(){
-        background.style.display = "none";
-    })
+    botaoFecharMensagem.appendChild(document.createTextNode("Ok"));
+
+    if(redirecionamento){
+        botaoFecharMensagem.addEventListener("click", function(){
+            background.style.display = "none";
+            window.location.href = redirecionamento;
+        })
+    }else{
+        botaoFecharMensagem.addEventListener("click", function(){
+            background.style.display = "none";
+        })
+    }
+
 
     corpoMensagem.setAttribute("id", "corpo-mensagem");
     
