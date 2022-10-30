@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import br.com.xmarket.dto.HistoricoVendaDTO;
 import br.com.xmarket.dto.VendaDTO;
 import br.com.xmarket.modelo.Carrinho;
 import br.com.xmarket.modelo.Cliente;
@@ -15,7 +17,6 @@ import br.com.xmarket.modelo.ItemVenda;
 import br.com.xmarket.modelo.MensagemEmail;
 import br.com.xmarket.modelo.Venda;
 import br.com.xmarket.repositorio.VendaRepositorio;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 
 @Service
@@ -126,7 +127,9 @@ public class VendaServico {
     }
 
 
-
+    public  List<HistoricoVendaDTO> buscarHistoricoVenda(Long idCliente){
+        return vendaRepositorio.getIdUsuario(idCliente);
+    }
 
 
 
