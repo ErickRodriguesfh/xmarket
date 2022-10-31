@@ -157,6 +157,8 @@ body.active .wrapper .section {
 
     display: none;
     justify-content: center;
+
+    z-index: 10;
 }
 
 .settings-content li {

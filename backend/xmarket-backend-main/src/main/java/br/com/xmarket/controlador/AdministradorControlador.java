@@ -49,7 +49,10 @@ public class AdministradorControlador {
 	public ResponseEntity<Administrador> logar(@Valid @RequestBody LoginAdmin login) {
 		boolean valid = adminServico.validarLogin(login);
 		if (valid) {
-			return ResponseEntity.status(200).build();
+			Administrador administrador = adminServico.buscarPorMatricula(login.getCodigo());
+
+			if(administrador != null) return ResponseEntity.status(200).body(administrador);
+
 		}
 		return ResponseEntity.status(401).build();
 	}

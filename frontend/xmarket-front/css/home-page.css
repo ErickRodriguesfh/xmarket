@@ -1,7 +1,3 @@
-body{
-    text-transform: capitalize;
-}
-
 
 #secao-slider #carouselExampleIndicators, 
 .carousel-item, .carousel-item img{
@@ -32,6 +28,7 @@ body{
     margin: 0 0 0 8px;
     color: #666;;
 }
+
 .carrosel-produtos{
     height: 100%;
     display: flex;
@@ -210,13 +207,4 @@ body{
 
 .button-item{
     display: none;
-}
-
-.forma-pagamento{
-    display: inline-grid;
-    margin: 0 15px;
-    text-align: center;
-}
-.forma-pagamento p {
-    margin-top: 10px
 }

@@ -66,9 +66,17 @@ public class AdministradorServico {
     }
     
     public boolean validacaoGeral(Administrador administrador) {
-    	if(validarCpf(administrador) || validarEmail(administrador) || validarRg(administrador)) {
-    		return false;
+    	if(validarCpf(administrador) && validarEmail(administrador) && validarRg(administrador)) {
+    		return true;
     	}
-    	return true;
+    	return false;
     }
+
+	public Administrador buscarPorMatricula(String matricula){
+		Administrador administrador = adminRepositorio.getByCodigo(matricula);
+		if(administrador != null){
+			return administrador;
+		}
+		return null;
+	}
 }

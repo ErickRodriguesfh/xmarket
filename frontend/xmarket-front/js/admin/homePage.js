@@ -39,6 +39,18 @@ const camposRemoverProduto = manipuladorDosCampos.removerProduto;
 
 
 
+const nomeAdm = document.getElementById("nome-dinamico")
+const cargoAdm = document.getElementById("cargo-dinamico")
+
+const adm = JSON.parse(localStorage.administrador);
+
+
+nomeAdm.innerHTML = adm.nome
+cargoAdm.innerHTML = adm.cargo
+
+
+
+
 let closeBtn = document.getElementById("close");
 function fecharTudo() {
     panel.style.display = "none";
@@ -210,7 +222,6 @@ function listarClientes(dados) {
     dados.forEach((element) => {
         let cliente = new Cliente(element);
         
-        if(cliente.id == 2) return;
         if(element.usuarioAtivo == false) return;
 
         let row = cliente.listarParaTabela();
@@ -591,7 +602,7 @@ const deslogar = document.getElementById("deslogar");
 deslogar.addEventListener("click", logout)
 
 function logout() {
-    localStorage.setItem("logado", "false")
+    localStorage.administradorLogado = "false";
     window.location.href = "login.html";
 }
 
