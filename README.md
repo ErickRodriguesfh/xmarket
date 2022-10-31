@@ -67,8 +67,11 @@ após isso utilizar a aplicação normalmente em seu computador.
 ## 💻 Documentação
 Toda a documentação do app se encontra no link abaixo:
 
-https://drive.google.com/file/d/1jFT9QS6nllMNe4XQFHtmRIFKm0ppGqEV/view?usp=sharing
+
+PDF: https://drive.google.com/file/d/1jFT9QS6nllMNe4XQFHtmRIFKm0ppGqEV/view?usp=sharing
 
 
+Swagger: https://localhost/swagger-ui/index.html 
+Obs: Executar o link, quando a aplicação estiver sendo feita no back-end.
 
 
