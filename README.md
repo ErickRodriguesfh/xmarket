@@ -17,8 +17,8 @@
   ---
 
 ## 💻 Visão Geral do Projeto
-Projeto final do programa Araujo Tech, consiste em uma aplicação no qual foi desenvolvido um e-commerce para a venda de produtos
-este projeto foi desenvolvido pelo grupo 2 formado pelos seguintes integrantes
+Projeto final do programa Araujo Tech, consiste em uma aplicação no qual foi desenvolvido um e-commerce para a venda de produtos.
+Este projeto foi desenvolvido pelo grupo 2 formado pelos seguintes integrantes:
 
 <br>
 
