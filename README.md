@@ -4,8 +4,8 @@
   
   <p align="center">
     <img src="https://img.shields.io/static/v1?label=docs&message=100%&color=orange&labelColor=121214" alt="Docs">
-    <img src="https://img.shields.io/github/stars/Squad34-Recode/BienVenido-SpringBootReactJS-Entrega4-Final?label=stars&message=MIT&color=orange&labelColor=121214" alt="Stars">
-  <img src="https://img.shields.io/github/forks/Squad34-Recode/BienVenido-SpringBootReactJS-Entrega4-Final?label=forks&message=MIT&color=orange&labelColor=121214" alt="Forks">
+    <img src="https://img.shields.io/github/stars/ErickRodriguesfh/xmarket?label=stars&message=MIT&color=orange&labelColor=121214" alt="Stars">
+  <img src="https://img.shields.io/github/forks/ErickRodriguesfh/xmarket?label=forks&message=MIT&color=orange&labelColor=121214" alt="Forks">
   <br><br>
     <a href="#-visão-geral-do-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
     <a href="#-quadro-organizacional-e-de-planejamento-no-notion">Quadro Organizacional e de Planejamento</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
