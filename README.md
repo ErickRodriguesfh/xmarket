@@ -9,9 +9,8 @@
   <br><br>
     <a href="#-visão-geral-do-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
     <a href="#-quadro-organizacional-e-de-planejamento-no-miro">Quadro Organizacional e de Planejamento</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="#-slides-e-videos">Slides e Videos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
     <a href="#-links-da-aplicação-via-heroku-e-firebase">Links</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="#-video-da-aplicação">Video da Aplicação</a>
+    <a href="#-video-da-aplicação">Como Rodar a aplicação</a>
   </p>
   
   ---
