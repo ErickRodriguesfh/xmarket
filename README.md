@@ -8,9 +8,9 @@
   <img src="https://img.shields.io/github/forks/Squad34-Recode/BienVenido-SpringBootReactJS-Entrega4-Final?label=forks&message=MIT&color=orange&labelColor=121214" alt="Forks">
   <br><br>
     <a href="#-visão-geral-do-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="#-quadro-organizacional-e-de-planejamento-no-miro">Quadro Organizacional e de Planejamento</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="#-links-da-aplicação-via-heroku-e-firebase">Links</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="#-video-da-aplicação">Como Rodar a aplicação</a>
+    <a href="#-quadro-organizacional-e-de-planejamento-no-notion">Quadro Organizacional e de Planejamento</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-como-rodar-a-aplicação">Rodar a aplicação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-tecnologias-utilizadas">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   </p>
   
   ---
@@ -44,18 +44,18 @@ Link: <https://www.canva.com/design/DAFQhvViMQQ/ykLI8aNhBjvJMT6KFSNTXA/view?utm_
 
 ## 💻 Como rodar a aplicação
 
-<h3>Após clonar ou baixar a aplicação, abrir o projeto com uma IDE Java como Eclipse ou Intelij no diretório xmarket/backend, após isso ir no arquivo POM.XML e clicando com o botão direito
-selecionar a opção update project, é nescessário ter um SGBD Mysql instalado no seu computador e com um banco de dados criado com o nome xmarket(será nescessário
+Inicialmente deve-se clonar ou baixar a aplicação, abrir o projeto com uma IDE Java como Eclipse ou Intelij no diretório xmarket/backend, após isso ir no arquivo POM.XML e clicando com o botão direito.
+Selecionar a opção update project, é nescessário ter um SGBD Mysql instalado no seu computador e com um banco de dados criado com o nome xmarket(será nescessário
 a atualização do usuário e senha de acordo com as configurações do seu banco de dados, está atualização pode ser feita no arquivo application.properties que se
-encontra na pasta resources)</h3>
-<h3>Após a execução da api abrir no VisualStudioCode o diretório frontend/xmarket-front e com o plugin live server instalado no seu vscode, rodar a aplicação
-e acessar o arquivo html home-page</h3>
-<h3>Com o servidor frontend inicializado, abrir outra instância do VisualStudioCode na pasta imagens-produtos e inicializar o live server(neste diretório
-serão salvas as imagens dos produtos inicializar a o liveserver nessa pasta apenas após ter feito o passo anterior de inicializar o servidor frontend)</h3>
-<h3>Após isso utilizar a aplicação normalmente</h3>
+encontra na pasta resources)
+Após a execução da api abrir no VisualStudioCode o diretório frontend/xmarket-front e com o plugin live server instalado no seu vscode, rodar a aplicação
+e acessar o arquivo html home-page.
+Com o servidor frontend inicializado, abrir outra instância do VisualStudioCode na pasta imagens-produtos e inicializar o live server(neste diretório
+serão salvas as imagens dos produtos inicializar a o liveserver nessa pasta apenas após ter feito o passo anterior de inicializar o servidor frontend),
+após isso utilizar a aplicação normalmente em seu computador.
 
 
-##  Tecnologias Utilizadas
+## 💻 Tecnologias Utilizadas
 
 ![Slide Xmarket](https://user-images.githubusercontent.com/93298872/199038331-650c322c-be28-4a57-b959-5fc1ee50b829.jpg)
 
