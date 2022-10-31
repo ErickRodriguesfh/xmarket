@@ -37,10 +37,13 @@ este projeto foi desenvolvido pelo grupo 2 formado pelos seguintes integrantes
 ## 💻 Quadro Organizacional e de Planejamento no Notion 
 ### (Bastidores)
 
-Para apresentação final (31/10/2022), criamos um Quadro Kanban de Desenvolvimento no mesmo que mostram as mudanças cruciais que ocorreram durante o  planejamento e desenvolvimento, e na implementação das modificações sugeridas no feedback do Conselho de Avaliação da GamaAcademy. Além do quadra também segue em anéxo o link do slide da apresentação do projeto.
+Para apresentação final (31/10/2022), criamos um Quadro Kanban de Desenvolvimento no mesmo que mostram as mudanças cruciais que ocorreram durante o  planejamento e desenvolvimento, e na implementação das modificações sugeridas no feedback do Conselho de Avaliação da GamaAcademy. Além do quadro também segue em anexo o link do slide da apresentação do projeto e o link do figma.
 
-Link: <https://www.notion.so/Grupo-2-c191defacfef4f6ab078437732e1a816/> <br>
-Link: <https://www.canva.com/design/DAFQhvViMQQ/ykLI8aNhBjvJMT6KFSNTXA/view?utm_content=DAFQhvViMQQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton/>
+Notion: <https://www.notion.so/Grupo-2-c191defacfef4f6ab078437732e1a816/> <br>
+Canva: <https://www.canva.com/design/DAFQhvViMQQ/ykLI8aNhBjvJMT6KFSNTXA/view?utm_content=DAFQhvViMQQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton/> <br>
+Figma: <https://www.figma.com/file/xZAaQqgoiA8hKleSFQHc38/Untitled?node-id=0%3A1>
+
+
 
 ## 💻 Como rodar a aplicação
 
