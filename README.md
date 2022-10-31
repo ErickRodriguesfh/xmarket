@@ -58,13 +58,7 @@ serão salvas as imagens dos produtos inicializar a o liveserver nessa pasta ape
 
 ##  Tecnologias Utilizadas
 
-- Spring Boot
-- Java
-- MySQL
-- Javascript
-- Bootstrap
-- Css
-- Postman
+![Slide Xmarket](https://user-images.githubusercontent.com/93298872/199038331-650c322c-be28-4a57-b959-5fc1ee50b829.jpg)
 
 
 
