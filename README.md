@@ -11,6 +11,7 @@
     <a href="#-quadro-organizacional-e-de-planejamento-no-notion">Quadro Organizacional e de Planejamento</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
     <a href="#-como-rodar-a-aplicação">Rodar a aplicação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
     <a href="#-tecnologias-utilizadas">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-documentação">Documentação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   </p>
   
   ---
@@ -61,6 +62,12 @@ após isso utilizar a aplicação normalmente em seu computador.
 ## 💻 Tecnologias Utilizadas
 
 ![Slide Xmarket](https://user-images.githubusercontent.com/93298872/199038331-650c322c-be28-4a57-b959-5fc1ee50b829.jpg)
+
+
+## 💻 Documentação
+Toda a documentação do app se encontra no link abaixo:
+
+https://drive.google.com/file/d/1jFT9QS6nllMNe4XQFHtmRIFKm0ppGqEV/view?usp=sharing
 
 
 
